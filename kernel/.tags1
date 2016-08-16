@@ -4,9 +4,20 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-curr_tcb	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^static easyRTOS_TCB *curr_tcb = NULL;$/;"	variable	line:5	file:
-easyRTOSStarted	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^uint8_t easyRTOSStarted = FALSE;$/;"	variable	line:10
-eTaskCreat	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^ERESULT eTaskCreat(EASYRTOS_TCB *task_tcb, uint8_t priority, void (*entry_point)(uint32_t), uint32_t entryParam, void* taskStack, uint32_t stackSize,const char* taskName,uint32_t taskID)$/;"	function	line:12	signature:(EASYRTOS_TCB *task_tcb, uint8_t priority, void (*entry_point)(uint32_t), uint32_t entryParam, void* taskStack, uint32_t stackSize,const char* taskName,uint32_t taskID)
-atomOSStart	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^void atomOSStart (void)$/;"	function	line:127	signature:(void)
-easyRTOSSched	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^void easyRTOSSched (uint8_t timer_tick)$/;"	function	line:165	signature:(uint8_t timer_tick)
-idleTask	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^static void idleTask (uint32_t param)$/;"	function	line:267	file:	signature:(uint32_t param)
+curr_tcb	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^static EASYRTOS_TCB *curr_tcb = NULL;$/;"	variable	line:9	file:
+easyRTOSStarted	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^uint8_t easyRTOSStarted = FALSE;$/;"	variable	line:14
+tcb_readyQ	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^EASYRTOS_TCB *tcb_readyQ = NULL;$/;"	variable	line:20
+system_ticks	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^static uint32_t system_ticks = 0;$/;"	variable	line:26	file:
+easyITCnt	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^static int easyITCnt = 0;$/;"	variable	line:32	file:
+eTaskCreat	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^ERESULT eTaskCreat(EASYRTOS_TCB *tcb_ptr, uint8_t priority, void (*entry_point)(uint32_t), uint32_t entryParam, void* task_stack, uint32_t stackSize,const char* task_name,uint32_t taskID)$/;"	function	line:52	signature:(EASYRTOS_TCB *tcb_ptr, uint8_t priority, void (*entry_point)(uint32_t), uint32_t entryParam, void* task_stack, uint32_t stackSize,const char* task_name,uint32_t taskID)
+easyRTOSStart	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^void easyRTOSStart (void)$/;"	function	line:169	signature:(void)
+easyRTOSSched	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^void easyRTOSSched (uint8_t timer_tick)$/;"	function	line:209	signature:(uint8_t timer_tick)
+tcbEnqueuePriority	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^ERESULT tcbEnqueuePriority (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)$/;"	function	line:326	signature:(EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)
+eCurrentContext	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^EASYRTOS_TCB *eCurrentContext (void)$/;"	function	line:410	signature:(void)
+tcb_dequeue_head	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^EASYRTOS_TCB *tcb_dequeue_head (EASYRTOS_TCB **tcb_queue_ptr)$/;"	function	line:418	signature:(EASYRTOS_TCB **tcb_queue_ptr)
+tcb_dequeue_entry	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^EASYRTOS_TCB *tcb_dequeue_entry (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)$/;"	function	line:457	signature:(EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)
+tcb_dequeue_priority	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^EASYRTOS_TCB *tcb_dequeue_priority (EASYRTOS_TCB **tcb_queue_ptr, uint8_t priority)$/;"	function	line:537	signature:(EASYRTOS_TCB **tcb_queue_ptr, uint8_t priority)
+eTimerTick	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^void eTimerTick (void)$/;"	function	line:581	signature:(void)
+eTimerCallbacks	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^static void eTimerCallbacks (void)$/;"	function	line:596	file:	signature:(void)
+eTaskSwitch	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^static void eTaskSwitch(EASYRTOS_TCB *old_tcb, EASYRTOS_TCB *new_tcb)$/;"	function	line:697	file:	signature:(EASYRTOS_TCB *old_tcb, EASYRTOS_TCB *new_tcb)
+idleTask	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^static void idleTask (uint32_t param)$/;"	function	line:724	file:	signature:(uint32_t param)

@@ -1,0 +1,27 @@
+###############################################################################
+#                                                                             #
+# IAR Assembler V1.40.1.50106 for STM8                  15/Aug/2016  15:41:09 #
+# Copyright 2010-2013 IAR Systems AB.                                         #
+#                                                                             #
+#    Source file  =  D:\projects\easyRTOS\kernel\easyRTOSportAsm.s            #
+#    Command line =  D:\projects\easyRTOS\kernel\easyRTOSportAsm.s -M<> -r    #
+#                    -ld D:\projects\easyRTOS\Debug\List\ --code_model small  #
+#                    --data_model medium -o D:\projects\easyRTOS\Debug\Obj\   #
+#    List file    =  D:\projects\easyRTOS\Debug\List\easyRTOSportAsm.lst      #
+#    Object file  =  D:\projects\easyRTOS\Debug\Obj\easyRTOSportAsm.o         #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+##############################################################################
+# Module EASYRTOSPORTASM                                                     #
+##############################################################################
+
+    119                          
+ 
+ 88 bytes in section .near_func.text  , module EASYRTOSPORTASM
+ 
+ 88 bytes of CODE memory  in module EASYRTOSPORTASM
+
+Errors: none
+Warnings: none
