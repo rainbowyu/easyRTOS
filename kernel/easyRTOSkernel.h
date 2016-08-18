@@ -3,27 +3,33 @@
 
 #include "easyRTOS.h"
 #define ERESULT int8_t
-#define EASYRTOS_OK 0               /* Success 成功 */
-#define EASYRTOS_ERR_PARAM     (-1) /* Bad parameters 错误的参数 */
-#define EASYRTOS_ERR_QUEUE     (-2) /* Error putting the task on the ready queue 将任务加入运行队列失败 */
-#define EASYRTOS_ERR_NOT_FOUND (-3) /* Timer registration was not found 没有找到注册的timer */
-#define EASYRTOS_ERR_CONTEXT   (-4) /* Not called from task context 错误的上下文调用*/
-#define EASYRTOS_ERR_TIMER     (-5) /* Timer registration didn't work timer注册没有成功 */
-/* public function */
+#define EASYRTOS_OK            ( 0) /* 成功 */
+#define EASYRTOS_ERR_PARAM     (-1) /* 错误的参数 */
+#define EASYRTOS_ERR_QUEUE     (-2) /* 将任务加入运行队列失败 */
+#define EASYRTOS_ERR_NOT_FOUND (-3) /* 没有找到注册的timer */
+#define EASYRTOS_ERR_CONTEXT   (-4) /* 错误的上下文调用*/
+#define EASYRTOS_ERR_TIMER     (-5) /* 注册定时器未成功 */
+#define EASYRTOS_ERR_DELETED   (-6) /* 信号量在悬挂任务时被删除 */
+#define EASYRTOS_TIMEOUT       (-7) /* 信号量timeout到期 */
+#define EASYRTOS_ERR_OVF       (-8) /* 计数信号量count>255 */
+#define EASYRTOS_WOULDBLOCK    (-9) /* 本来会被悬挂但由于timeout为-1所以返回了 */
+#define EASYRTOS_ERR_BIN_OVF   (-10)/* 二值信号量count已经为1 */
+
+/* 全局函数 */
 extern ERESULT eTaskCreat(EASYRTOS_TCB *task_tcb, uint8_t priority, void (*entry_point)(uint32_t), uint32_t entryParam, void* taskStack, uint32_t stackSize,const char* taskName,uint32_t taskID);
 extern void easyRTOSStart (void);
 extern void easyRTOSSched (uint8_t timer_tick);
 ERESULT easyRTOSInit (void *idle_task_stack, uint32_t idleTaskStackSize);
 extern ERESULT tcbEnqueuePriority (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr);
 extern EASYRTOS_TCB *eCurrentContext (void);
-extern EASYRTOS_TCB *tcb_dequeue_head (EASYRTOS_TCB **tcb_queue_ptr);
-extern EASYRTOS_TCB *tcb_dequeue_entry (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr);
-extern EASYRTOS_TCB *tcb_dequeue_priority (EASYRTOS_TCB **tcb_queue_ptr, uint8_t priority);
 extern void eIntEnter (void);
 extern void eIntExit (uint8_t timerTick);
+extern EASYRTOS_TCB *tcb_dequeue_entry (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr);
+extern EASYRTOS_TCB *tcb_dequeue_head (EASYRTOS_TCB **tcb_queue_ptr);
+extern EASYRTOS_TCB *tcb_dequeue_priority (EASYRTOS_TCB **tcb_queue_ptr, uint8_t priority);
 /* end */
 
-/* public data*/
+/* 全局变量 */
 extern uint8_t easyRTOSStarted;
 extern EASYRTOS_TCB *tcb_readyQ;
 

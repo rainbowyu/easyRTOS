@@ -1,4 +1,4 @@
-"D:\projects\easyRTOS\kernel\easyRTOSkernel.c"
+"D:\projects\easyRTOS\kernel\easyRTOSSem.c"
 -std=c99
 -ferror-limit=100
 -I
@@ -227,7 +227,7 @@ D:\projects\easyRTOS
 -D__HAS_LOCATED_WITH_INIT__=1
 -D__IAR_COMPILERBASE__=593160
 -D__DATE__="Aug 18 2016"
--D__TIME__="16:00:13"
+-D__TIME__="16:02:38"
 -D__STDC__=1
 -D__STDC_VERSION__=199901L
 -D__STDC_HOSTED__=1

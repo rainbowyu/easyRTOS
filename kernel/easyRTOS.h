@@ -21,73 +21,63 @@ typedef void ( * TIMER_CB_FUNC ) ( POINTER cb_data ) ;
 
 typedef struct easyRTOS_timer
 {
-    TIMER_CB_FUNC   cb_func;    /* Callback function */
-    POINTER	        cb_data;    /* Pointer to callback parameter/data */
-    uint32_t	      cb_ticks;   /* Ticks until callback */
+  TIMER_CB_FUNC   cb_func;    /* 回调函数 */
+  POINTER	        cb_data;    /* 回调函数的参数指针 */
+  uint32_t	      cb_ticks;   /* 定时器count计数 */
 
-	/* Internal data */
-    struct easyRTOS_timer *next_timer;		/* Next timer in doubly-linked list */
-
+	/* 内部数据 */
+  struct easyRTOS_timer *next_timer;		/* 双向链表 */
 } EASYRTOS_TIMER;
 
 typedef struct easyRTOS_tcb
 {
     /**
-     *  Task's current stack pointer. When a task is scheduled
-     *  out the architecture port can save its stack pointer here.
      *  任务栈指针.当任务被调度器切换的时候,栈指针保存在这个变量中.
      */
     POINTER sp_save_ptr;
 
     /**
-     *  Task priority (0-255)
      *  线程的优先级 (0-255)
      */
     uint8_t priority;
 
     /**
-     *  Task entry point and parameter
      *  任务函数入口以及参数.
      */
     void (*entry_point)(uint32_t);
     uint32_t entryParam;
 
     /**
-     *  Queue pointer
      *  任务队列指针链表
      */
-    struct easyRTOS_tcb *prev_tcb;    /* Previous TCB in doubly-linked TCB list 指向前一个TCB的双向TCB链表指针*/
-    struct easyRTOS_tcb *next_tcb;    /* Next TCB in doubly-linked list 指向后一个TCB的双向TCB链表指针*/
+    struct easyRTOS_tcb *prev_tcb;    /* 指向前一个TCB的双向TCB链表指针*/
+    struct easyRTOS_tcb *next_tcb;    /* 指向后一个TCB的双向TCB链表指针*/
 
     /**
-     *  state of the task:           任务状态:
-     *  SUSPEND                      挂起
-     *  DELAY                        延迟
-     *  READY                        就绪
-     *  RUN                          运行
-     *  PENDED                       悬挂
+     *  任务状态:
+     *  挂起
+     *  延迟
+     *  就绪
+     *  运行
+     *  悬挂
      */
     TASKSTATE state;
-    uint8_t pendedWakeStatus;        /* Status returned to woken suspend calls */
-    EASYRTOS_TIMER *pended_timo_cb;  /* Callback registered for suspension timeouts */
-    EASYRTOS_TIMER *delay_timo_cb;   /* Callback registered for delay timeouts */
+    int8_t pendedWakeStatus;        
+    EASYRTOS_TIMER *pended_timo_cb;  
+    EASYRTOS_TIMER *delay_timo_cb;   
 
     /**
-     *  Task ID
      *  任务ID
      */
     uint8_t taskID;
 
     /**
-     *  Task Name
      *  任务名称
      */
     uint8_t taskName[TASKNAMELEN];
 
     /**
      *  任务在创建之后的实际运行态的时间,计算CPU使用率时使用.
-     *  Task Run time after created
-     *  it is used to compute the CPU utilization rate
      */
     uint32_t taskRunTime;
 } EASYRTOS_TCB;

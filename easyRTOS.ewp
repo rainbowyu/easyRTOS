@@ -599,7 +599,7 @@
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>lnk0t.icf</state>
+          <state>$TOOLKIT_DIR$\config\lnkstm8.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -663,7 +663,7 @@
         </option>
         <option>
           <name>IlinkProgramEntryLabel</name>
-          <state></state>
+          <state>__iar_program_start</state>
         </option>
         <option>
           <name>DoFill</name>
@@ -1595,6 +1595,12 @@
     </file>
     <file>
       <name>$PROJ_DIR$\kernel\easyRTOSportAsm.s</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\kernel\easyRTOSSem.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\kernel\easyRTOSSem.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\kernel\easyRTOSTimer.c</name>
