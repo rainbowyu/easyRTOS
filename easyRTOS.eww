@@ -2,6 +2,9 @@
 
 <workspace>
   <project>
+    <path>$WS_DIR$\..\atomthread\kelvinlawson-atomthreads-f29a33f\ports\stm8\comAtomthreads.ewp</path>
+  </project>
+  <project>
     <path>$WS_DIR$\easyRTOS.ewp</path>
   </project>
   <batchBuild/>

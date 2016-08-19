@@ -10,7 +10,7 @@ typedef struct easyRTOSSem
 {
     EASYRTOS_TCB * suspQ;  /* 被Sem阻塞的任务队列 */
     EASYRTOS_TCB * owner;  /* 被MUTEX锁住的任务 */
-    uint8_t        count;  /* 信号量计数 */
+    int8_t         count;  /* 信号量计数 -127 - 127*/
     uint8_t        type;   /* 信号量类型 */
 } EASYRTOS_SEM;
 

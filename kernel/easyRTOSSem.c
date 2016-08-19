@@ -7,6 +7,7 @@
 /* 全局函数 */
 EASYRTOS_SEM eSemCreateCount (uint8_t initial_count);
 EASYRTOS_SEM eSemCreateBinary (void);
+EASYRTOS_SEM eSemCreateMutex (void);
 ERESULT eSemDelete (EASYRTOS_SEM *sem);
 ERESULT eSemTake (EASYRTOS_SEM *sem, int32_t timeout);
 ERESULT eSemGive (EASYRTOS_SEM * sem);
@@ -45,6 +46,24 @@ EASYRTOS_SEM eSemCreateBinary (void)
   sem.type = SEM_BINARY;
 
   return sem;
+}
+
+EASYRTOS_SEM eSemCreateMutex (void)
+{
+    EASYRTOS_SEM sem;
+
+    /* 初始化时没有owner */
+    sem.owner = NULL;
+
+    /* 初始化计数 */
+    sem.count = 1;
+
+    /* 初始化被其悬挂的任务 */
+    sem.suspQ = NULL;
+    
+    /* 初始化被信号量类型 */
+    sem.type = SEM_MUTEX;
+    return (sem);
 }
 
 /**
@@ -153,6 +172,7 @@ ERESULT eSemDelete (EASYRTOS_SEM *sem)
  *  返回 EASYRTOS_ERR_PARAM  错误的参数
  *  返回 EASYRTOS_ERR_QUEUE 将任务加入运行队列失败
  *  返回 EASYRTOS_ERR_TIMER 注册没有成功
+ *  返回 EASYRTOS_SEM_UINIT 信号量没有被初始化
  */
 ERESULT eSemTake (EASYRTOS_SEM *sem, int32_t timeout)
 {
@@ -167,21 +187,42 @@ ERESULT eSemTake (EASYRTOS_SEM *sem, int32_t timeout)
   {
     status = EASYRTOS_ERR_PARAM;
   }
+  else if (sem->type == NULL)
+  {
+    status = EASYRTOS_SEM_UINIT;
+  }
   else
   {
+    /* 获取正在运行任务的TCB */
+    curr_tcb_ptr = eCurrentContext();
+        
     /* 进入临界区 */
     CRITICAL_ENTER ();
+    
+    /**
+     * 检测是否在任务上下文(而不是中断),因为MUTEX需要一个拥有者,所以不能
+     * 被ISR调用
+     */
+    if (curr_tcb_ptr == NULL)
+    {
+        /* 退出临界区 */
+        CRITICAL_EXIT ();
 
-    /* 若信号量计数为0，悬挂该任务 */
-    if (sem->count == 0)
+        /* 不在任务上下文中,无法悬挂任务 */
+        status = EASYRTOS_ERR_CONTEXT;
+    }
+
+    /** 
+     * 当为二值信号或者计数信号量的时候,则判断count是否为0.
+     * 若为互斥锁信号量,则判断是否上下文与拥有任务不相同.
+     * 满足其一,则悬挂该任务. 
+     */
+    else if (((sem->type != SEM_MUTEX) && (sem->count == 0)) || ((sem->type == SEM_MUTEX) && (sem->owner != NULL) && (sem->owner != curr_tcb_ptr)))
     {
       /* 若timeout >= 0 则悬挂任务 */
       if (timeout >= 0)
       {
         /* Count为0, 悬挂任务 */
-
-        /* 获取正在运行任务的TCB */
-        curr_tcb_ptr = eCurrentContext();
 
         /* 若是在任务上下文中 */
         if (curr_tcb_ptr)
@@ -274,21 +315,47 @@ ERESULT eSemTake (EASYRTOS_SEM *sem, int32_t timeout)
       }
       else
       {
-        /* timeout == -1, 不需要悬挂，但是count=0 */
+        /* timeout == -1, 不需要悬挂 */
         CRITICAL_EXIT();
         status = EASYRTOS_WOULDBLOCK;
       }
     }
     else
     {
-      /* Count不是0，减少Count的值，并返回 */
-      sem->count--;
+      switch (sem->type)
+      {
+        case SEM_BINARY:
+        case SEM_COUNTY:
+            sem->count--;
+            status = EASYRTOS_OK;
+          break;
+        case SEM_MUTEX:
+          
+          /* Count不是0，减少Count的值，并返回 */
+          if (sem->owner == NULL)
+          {
+            sem->owner = curr_tcb_ptr;
+          }
+      
+          /* Count不是0，减少Count的值，并返回 */
+          if (sem->count>-127)
+          {
+            sem->count--;
+        
+            /* 成功 */
+            status = EASYRTOS_OK;
+          }
+          else {
+            status = EASYRTOS_ERR_OVF;
+          }
+          break;
+        default:
+          status = EASYRTOS_SEM_UINIT;
+      }
 
       /* 退出临界区 */
       CRITICAL_EXIT ();
-
-      /* 成功 */
-      status = EASYRTOS_OK;
+  
     }
   }
 
@@ -298,102 +365,139 @@ ERESULT eSemTake (EASYRTOS_SEM *sem, int32_t timeout)
 
 /**
  * 返回 EASYRTOS_OK 成功
- * 返回 EASYRTOS_ERR_OVF 计数信号量count>255(>255)
+ * 返回 EASYRTOS_ERR_OVF 计数信号量count>127(>127)
  * 返回 EASYRTOS_ERR_PARAM 错误的参数
  * 返回 EASYRTOS_ERR_QUEUE 将任务加入运行队列失败
  * 返回 EASYRTOS_ERR_TIMER 注册定时器未成功
  * 返回 EASYRTOS_ERR_BIN_OVF 二值信号量count已经为1
+ * 返回 EASYRTOS_SEM_UINIT 信号量没有被初始化
+ * 返回 EASYRTOS_ERR_OWNERSHIP 尝试解锁Mutex的任务不是Mutex拥有者
  */
 ERESULT eSemGive (EASYRTOS_SEM * sem)
 {
   ERESULT status;
   CRITICAL_STORE;
   EASYRTOS_TCB *tcb_ptr;
-
+  EASYRTOS_TCB *curr_tcb_ptr;
   /* 参数检查 */
   if (sem == NULL)
   {
     status = EASYRTOS_ERR_PARAM;
   }
+  else if (sem->type == NULL)
+  {
+    status = EASYRTOS_SEM_UINIT;
+  }
   else
   {
+    /* 获取正在运行的任务的TCB */
+    curr_tcb_ptr = eCurrentContext();
+        
     /* 进入临界区 */
     CRITICAL_ENTER ();
+    
+    if (sem->type == SEM_MUTEX && sem->owner != curr_tcb_ptr)
+    {
+        /* 退出临界区 */
+        CRITICAL_EXIT ();
+        
+        status = EASYRTOS_ERR_OWNERSHIP;
+    }
 
     /* 将被信号量悬挂的任务置入Ready任务列表 */
-    if (sem->suspQ)
+    else 
     {
-      tcb_ptr = tcb_dequeue_head (&sem->suspQ);
-      if (tcbEnqueuePriority (&tcb_readyQ, tcb_ptr) != EASYRTOS_OK)
+      
+      if (sem->suspQ && sem->count == 0)
       {
-        /* 若加入Ready列表失败，退出临界区 */
-        CRITICAL_EXIT ();
-
-        status = EASYRTOS_ERR_QUEUE;
-      }
-      else
-      {
-        /* 给等待的任务返回EASYRTOS_OK */
-        tcb_ptr->pendedWakeStatus = EASYRTOS_OK;
-
-        /* 解除该信号量timeout注册的定时器 */
-        if ((tcb_ptr->pended_timo_cb != NULL)
-            && (eTimerCancel (tcb_ptr->pended_timo_cb) != EASYRTOS_OK))
+        sem->owner = NULL;
+        if ( sem->type == SEM_MUTEX )sem->count++;
+        tcb_ptr = tcb_dequeue_head (&sem->suspQ);
+        if (tcbEnqueuePriority (&tcb_readyQ, tcb_ptr) != EASYRTOS_OK)
         {
-            /* 解除定时器失败 */
-            status = EASYRTOS_ERR_TIMER;
+          /* 若加入Ready列表失败，退出临界区 */
+          CRITICAL_EXIT ();
+
+          status = EASYRTOS_ERR_QUEUE;
         }
         else
         {
-            /* 没有timeout定时器注册 */
-            tcb_ptr->pended_timo_cb = NULL;
+          /* 给等待的任务返回EASYRTOS_OK */
+          tcb_ptr->pendedWakeStatus = EASYRTOS_OK;
 
-            /* 成功 */
-            status = EASYRTOS_OK;
+          /* 解除该信号量timeout注册的定时器 */
+          if ((tcb_ptr->pended_timo_cb != NULL)
+              && (eTimerCancel (tcb_ptr->pended_timo_cb) != EASYRTOS_OK))
+          {
+              /* 解除定时器失败 */
+              status = EASYRTOS_ERR_TIMER;
+          }
+          else
+          {
+              /* 没有timeout定时器注册 */
+              tcb_ptr->pended_timo_cb = NULL;
+
+              /* 成功 */
+              status = EASYRTOS_OK;
+          }
+
+          /* 退出临界区 */
+          CRITICAL_EXIT ();
+
+          if (eCurrentContext())
+              easyRTOSSched (FALSE);
         }
-
-        /* 退出临界区 */
-        CRITICAL_EXIT ();
-
-        if (eCurrentContext())
-            easyRTOSSched (FALSE);
       }
-    }
+    
 
-    /* 若没有任务被该信号量悬挂，则增加count，然后返回 */
-    else
-    {
-      switch (sem->type)
+      /* 若没有任务被该信号量悬挂，则增加count，然后返回 */
+      else
       {
-        case SEM_COUNTY:
-          /* 检查是否溢出 */
-          if (sem->count == 255)
-          {
-            /* 返回错误标识 */
-            status = EASYRTOS_ERR_OVF;
-          }
-          else
-          {
-            /* 增加count并返回 */
-            sem->count++;
-            status = EASYRTOS_OK;
-          }
-        break;
-        
-        case SEM_BINARY:
-          /* 检查是否已经为1 */
-          if (sem->count)
-          {
-            /* 返回错误标识 */
-            status = EASYRTOS_ERR_BIN_OVF;
-          }
-          else
-          {
-            /* 增加count并返回 */
-            sem->count = 1;
-            status = EASYRTOS_OK;
-          }
-        break;
+        switch (sem->type)
+        {
+          case SEM_COUNTY:
+            /* 检查是否溢出 */
+            if (sem->count == 127)
+            {
+              /* 返回错误标识 */
+              status = EASYRTOS_ERR_OVF;
+            }
+            else
+            {
+              /* 增加count并返回 */
+              sem->count++;
+              status = EASYRTOS_OK;
+            }
+          break;
+          
+          case SEM_BINARY:
+            /* 检查是否已经为1 */
+            if (sem->count)
+            {
+              /* 返回错误标识 */
+              status = EASYRTOS_ERR_BIN_OVF;
+            }
+            else
+            {
+              /* 增加count并返回 */
+              sem->count = 1;
+              status = EASYRTOS_OK;
+            }
+          break;
+          
+          case SEM_MUTEX:
+            if (sem->count>1)
+            {
+              /* 返回错误标识 */
+              status = EASYRTOS_ERR_BIN_OVF;
+            }
+            else
+            {
+              sem->count++;
+              status = EASYRTOS_OK;
+            }
+          break;
+        }
       }
 
       /* 退出临界区 */

@@ -13,9 +13,11 @@ NEAR static uint8_t semTaskStack[SEM_STACK_SIZE_BYTES];
 
 EASYRTOS_TCB testTcb;
 EASYRTOS_TCB semTcb;
-EASYRTOS_SEM semSemCount;
+EASYRTOS_SEM semSemMutex;
 void testTaskFunc (uint32_t param);
 void semTaskFunc (uint32_t param);
+
+uint8_t flag=0;
 
 int main( void )
 {
@@ -39,14 +41,14 @@ int main( void )
                    "TEST",
                    1);
       status += eTaskCreat(&semTcb,
-                   10, 
+                   9, 
                    semTaskFunc, 
-                   3,
+                   1,
                    &semTaskStack[0],
                    SEM_STACK_SIZE_BYTES,
                    "SEM",
                    2);
-      semSemCount = eSemCreateBinary();
+      semSemMutex = eSemCreateMutex();
       if (status == EASYRTOS_OK)
       {
          easyRTOSStart();
@@ -60,9 +62,11 @@ void testTaskFunc (uint32_t param)
   GPIO_Init(GPIOD, GPIO_PIN_2, GPIO_MODE_OUT_PP_HIGH_FAST);
   while (1)
   {
-    if (eSemTake (&semSemCount, 0) == EASYRTOS_OK)
+    if (eSemTake (&semSemMutex, 0) == EASYRTOS_OK)
     {
-      GPIO_WriteReverse(GPIOD, GPIO_PIN_2);
+      if (!flag)GPIO_WriteReverse(GPIOD, GPIO_PIN_2);
+      flag = 1;
+      eSemGive(&semSemMutex);
     }
   }
 }
@@ -71,7 +75,22 @@ void semTaskFunc (uint32_t param)
 {
     while (1)
   {
+    if (eSemTake(&semSemMutex, 0) == EASYRTOS_OK)
+    {
+      eTimerDelay(DELAY_S(param));
+      if (eSemTake(&semSemMutex, 0) == EASYRTOS_OK)
+      { 
+        eTimerDelay(DELAY_S(param));
+        if (eSemTake(&semSemMutex, 0) == EASYRTOS_OK)
+        {
+          eTimerDelay(DELAY_S(param));
+          eSemGive(&semSemMutex);
+        }
+        eSemGive(&semSemMutex);
+      }
+      eSemGive(&semSemMutex);
+      flag=0;
+    }  
     eTimerDelay(DELAY_S(param));
-    eSemGive(&semSemCount);
   }
 }

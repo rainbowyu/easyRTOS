@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=603723120
+Checksum=232475867
 [CallStack]
 ShowArgs=0
 [Disassembly]
@@ -50,13 +50,16 @@ ActionState=1
 Enabled=0
 ShowSource=1
 [struct_types]
-Fmt0=struct easyRTOS_tcb-priority	3	0
-Fmt1=struct easyRTOS_tcb-state	3	0
+Fmt0=EASYRTOS_SEM-count	3	0
+Fmt1=struct easyRTOS_tcb-priority	3	0
+Fmt2=struct easyRTOS_tcb-state	3	0
 [DataSample]
 LogEnabled=0
 GraphEnabled=0
 ShowTimeLog=1
 ShowTimeSum=1
+[Breakpoints]
+Count=0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -64,8 +67,6 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
-[Breakpoints]
-Count=0
 [Aliases]
 A0=_ "E:\projects\easyRTOS\stm8s-periphs\stm8s_clk.c" ""
 A1=_ "E:\projects\easyRTOS\stm8s-periphs\stm8s_gpio.c" ""
