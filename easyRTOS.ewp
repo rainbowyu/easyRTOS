@@ -1572,9 +1572,6 @@
   </configuration>
   <group>
     <name>application</name>
-    <file>
-      <name>$PROJ_DIR$\main.c</name>
-    </file>
   </group>
   <group>
     <name>kernel</name>
@@ -1595,6 +1592,12 @@
     </file>
     <file>
       <name>$PROJ_DIR$\kernel\easyRTOSportAsm.s</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\kernel\easyRTOSQueue.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\kernel\easyRTOSQueue.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\kernel\easyRTOSSem.c</name>
@@ -1703,6 +1706,18 @@
       <excluded>
         <configuration>Debug</configuration>
       </excluded>
+    </file>
+  </group>
+  <group>
+    <name>test</name>
+    <file>
+      <name>$PROJ_DIR$\mutexTestmain.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\queueTestmain.c</name>
     </file>
   </group>
 </project>

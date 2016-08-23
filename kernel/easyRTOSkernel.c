@@ -1,3 +1,10 @@
+/**  
+ * 作者: Roy.yu
+ * 时间: 2016.8.23
+ * 版本: V1.0
+ * Licence: GNU GENERAL PUBLIC LICENSE
+ */
+
 #include "easyRTOS.h"
 #include "easyRTOSkernel.h"
 #include "easyRTOSport.h"
@@ -23,7 +30,7 @@ static int easyITCnt = 0;
 
 static EASYRTOS_TCB idleTcb;
 
-/* public function */
+/* 全局函数 */
 ERESULT eTaskCreat(EASYRTOS_TCB *tcb_ptr, uint8_t priority, void (*entry_point)(uint32_t), uint32_t entryParam, void* task_stack, uint32_t stackSize,const char* task_name,uint32_t taskID);
 void easyRTOSStart (void);
 void easyRTOSSched (uint8_t timer_tick);
@@ -37,12 +44,33 @@ void eIntEnter (void);
 void eIntExit (uint8_t timerTick);
 /* end */
 
-/* private function */
+/* 私有函数 */
 static void idleTask (uint32_t param);
 static void eTaskSwitch(EASYRTOS_TCB *old_tcb, EASYRTOS_TCB *new_tcb);
-
 /* end */
 
+/**
+ * 功能: 创建一个新任务,设置其优先级,函数参数,堆栈位置及大小,任务名称及编号,保存在TCB中.
+ *
+ * 参数:
+ * 输入:                                  输出:
+ * EASYRTOS_TCB *tcb_ptr 任务TCB          EASYRTOS_TCB *tcb_ptr 任务TCB 
+ * uint8_t priority 任务优先级
+ * uint32_t entryParam 任务参数
+ * void* task_stack 任务堆栈
+ * uint32_t stackSize 任务堆栈大小
+ * const char* task_name 任务名称 
+ * uint32_t taskID 任务ID编号
+ *
+ * 返回: ERESULT
+ * EASYRTOS_OK 成功
+ * EASYRTOS_ERR_PARAM 错误的参数
+ * EASYRTOS_ERR_QUEUE 将任务加入Ready队列失败
+ *
+ * 调用的函数:
+ * archTaskContextInit (tcb_ptr, stack_top, entry_point, entryParam);
+ * tcbEnqueuePriority (&tcb_readyQ, tcb_ptr);
+ */
 ERESULT eTaskCreat(EASYRTOS_TCB *tcb_ptr, uint8_t priority, void (*entry_point)(uint32_t), uint32_t entryParam, void* task_stack, uint32_t stackSize,const char* task_name,uint32_t taskID)
 {
   ERESULT status;
@@ -141,9 +169,25 @@ ERESULT eTaskCreat(EASYRTOS_TCB *tcb_ptr, uint8_t priority, void (*entry_point)(
   return (status);
 }
 
+/**
+ * 功能: 系统初始化,创建一个Idle Task.
+ * 
+ * 参数:
+ * 输入:                                            输出:
+ * void *idle_task_stack  空闲任务堆栈位置          无.
+ * uint32_t idleTaskStackSize 空闲任务堆栈大小
+ *
+ * 返回: ERESULT
+ * EASYRTOS_OK 成功
+ * EASYRTOS_ERR_PARAM 错误的参数
+ * EASYRTOS_ERR_QUEUE 将任务加入Ready队列失败
+ *
+ * 调用的函数:
+ * eTaskCreat(&idleTcb,255,idleTask,0,idle_task_stack,idleTaskStackSize,"IDLE",0);
+ */
 ERESULT easyRTOSInit (void *idle_task_stack, uint32_t idleTaskStackSize)
 {
-    uint8_t status;
+    ERESULT status;
 
     /**
      *  初始化数据
@@ -167,6 +211,19 @@ ERESULT easyRTOSInit (void *idle_task_stack, uint32_t idleTaskStackSize)
     return (status);
 }
 
+/**
+ * 功能: 系统启动,启动优先级最高的任务
+ * 
+ * 参数:
+ * 输入:                    输出:
+ * 无.                      无.
+ * 
+ * 返回: void
+ *
+ * 调用的函数:
+ * tcb_dequeue_priority (&tcb_readyQ, 255);
+ * archFirstTaskRestore (new_tcb);
+ */
 void easyRTOSStart (void)
 {
     EASYRTOS_TCB *new_tcb;
@@ -198,6 +255,23 @@ void easyRTOSStart (void)
     }
 }
 
+/**
+ * 功能: 启动调度器.
+ * 1.参数false:在所有Ready状态和Run的任务中,只有优先级高于当前任务的才能抢占
+ * 2.参数true:在所有Ready状态和Run的任务中,相同或者高优先级的可以抢占当前任务
+ *
+ * 参数:
+ * 输入:                                            输出:
+ * uint8_t timer_tick  定时器中断调用               无.
+ *
+ * 返回: void
+ * 
+ * 调用的函数:
+ * tcb_dequeue_head (&tcb_readyQ);
+ * eTaskSwitch (curr_tcb, new_tcb);
+ * tcb_dequeue_priority (&tcb_readyQ, (uint8_t)lowest_pri);
+ * tcbEnqueuePriority (&tcb_readyQ, curr_tcb);
+ */
 void easyRTOSSched (uint8_t timer_tick)
 {
     CRITICAL_STORE;
@@ -294,6 +368,21 @@ void easyRTOSSched (uint8_t timer_tick)
     CRITICAL_EXIT ();
 }
 
+/**
+ * 功能: 按任务优先级将任务TCB加入列表
+ * 
+ * 参数:
+ * 输入:                                           输出:
+ * EASYRTOS_TCB **tcb_queue_ptr 被加入的队列       EASYRTOS_TCB **tcb_queue_ptr 被加入的队列
+ * EASYRTOS_TCB *tcb_ptr 要加入的任务TCB
+ *
+ * 返回: ERESULT
+ * EASYRTOS_OK 成功
+ * EASYRTOS_ERR_PARAM 错误的参数
+ *
+ * 调用的函数:
+ * 无.
+ */
 ERESULT tcbEnqueuePriority (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)
 {
     ERESULT status;
@@ -370,6 +459,19 @@ ERESULT tcbEnqueuePriority (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)
     return (status);
 }
 
+/**
+ * 功能: 获取当前运行的任务TCB
+ * 
+ * 参数:
+ * 输入:                     输出:
+ * 无                        无.
+ *
+ * 返回: EASYRTOS_TCB*
+ * 当前运行任务TCB指针
+ *  
+ * 调用的函数:
+ * 无.
+ */
 EASYRTOS_TCB *eCurrentContext (void)
 {
     if (easyITCnt == 0)
@@ -378,6 +480,19 @@ EASYRTOS_TCB *eCurrentContext (void)
         return (NULL);
 }
 
+/**
+ * 功能: 取出列表头的任务TCB
+ * 
+ * 参数:
+ * 输入:                                           输出:
+ * EASYRTOS_TCB **tcb_queue_ptr 被取的列表         EASYRTOS_TCB **tcb_queue_ptr 被取的列表
+ *
+ * 返回: EASYRTOS_TCB *
+ * 返回列表头的任务TCB指针
+ *
+ * 调用的函数:
+ * 无.
+ */
 EASYRTOS_TCB *tcb_dequeue_head (EASYRTOS_TCB **tcb_queue_ptr)
 {
     EASYRTOS_TCB *ret_ptr;
@@ -413,6 +528,20 @@ EASYRTOS_TCB *tcb_dequeue_head (EASYRTOS_TCB **tcb_queue_ptr)
     return (ret_ptr);
 }
 
+/**
+ * 功能: 从列表中移除指定的任务TCB
+ * 
+ * 参数:
+ * 输入:                                           输出:
+ * EASYRTOS_TCB **tcb_queue_ptr 被取的列表         EASYRTOS_TCB **tcb_queue_ptr 被取的列表 
+ * EASYRTOS_TCB *tcb_ptr 需要移除的任务TCB
+ * 
+ * 返回: EASYRTOS_TCB *
+ * 返回移除的TCB指针
+ *
+ * 调用的函数:
+ * 无.
+ */
 EASYRTOS_TCB *tcb_dequeue_entry (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)
 {
     EASYRTOS_TCB *ret_ptr, *prev_ptr, *next_ptr;
@@ -484,6 +613,20 @@ EASYRTOS_TCB *tcb_dequeue_entry (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb
     return (ret_ptr);
 }
 
+/**
+ * 功能: 按优先级从列表中取出任务TCB
+ * 
+ * 参数:
+ * 输入:                                           输出:
+ * EASYRTOS_TCB **tcb_queue_ptr 被取的列表         无.
+ * uint8_t priority
+ * 
+ * 返回: EASYRTOS_TCB *
+ * 返回移除的TCB指针
+ *
+ * 调用的函数:
+ * 无.
+ */
 EASYRTOS_TCB *tcb_dequeue_priority (EASYRTOS_TCB **tcb_queue_ptr, uint8_t priority)
 {
     EASYRTOS_TCB *ret_ptr;
@@ -522,8 +665,19 @@ EASYRTOS_TCB *tcb_dequeue_priority (EASYRTOS_TCB **tcb_queue_ptr, uint8_t priori
     return (ret_ptr);
 }
 
-
-
+/**
+ * 功能: 切换2个任务上下文
+ * 
+ * 参数:
+ * 输入:                                           输出:
+ * EASYRTOS_TCB *old_tcb 被切换的任务              无.
+ * EASYRTOS_TCB *new_tcb 切换到的任务
+ * 
+ * 返回: void
+ *
+ * 调用的函数:
+ * archContextSwitch (old_tcb, new_tcb);
+ */
 static void eTaskSwitch(EASYRTOS_TCB *old_tcb, EASYRTOS_TCB *new_tcb)
 {
     /**
@@ -545,6 +699,18 @@ static void eTaskSwitch(EASYRTOS_TCB *old_tcb, EASYRTOS_TCB *new_tcb)
     }
 }
 
+/**
+ * 功能: 进入中断调用,说明上下文在中断中
+ * 
+ * 参数:
+ * 输入:                输出:             
+ * 无.                  无.
+ * 
+ * 返回: void
+ *
+ * 调用的函数:
+ * 无.
+ */
 void eIntEnter (void)
 {
     /** 
@@ -553,6 +719,18 @@ void eIntEnter (void)
     easyITCnt++;
 }
 
+/**
+ * 功能: 退出中断调用,之后调用调度器
+ * 
+ * 参数:
+ * 输入:                输出:             
+ * uint8_t timerTick    无.
+ * 
+ * 返回: void
+ *
+ * 调用的函数:
+ * easyRTOSSched (timerTick);
+ */
 void eIntExit (uint8_t timerTick)
 {
     /** 
@@ -566,6 +744,18 @@ void eIntExit (uint8_t timerTick)
     easyRTOSSched (timerTick);
 }
 
+/**
+ * 功能: idleTask任务
+ * 
+ * 参数:
+ * 输入:                输出:             
+ * uint32_t param       无.
+ * 
+ * 返回: void
+ *
+ * 调用的函数:
+ * 无
+ */
 static void idleTask (uint32_t param)
 {
   /**

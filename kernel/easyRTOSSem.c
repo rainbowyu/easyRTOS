@@ -217,7 +217,7 @@ ERESULT eSemTake (EASYRTOS_SEM *sem, int32_t timeout)
      * 若为互斥锁信号量,则判断是否上下文与拥有任务不相同.
      * 满足其一,则悬挂该任务. 
      */
-    else if (((sem->type != SEM_MUTEX) && (sem->count == 0)) || ((sem->type == SEM_MUTEX) && (sem->owner != NULL) && (sem->owner != curr_tcb_ptr)))
+    else if (((sem->type != SEM_MUTEX) && (sem->count == 0)) || ((sem->type == SEM_MUTEX) && (sem->owner != curr_tcb_ptr) && (sem->owner != NULL)))
     {
       /* 若timeout >= 0 则悬挂任务 */
       if (timeout >= 0)
@@ -411,7 +411,7 @@ ERESULT eSemGive (EASYRTOS_SEM * sem)
       if (sem->suspQ && sem->count == 0)
       {
         sem->owner = NULL;
-        if ( sem->type == SEM_MUTEX )sem->count++;
+        //if ( sem->type == SEM_MUTEX )sem->count++;
         tcb_ptr = tcb_dequeue_head (&sem->suspQ);
         if (tcbEnqueuePriority (&tcb_readyQ, tcb_ptr) != EASYRTOS_OK)
         {
@@ -425,6 +425,9 @@ ERESULT eSemGive (EASYRTOS_SEM * sem)
           /* 给等待的任务返回EASYRTOS_OK */
           tcb_ptr->pendedWakeStatus = EASYRTOS_OK;
 
+          /* 设置任务为新的互斥锁ower */
+          sem->owner = tcb_ptr;
+          
           /* 解除该信号量timeout注册的定时器 */
           if ((tcb_ptr->pended_timo_cb != NULL)
               && (eTimerCancel (tcb_ptr->pended_timo_cb) != EASYRTOS_OK))

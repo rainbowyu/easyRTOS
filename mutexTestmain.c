@@ -3,7 +3,7 @@
 #include "easyRTOSport.h"
 #include "easyRTOSTimer.h"
 #include "easyRTOSSem.h"
-
+#include "stdlib.h"
 #define IDLE_STACK_SIZE_BYTES 256
 #define TEST_STACK_SIZE_BYTES 512
 #define SEM_STACK_SIZE_BYTES  512
@@ -22,16 +22,17 @@ uint8_t flag=0;
 int main( void )
 {
   ERESULT status;
+  //内部时钟 16M
   CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);
   
   status = easyRTOSInit(&idleTaskStack[0], IDLE_STACK_SIZE_BYTES);
   
   if (status == EASYRTOS_OK)
   {
-      /* Enable the system tick timer */
+      /* 使能系统时钟 */
       archInitSystemTickTimer();
 
-      /* Create an application task */
+      /* 创建任务 */
       status += eTaskCreat(&testTcb,
                    10, 
                    testTaskFunc, 
@@ -73,13 +74,13 @@ void testTaskFunc (uint32_t param)
 
 void semTaskFunc (uint32_t param)
 {
-    while (1)
+  while (1)
   {
     if (eSemTake(&semSemMutex, 0) == EASYRTOS_OK)
     {
       eTimerDelay(DELAY_S(param));
       if (eSemTake(&semSemMutex, 0) == EASYRTOS_OK)
-      { 
+      {
         eTimerDelay(DELAY_S(param));
         if (eSemTake(&semSemMutex, 0) == EASYRTOS_OK)
         {
@@ -90,7 +91,7 @@ void semTaskFunc (uint32_t param)
       }
       eSemGive(&semSemMutex);
       flag=0;
-    }  
+    } 
     eTimerDelay(DELAY_S(param));
   }
 }
