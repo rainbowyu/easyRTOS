@@ -16,6 +16,19 @@ ERESULT eSemResetCount (EASYRTOS_SEM *sem, uint8_t count);
 /* 私有函数 */
 static void eSemTimerCallback (POINTER cb_data);
 
+/**
+ * 功能: 计数信号量创建,初始化计数信号量结构体内的参数,并返回.
+ *
+ * 参数:
+ * 输入:                                   输出:
+ * uint8_t initial_count 初始化计数量      无
+ *
+ * 返回:
+ * EASYRTOS_SEM
+ * 
+ * 调用的函数:
+ * 无.
+ */
 EASYRTOS_SEM eSemCreateCount (uint8_t initial_count)
 {
   EASYRTOS_SEM sem;
@@ -32,6 +45,19 @@ EASYRTOS_SEM eSemCreateCount (uint8_t initial_count)
   return sem;
 }
 
+/**
+ * 功能: 二值信号量创建,初始化二值信号量结构体内的参数,并返回.
+ *
+ * 参数:
+ * 输入:                     输出:
+ * 无                        无
+ *
+ * 返回:
+ * EASYRTOS_SEM
+ * 
+ * 调用的函数:
+ * 无.
+ */
 EASYRTOS_SEM eSemCreateBinary (void)
 {
   EASYRTOS_SEM sem;
@@ -48,6 +74,19 @@ EASYRTOS_SEM eSemCreateBinary (void)
   return sem;
 }
 
+/**
+ * 功能: 互斥锁创建,初始化互斥锁结构体内的参数,并返回.
+ *
+ * 参数:
+ * 输入:                   输出:
+ * 无                      无
+ *
+ * 返回:
+ * EASYRTOS_SEM
+ * 
+ * 调用的函数:
+ * 无.
+ */
 EASYRTOS_SEM eSemCreateMutex (void)
 {
     EASYRTOS_SEM sem;
@@ -67,11 +106,24 @@ EASYRTOS_SEM eSemCreateMutex (void)
 }
 
 /**
+ * 功能: 删除信号量,并唤醒所有被该信号量悬挂的任务加入Ready列表中.同时取消该任务
+ * 注册的定时器.若有任务被唤醒,则会启动调度器.
+ *
+ * 参数:
+ * 输入:                                   输出:
+ * EASYRTOS_SEM *sem 信号量指针            EASYRTOS_SEM *sem 信号量指针
+ *
+ * 返回:
  * 返回 EASYRTOS_OK 成功
  * 返回 EASYRTOS_ERR_QUEUE 将任务放置到Ready队列中失败
  * 返回 EASYRTOS_ERR_TIMER 取消定时器失败
  * 返回 EASYRTOS_ERR_PARAM 输入参数错误
  * 返回 EASYRTOS_ERR_DELETED 信号量在悬挂任务时被删除
+ * 
+ * 调用的函数:
+ * tcb_dequeue_head (&sem->suspQ);
+ * tcbEnqueuePriority (&tcb_readyQ, tcb_ptr);
+ * eTimerCancel (tcb_ptr->pended_timo_cb);
  */
 ERESULT eSemDelete (EASYRTOS_SEM *sem)
 {
@@ -114,6 +166,9 @@ ERESULT eSemDelete (EASYRTOS_SEM *sem)
           status = EASYRTOS_ERR_QUEUE;
           break;
         }
+        
+        /* 成功则把任务设置为READY状态 */
+        else tcb_ptr->state = TASK_READY;
 
         /* 若悬挂有timeout，取消对应的定时器 */
         if (tcb_ptr->pended_timo_cb)
@@ -164,15 +219,44 @@ ERESULT eSemDelete (EASYRTOS_SEM *sem)
 }
 
 /**
- *  返回 EASYRTOS_OK 成功
- *  返回 EASYRTOS_TIMEOUT 信号量timeout到期
- *  返回 EASYRTOS_WOULDBLOCK 技术为0的时候，timeout=-1
- *  返回 EASYRTOS_ERR_DELETED 信号量在悬挂任务时被删除
- *  返回 EASYRTOS_ERR_CONTEXT 错误的上下文调用
- *  返回 EASYRTOS_ERR_PARAM  错误的参数
- *  返回 EASYRTOS_ERR_QUEUE 将任务加入运行队列失败
- *  返回 EASYRTOS_ERR_TIMER 注册没有成功
- *  返回 EASYRTOS_SEM_UINIT 信号量没有被初始化
+ * 功能: 获取信号量,若信号量数量为0,根据timeout的不同值和信号量的不同类型有不同的处理方式.
+ *
+ * 一、二值信号量和计数信号量
+ * 1.timeout>0 悬挂调用的任务,当timeout到期的时候唤醒任务并返回timeout标志
+ * 2.timeout=0 永久悬挂调用的任务,直到获取到信号量.
+ * 3.timeout=-1 不悬挂任务,若信号量计数为0会返回信号量为0的标志.
+ *
+ * 二、互斥锁
+ * 若调用者为拥有者，则进入递归调用模式，计数变为负值，并不会悬挂任务。
+ * 若调用者不是拥有者，则根据timeout的不同值有以下的处理方式。
+ * 1.timeout>0 悬挂调用的任务,当timeout到期的时候唤醒任务并返回timeout标志
+ * 2.timeout=0 永久悬挂调用的任务,直到获取到信号量.
+ * 3.timeout=-1 不悬挂任务,若信号量计数为0会返回信号量为0的标志.
+ *
+ * 当有任务被悬挂的时候,将会调用调度器.
+ *
+ * 参数:
+ * 输入:                                        输出:
+ * EASYRTOS_SEM *sem  信号量指针                EASYRTOS_SEM *sem  信号量指针
+ * int32_t timeout timeout时间,依赖于心跳时间                  
+ * 
+ * 返回:
+ * EASYRTOS_OK 成功
+ * EASYRTOS_TIMEOUT 信号量timeout到期
+ * EASYRTOS_WOULDBLOCK 技术为0的时候，timeout=-1
+ * EASYRTOS_ERR_DELETED 信号量在悬挂任务时被删除
+ * EASYRTOS_ERR_CONTEXT 错误的上下文调用
+ * EASYRTOS_ERR_PARAM  错误的参数
+ * EASYRTOS_ERR_QUEUE 将任务加入运行队列失败
+ * EASYRTOS_ERR_TIMER 注册没有成功
+ * EASYRTOS_SEM_UINIT 信号量没有被初始化
+ * 
+ * 调用的函数:
+ * eCurrentContext();
+ * tcbEnqueuePriority (&sem->suspQ, curr_tcb_ptr);
+ * eTimerRegister (&timerCb);
+ * (void)tcb_dequeue_entry (&sem->suspQ, curr_tcb_ptr);
+ * easyRTOSSched (FALSE);
  */
 ERESULT eSemTake (EASYRTOS_SEM *sem, int32_t timeout)
 {
@@ -362,16 +446,37 @@ ERESULT eSemTake (EASYRTOS_SEM *sem, int32_t timeout)
   return (status);
 }
 
-
 /**
- * 返回 EASYRTOS_OK 成功
- * 返回 EASYRTOS_ERR_OVF 计数信号量count>127(>127)
- * 返回 EASYRTOS_ERR_PARAM 错误的参数
- * 返回 EASYRTOS_ERR_QUEUE 将任务加入运行队列失败
- * 返回 EASYRTOS_ERR_TIMER 注册定时器未成功
- * 返回 EASYRTOS_ERR_BIN_OVF 二值信号量count已经为1
- * 返回 EASYRTOS_SEM_UINIT 信号量没有被初始化
- * 返回 EASYRTOS_ERR_OWNERSHIP 尝试解锁Mutex的任务不是Mutex拥有者
+ * 功能: 放置信号量,根据信号量类型不同会有以下不同反应：
+ * 1、二值信号量
+ * 当计数为0的时候计数加1，计数已经为1则会返回溢出错误。
+ * 2、计数信号量
+ * 计数加1，当计数大于127时，则会返回溢出错误。
+ * 3、互斥锁
+ * 当互斥锁拥有者调用的时候，若计数<=0，则计数加1，当计数达到1时，清除拥有任务。
+ * 当非拥有者调用的时候返回EASYRTOS_ERR_OWNERSHIP
+ * 当有任务被悬挂的时候,将会调用调度器.
+ *
+ * 参数:
+ * 输入:                                      输出:
+ * EASYRTOS_SEM * sem 信号量指针              EASYRTOS_SEM * sem 信号量指针       
+ * 
+ * 返回:
+ * EASYRTOS_OK 成功
+ * EASYRTOS_ERR_OVF 计数信号量count>127(>127)
+ * EASYRTOS_ERR_PARAM 错误的参数
+ * EASYRTOS_ERR_QUEUE 将任务加入运行队列失败
+ * EASYRTOS_ERR_TIMER 注册定时器未成功
+ * EASYRTOS_ERR_BIN_OVF 二值信号量count已经为1
+ * EASYRTOS_SEM_UINIT 信号量没有被初始化
+ * EASYRTOS_ERR_OWNERSHIP 尝试解锁Mutex的任务不是Mutex拥有者
+ * 
+ * 调用的函数:
+ * eCurrentContext();
+ * tcb_dequeue_head (&sem->suspQ);
+ * tcbEnqueuePriority (&tcb_readyQ, tcb_ptr);
+ * eTimerCancel (tcb_ptr->pended_timo_cb);
+ * easyRTOSSched (FALSE);
  */
 ERESULT eSemGive (EASYRTOS_SEM * sem)
 {
@@ -379,6 +484,7 @@ ERESULT eSemGive (EASYRTOS_SEM * sem)
   CRITICAL_STORE;
   EASYRTOS_TCB *tcb_ptr;
   EASYRTOS_TCB *curr_tcb_ptr;
+  
   /* 参数检查 */
   if (sem == NULL)
   {
@@ -390,6 +496,7 @@ ERESULT eSemGive (EASYRTOS_SEM * sem)
   }
   else
   {
+    
     /* 获取正在运行的任务的TCB */
     curr_tcb_ptr = eCurrentContext();
         
@@ -415,6 +522,7 @@ ERESULT eSemGive (EASYRTOS_SEM * sem)
         tcb_ptr = tcb_dequeue_head (&sem->suspQ);
         if (tcbEnqueuePriority (&tcb_readyQ, tcb_ptr) != EASYRTOS_OK)
         {
+          
           /* 若加入Ready列表失败，退出临界区 */
           CRITICAL_EXIT ();
 
@@ -422,9 +530,11 @@ ERESULT eSemGive (EASYRTOS_SEM * sem)
         }
         else
         {
+          
           /* 给等待的任务返回EASYRTOS_OK */
           tcb_ptr->pendedWakeStatus = EASYRTOS_OK;
-
+          tcb_ptr->state = TASK_READY;
+          
           /* 设置任务为新的互斥锁ower */
           sem->owner = tcb_ptr;
           
@@ -432,11 +542,13 @@ ERESULT eSemGive (EASYRTOS_SEM * sem)
           if ((tcb_ptr->pended_timo_cb != NULL)
               && (eTimerCancel (tcb_ptr->pended_timo_cb) != EASYRTOS_OK))
           {
+            
               /* 解除定时器失败 */
               status = EASYRTOS_ERR_TIMER;
           }
           else
           {
+            
               /* 没有timeout定时器注册 */
               tcb_ptr->pended_timo_cb = NULL;
 
@@ -459,14 +571,17 @@ ERESULT eSemGive (EASYRTOS_SEM * sem)
         switch (sem->type)
         {
           case SEM_COUNTY:
+            
             /* 检查是否溢出 */
             if (sem->count == 127)
             {
+              
               /* 返回错误标识 */
               status = EASYRTOS_ERR_OVF;
             }
             else
             {
+              
               /* 增加count并返回 */
               sem->count++;
               status = EASYRTOS_OK;
@@ -474,14 +589,17 @@ ERESULT eSemGive (EASYRTOS_SEM * sem)
           break;
           
           case SEM_BINARY:
+            
             /* 检查是否已经为1 */
-            if (sem->count)
+            if (sem->count == 1)
             {
+              
               /* 返回错误标识 */
-              status = EASYRTOS_ERR_BIN_OVF;
+              status = EASYRTOS_ERR_OVF;
             }
             else
             {
+              
               /* 增加count并返回 */
               sem->count = 1;
               status = EASYRTOS_OK;
@@ -491,8 +609,9 @@ ERESULT eSemGive (EASYRTOS_SEM * sem)
           case SEM_MUTEX:
             if (sem->count>1)
             {
+              
               /* 返回错误标识 */
-              status = EASYRTOS_ERR_BIN_OVF;
+              status = EASYRTOS_ERR_OVF;
             }
             else
             {
@@ -511,17 +630,27 @@ ERESULT eSemGive (EASYRTOS_SEM * sem)
   return (status);
 }
 
-
 /**
+ * 功能: 设置计数信号量的Count
+ *
+ * 参数:
+ * 输入:                                        输出:
+ * EASYRTOS_SEM *sem 信号量指针                 EASYRTOS_SEM *sem 信号量指针
+ * uint8_t count设置的Count数               
+ * 
+ * 返回:
  * 返回 EASYRTOS_OK 成功
  * 返回 EASYRTOS_ERR_PARAM 错误的参数
+ * 
+ * 调用的函数:
+ * 无
  */
 ERESULT eSemResetCount (EASYRTOS_SEM *sem, uint8_t count)
 {
   uint8_t status;
 
   /* 参数检查 */
-  if (sem == NULL)
+  if (sem == NULL || sem->type != SEM_COUNTY)
   {
     status = EASYRTOS_ERR_PARAM;
   }
@@ -536,6 +665,20 @@ ERESULT eSemResetCount (EASYRTOS_SEM *sem, uint8_t count)
   return (status);  
 }
 
+/**
+ * 功能: 信号量注册的定时器的回调函数,给到期的任务返回EASYRTOS_TIMEOUT的标志.
+ * 将到期的任务移除队列悬挂列表,并加入Ready列表.
+ *
+ * 参数:
+ * 输入:                                                输出:
+ * POINTER cb_data 回调函数数据包含需要唤醒的TCB等信息   POINTER cb_data 回调函数数据包含需要唤醒的TCB等信息                              
+ * 
+ * 返回:void
+ * 
+ * 调用的函数:
+ * (void)tcb_dequeue_entry (timer_data_ptr->suspQ, timer_data_ptr->tcb_ptr);
+ * (void)tcbEnqueuePriority (&tcb_readyQ, timer_data_ptr->tcb_ptr);
+ */
 static void eSemTimerCallback (POINTER cb_data)
 {
     SEM_TIMER *timer_data_ptr;
@@ -560,8 +703,10 @@ static void eSemTimerCallback (POINTER cb_data)
       (void)tcb_dequeue_entry (&timer_data_ptr->sem_ptr->suspQ, timer_data_ptr->tcb_ptr);
 
       /* 将任务加入Ready队列 */
-      (void)tcbEnqueuePriority (&tcb_readyQ, timer_data_ptr->tcb_ptr);
-
+      if (tcbEnqueuePriority (&tcb_readyQ, timer_data_ptr->tcb_ptr) == EASYRTOS_OK)
+      {
+        timer_data_ptr->tcb_ptr->state = TASK_READY;
+      }
       /* 退出临界区 */
       CRITICAL_EXIT ();
 

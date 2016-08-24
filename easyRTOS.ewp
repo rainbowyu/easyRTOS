@@ -571,7 +571,7 @@
         </option>
         <option>
           <name>IlinkMapFile</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>IlinkLogFile</name>
@@ -1619,6 +1619,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\stm8s-periphs\stm8s_adc2.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\stm8s-periphs\stm8s_awu.c</name>
@@ -1682,15 +1685,24 @@
     </file>
     <file>
       <name>$PROJ_DIR$\stm8s-periphs\stm8s_tim1.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\stm8s-periphs\stm8s_tim2.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\stm8s-periphs\stm8s_tim3.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\stm8s-periphs\stm8s_tim4.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\stm8s-periphs\stm8s_uart1.c</name>
@@ -1700,6 +1712,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\stm8s-periphs\stm8s_uart3.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\stm8s-periphs\stm8s_wwdg.c</name>

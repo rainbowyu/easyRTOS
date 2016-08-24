@@ -31,14 +31,10 @@ typedef struct easyRTOS_timer
 
 typedef struct easyRTOS_tcb
 {
-    /**
-     *  任务栈指针.当任务被调度器切换的时候,栈指针保存在这个变量中.
-     */
+    /* 任务栈指针.当任务被调度器切换的时候,栈指针保存在这个变量中 */
     POINTER sp_save_ptr;
 
-    /**
-     *  线程的优先级 (0-255)
-     */
+    /* 线程的优先级 (0-255) */
     uint8_t priority;
 
     /**
@@ -47,9 +43,7 @@ typedef struct easyRTOS_tcb
     void (*entry_point)(uint32_t);
     uint32_t entryParam;
 
-    /**
-     *  任务队列指针链表
-     */
+    /* 任务队列指针链表 */
     struct easyRTOS_tcb *prev_tcb;    /* 指向前一个TCB的双向TCB链表指针*/
     struct easyRTOS_tcb *next_tcb;    /* 指向后一个TCB的双向TCB链表指针*/
 
@@ -66,19 +60,13 @@ typedef struct easyRTOS_tcb
     EASYRTOS_TIMER *pended_timo_cb;  
     EASYRTOS_TIMER *delay_timo_cb;   
 
-    /**
-     *  任务ID
-     */
+    /* 任务ID */
     uint8_t taskID;
 
-    /**
-     *  任务名称
-     */
+    /* 任务名称 */
     uint8_t taskName[TASKNAMELEN];
 
-    /**
-     *  任务在创建之后的实际运行态的时间,计算CPU使用率时使用.
-     */
+    /* 任务在创建之后的实际运行态的时间,计算CPU使用率时使用 */
     uint32_t taskRunTime;
 } EASYRTOS_TCB;
 
