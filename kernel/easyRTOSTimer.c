@@ -1,3 +1,9 @@
+/**  
+ * 作者: Roy.yu
+ * 时间: 2016.8.23
+ * 版本: V0.1
+ * Licence: GNU GENERAL PUBLIC LICENSE
+ */
 #include "easyRTOS.h"
 #include "easyRTOSkernel.h"
 #include "easyRTOSport.h"
@@ -24,14 +30,23 @@ uint32_t eTimeGet(void);
 void eTimeSet(uint32_t newTime);
 
 /**
- * 返回 EASYRTOS_OK
- * 返回 EASYRTOS_ERR_PARAM
+ * 功能: 注册定时器，将新的定时器加入列表
+ *
+ * 参数:
+ * 输入:                         输出:
+ * EASYRTOS_TIMER *timer_ptr     无                             
+ * 
+ * 返回:
+ * EASYRTOS_OK
+ * EASYRTOS_ERR_PARAM
+ *
+ * 调用的函数:
+ * 无
  */
 ERESULT eTimerRegister (EASYRTOS_TIMER *timer_ptr)
 {
     ERESULT status;
     CRITICAL_STORE;
-
     /* 检查参数 */
     if ((timer_ptr == NULL) || (timer_ptr->cb_func == NULL)
         || (timer_ptr->cb_ticks == 0))
@@ -73,11 +88,20 @@ ERESULT eTimerRegister (EASYRTOS_TIMER *timer_ptr)
     return (status);
 }
 
-
 /**
- * 返回 EASYRTOS_OK
- * 返回 EASYRTOS_ERR_PARAM
- * 返回 EASYRTOS_ERR_NOT_FOUND
+ * 功能: 取消定时器，将定时器移除列表
+ *
+ * 参数:
+ * 输入:                         输出:
+ * EASYRTOS_TIMER *timer_ptr     无                             
+ * 
+ * 返回:
+ * EASYRTOS_OK
+ * EASYRTOS_ERR_PARAM
+ * EASYRTOS_ERR_NOT_FOUND
+ *
+ * 调用的函数:
+ * 无
  */
 ERESULT eTimerCancel (EASYRTOS_TIMER *timer_ptr)
 {
@@ -131,9 +155,22 @@ ERESULT eTimerCancel (EASYRTOS_TIMER *timer_ptr)
 }
 
 /**
- * @返回 EASYRTOS_OK 
- * @返回 EASYRTOS_ERR_PARAM 
- * @返回 EASYRTOS_ERR_CONTEXT 
+ * 功能: 延时函数，暂时Delay任务，当时间到达的时候解除Delay，任务状态
+ * 恢复为Ready。因为有任务被延迟,函数最后会调用调度器.
+ *
+ * 参数:
+ * 输入:                                            输出:
+ * uint32_t ticks  延迟的时间，与心跳频率有关        无                             
+ * 
+ * 返回:
+ * EASYRTOS_OK 
+ * EASYRTOS_ERR_PARAM 
+ * EASYRTOS_ERR_CONTEXT 
+ *
+ * 调用的函数:
+ * eCurrentContext();
+ * eTimerRegister (&timerCb)；
+ * easyRTOSSched (FALSE);
  */
 ERESULT eTimerDelay (uint32_t ticks)
 {
@@ -207,6 +244,19 @@ ERESULT eTimerDelay (uint32_t ticks)
     return (status);
 }
 
+/**
+ * 功能: 心跳中断的时候调用，增加系统tick计数，对所有定时器进行更新，检测
+ * 定时器是否count为0
+ *
+ * 参数:
+ * 输入:                   输出:
+ * 无                      无                             
+ * 
+ * 返回:void
+ *
+ * 调用的函数:
+ * eTimerCallbacks ();
+ */
 void eTimerTick (void)
 {
   /* 当系统启动的时候才运行 */
@@ -220,6 +270,19 @@ void eTimerTick (void)
   }
 }
 
+/**
+ * 功能: 心跳中断时调用，减少所有注册定时器的count，当count为0是调用定时器
+ * 回调函数。
+ *
+ * 参数:
+ * 输入:                   输出:
+ * 无                      无                             
+ * 
+ * 返回:void
+ *
+ * 调用的函数:
+ * 无
+ */
 static void eTimerCallbacks (void)
 {
   EASYRTOS_TIMER *prev_ptr = NULL, *next_ptr = NULL, *saved_next_ptr = NULL;
@@ -303,6 +366,18 @@ static void eTimerCallbacks (void)
   }
 }
 
+/**
+ * 功能: 延时定时器的回调函数,若延时注册的定时器到期,则会调用此函数
+ *
+ * 参数:
+ * 输入:                                 输出:
+ * POINTER cb_data  回调函数参数         POINTER cb_data     回调函数参数                       
+ * 
+ * 返回:void
+ *
+ * 调用的函数:
+ * tcbEnqueuePriority (&tcb_readyQ, timer_data_ptr->tcb_ptr);
+ */
 static void eTimerDelayCallback (POINTER cb_data)
 {
     DELAY_TIMER *timer_data_ptr;
@@ -330,11 +405,37 @@ static void eTimerDelayCallback (POINTER cb_data)
     }
 }
 
+/**
+ * 功能: 心跳次数获取.
+ *
+ * 参数:
+ * 输入:                             输出:
+ * 无                                无                      
+ * 
+ * 返回:
+ * uint32_t systemTicks 系统心跳数
+ *
+ * 调用的函数:
+ * 无
+ */
 uint32_t eTimeGet(void)
 {
     return (systemTicks);
 }
 
+/**
+ * 功能: 心跳次数设置
+ *
+ * 参数:
+ * 输入:                             输出:
+ * 无                                无                      
+ * 
+ * 返回:
+ * uint32_t systemTicks 系统心跳数
+ *
+ * 调用的函数:
+ * 无
+ */
 void eTimeSet(uint32_t newTime)
 {
     systemTicks = newTime;

@@ -1,4 +1,9 @@
- NAME EASYRTOSPORTASM
+;作者: Roy.yu
+;时间: 2016.8.23
+;版本: V0.1
+;Licence: GNU GENERAL PUBLIC LICENSE
+
+NAME EASYRTOSPORTASM
  SECTION .near_func.text:code
 
 #include "vregs.inc"

@@ -1,3 +1,9 @@
+/**  
+ * 作者: Roy.yu
+ * 时间: 2016.8.23
+ * 版本: V0.1
+ * Licence: GNU GENERAL PUBLIC LICENSE
+ */
 #include "easyRTOS.h"
 #include "easyRTOSkernel.h"
 #include "easyRTOSport.h"
@@ -710,8 +716,6 @@ static void eSemTimerCallback (POINTER cb_data)
       /* 退出临界区 */
       CRITICAL_EXIT ();
 
-      /**
-       * 这里没有启动调度器，因为之后在退出timer ISR的时候会通过atomIntExit()启动
-       */
+      /* 这里没有启动调度器，因为之后在退出timer ISR的时候会通过atomIntExit()启动 */
     }
 }

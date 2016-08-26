@@ -1,3 +1,9 @@
+/**  
+ * 作者: Roy.yu
+ * 时间: 2016.8.23
+ * 版本: V0.1
+ * Licence: GNU GENERAL PUBLIC LICENSE
+ */
 #ifndef __EASYRTOSKERNEL_H__
 #define __EASYRTOSKERNEL_H__
 
