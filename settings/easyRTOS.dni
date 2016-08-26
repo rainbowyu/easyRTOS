@@ -65,7 +65,7 @@ Category=_ 0
 LoggingEnabled=_ 0
 LogFile=_ ""
 [Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\queueTestmain.c}.100.5" 0 0 0 0 "" 0 ""
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\queueTestmain.c}.106.5" 0 0 0 0 "" 0 ""
 Count=1
 [Aliases]
 A0=_ "E:\projects\easyRTOS\stm8s-periphs\stm8s_clk.c" ""
