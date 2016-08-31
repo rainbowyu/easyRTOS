@@ -203,7 +203,7 @@ void easyRTOSStart (void)
     if (new_tcb)
     {
       curr_tcb = new_tcb;
-
+			new_tcb->state = TASK_RUN;
       /* 恢复并运行第一个任务 */
       archFirstTaskRestore (new_tcb);
 
