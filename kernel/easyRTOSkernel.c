@@ -1,7 +1,7 @@
 /**  
  * 作者: Roy.yu
- * 时间: 2016.8.23
- * 版本: V0.1
+ * 时间: 2016.9.19
+ * 版本: V0.2
  * Licence: GNU GENERAL PUBLIC LICENSE
  */
 #include "easyRTOS.h"
@@ -137,6 +137,41 @@ ERESULT eTaskCreat(EASYRTOS_TCB *tcb_ptr, uint8_t priority, void (*entry_point)(
       status = EASYRTOS_OK;
     }
   }
+  return (status);
+}
+
+/**
+ * 2016.9.19 V0.2新增函数
+ * 功能: 修改一个任务的优先级
+ * 
+ * 参数:
+ * 输入:                                            输出:
+ * EASYRTOS_TCB *tcb_ptr  任务的TCB                 无.
+ * uint8_t priority 要设置的优先级
+ *
+ * 返回: ERESULT
+ * EASYRTOS_OK 成功
+ * EASYRTOS_ERR_PARAM 错误的参数
+ *
+ * 调用的函数:
+ * tcb_dequeue_entry (&tcb_readyQ, tcb_ptr);
+ * tcbEnqueuePriority (&tcb_readyQ, tcb_ptr);
+ */
+ERESULT eSetTaskPriority(EASYRTOS_TCB *tcb_ptr,uint8_t priority)
+{
+  CRITICAL_STORE;
+  ERESULT status = EASYRTOS_OK;
+  EASYRTOS_TCB *new_tcb = NULL;
+  /* 进入临界区,保护系统任务队列 */
+  CRITICAL_ENTER ();
+  new_tcb = tcb_dequeue_entry (&tcb_readyQ, tcb_ptr);
+  tcb_ptr->priority = priority;
+  if (new_tcb!=NULL)
+  {
+    status = tcbEnqueuePriority (&tcb_readyQ, tcb_ptr);
+  }
+  /*退出临界区*/
+  CRITICAL_EXIT ();
   return (status);
 }
 
