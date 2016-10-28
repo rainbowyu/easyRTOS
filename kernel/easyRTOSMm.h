@@ -12,11 +12,14 @@
 #define WSIZE  4
 #define DSIZE  8
 
+#define HDSIZE 3
+#define FTSIZE 3
+
 #define MAX(x,y) ((x)>(y)?(x):(y))
 
 /*
  * 一个块由头+数据+尾组成
- * 头：2.5Byte 
+ * 头：2.5Byte 尾0.5Byte
  */
 
 /* 对分配字节的大小的头和尾进行打包 格式为 分配大小|分配标志位 */
@@ -37,10 +40,17 @@
 #define GET_ALLOC(p) (GET(p) & 0x1)
 
 /* 
- * 获取p地址的数据块大小 
- * 获取p地址的数据块分配标志位
+ * 获取地址为bp的数据块的头的地址 
+ * 获取地址为bp的数据块的尾的地址 
  */
-#define HDRP(bp) ((uint8_t*)(bp) & ~0x7)
-#define FTRP(bp) (GET(p) & 0x1)
+#define HDRP(bp) ((uint8_t*)(bp) - HDSIZE)
+#define FTRP(bp) ((uint8_t*)(bp) + GETSIZE(HDRP(bp)) - (HDSIZE+FTSIZE))
+
+/* 
+ * 获取地址为bp的数据块的头的地址 
+ * 获取地址为bp的数据块的尾的地址 
+ */
+#define NEXT_BLKP(bp) ((uint8_t*)(bp) + GETSIZE((uint8_t)(bp)-))
+#define PREV_BLKP(bp) ((uint8_t*)(bp) + GETSIZE(HDRP(bp)) - (HDSIZE+FTSIZE))
 
 #endif
