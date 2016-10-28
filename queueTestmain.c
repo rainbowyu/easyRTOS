@@ -14,9 +14,9 @@
 /* °üº¬ malloc() */
 //#include "stdlib.h"
 
-#define IDLE_STACK_SIZE_BYTES 256
-#define TEST_STACK_SIZE_BYTES 512
-#define QUEUE_STACK_SIZE_BYTES  512
+#define IDLE_STACK_SIZE_BYTES 128
+#define TEST_STACK_SIZE_BYTES 128
+#define QUEUE_STACK_SIZE_BYTES  128
 
 NEAR static uint8_t idleTaskStack[IDLE_STACK_SIZE_BYTES];
 NEAR static uint8_t testTaskStack[TEST_STACK_SIZE_BYTES];

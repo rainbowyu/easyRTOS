@@ -1,6 +1,6 @@
 ###############################################################################
 #                                                                             #
-# IAR ELF Linker V1.40.1.50106 for STM8                 06/Sep/2016  18:22:38 #
+# IAR ELF Linker V1.40.1.50106 for STM8                 28/Oct/2016  15:23:06 #
 # Copyright 2010-2013 IAR Systems AB.                                         #
 #                                                                             #
 #    Output file  =  D:\projects\easyRTOS\Debug\Exe\templproj.out             #
@@ -20,8 +20,8 @@
 #                    _Scanf=_ScanfFullNoMb -o D:\projects\easyRTOS\Debug\Exe\ #
 #                    templproj.out --map D:\projects\easyRTOS\Debug\List\temp #
 #                    lproj.map --config "D:\Program Files (x86)\IAR           #
-#                    Systems\Embedded Workbench 6.5\stm8\config\lnkstm8.icf"  #
-#                    --config_def _CSTACK_SIZE=0x100 --config_def             #
+#                    Systems\Embedded Workbench 6.5\stm8\config\lnkstm8s207r8 #
+#                    .icf" --config_def _CSTACK_SIZE=0x100 --config_def       #
 #                    _HEAP_SIZE=0x100 --entry __iar_program_start --debug_lib #
 #                                                                             #
 #                                                                             #
@@ -68,22 +68,22 @@ __rt_version               = 4
   .vregs           uninit   0x000000    0x10  vregs.o [4]
                           - 0x000010    0x10
 
-"P2":                                  0x591
-  .near.bss        zero     0x000010   0x200  queueTestmain.o [1]
-  .near.bss        zero     0x000210   0x200  queueTestmain.o [1]
-  .near.bss        zero     0x000410   0x100  queueTestmain.o [1]
-  .near.bss        zero     0x000510    0x22  easyRTOSkernel.o [1]
-  .near.bss        zero     0x000532    0x22  queueTestmain.o [1]
-  .near.bss        zero     0x000554    0x22  queueTestmain.o [1]
-  .near.bss        zero     0x000576    0x1a  queueTestmain.o [1]
-  .near.bss        zero     0x000590     0x4  easyRTOSTimer.o [1]
-  .near.bss        zero     0x000594     0x4  queueTestmain.o [1]
-  .near.bss        zero     0x000598     0x2  easyRTOSTimer.o [1]
-  .near.bss        zero     0x00059a     0x2  easyRTOSkernel.o [1]
-  .near.bss        zero     0x00059c     0x2  easyRTOSkernel.o [1]
-  .near.bss        zero     0x00059e     0x2  easyRTOSkernel.o [1]
-  .near.bss        zero     0x0005a0     0x1  easyRTOSkernel.o [1]
-                          - 0x0005a1   0x591
+"P2":                                  0x211
+  .near.bss        zero     0x000010    0x80  queueTestmain.o [1]
+  .near.bss        zero     0x000090    0x80  queueTestmain.o [1]
+  .near.bss        zero     0x000110    0x80  queueTestmain.o [1]
+  .near.bss        zero     0x000190    0x22  easyRTOSkernel.o [1]
+  .near.bss        zero     0x0001b2    0x22  queueTestmain.o [1]
+  .near.bss        zero     0x0001d4    0x22  queueTestmain.o [1]
+  .near.bss        zero     0x0001f6    0x1a  queueTestmain.o [1]
+  .near.bss        zero     0x000210     0x4  easyRTOSTimer.o [1]
+  .near.bss        zero     0x000214     0x4  queueTestmain.o [1]
+  .near.bss        zero     0x000218     0x2  easyRTOSTimer.o [1]
+  .near.bss        zero     0x00021a     0x2  easyRTOSkernel.o [1]
+  .near.bss        zero     0x00021c     0x2  easyRTOSkernel.o [1]
+  .near.bss        zero     0x00021e     0x2  easyRTOSkernel.o [1]
+  .near.bss        zero     0x000220     0x1  easyRTOSkernel.o [1]
+                          - 0x000221   0x211
 
 "A2":                                  0x100
   CSTACK                    0x001700   0x100  <Block>
@@ -95,59 +95,88 @@ __rt_version               = 4
     .intvec        const    0x008000    0x80  interrupt.o [4]
                           - 0x008080    0x80
 
-"P3":                                 0x1290
-  .near_func.text  ro code  0x008080   0x2b5  easyRTOSkernel.o [1]
-  .near_func.text  ro code  0x008335   0x177  easyRTOSQueue.o [1]
-  .near_func.text  ro code  0x0084ac   0x174  easyRTOSQueue.o [1]
-  .near_func.text  ro code  0x008620   0x127  easyRTOSkernel.o [1]
-  .near_func.text  ro code  0x008747    0xf6  long.o [4]
-  .near_func.text  ro code  0x00883d    0xef  easyRTOSQueue.o [1]
-  .near_func.text  ro code  0x00892c    0xe9  easyRTOSQueue.o [1]
-  .near_func.text  ro code  0x008a15    0xd9  vreg_util.o [4]
-  .near_func.text  ro code  0x008aee    0xc4  easyRTOSTimer.o [1]
-  .near_func.text  ro code  0x008bb2    0xbd  queueTestmain.o [1]
-  .near_func.text  ro code  0x008c6f    0xae  stm8s_gpio.o [1]
-  .near_func.text  ro code  0x008d1d    0x90  easyRTOSTimer.o [1]
-  .near_func.text  ro code  0x008dad    0x85  long_util.o [4]
-  .near_func.text  ro code  0x008e32    0x5e  easyRTOSQueue.o [1]
-  .near_func.text  ro code  0x008e90    0x5a  easyRTOSTimer.o [1]
-  .near_func.text  ro code  0x008eea    0x58  easyRTOSportAsm.o [1]
-  .near_func.text  ro code  0x008f42    0x54  easyRTOSport.o [1]
-  .near_func.text  ro code  0x008f96    0x52  queueTestmain.o [1]
-  .near_func.text  ro code  0x008fe8    0x51  easyRTOSTimer.o [1]
-  .near_func.text  ro code  0x009039    0x45  stm8s_tim3.o [1]
-  .near_func.text  ro code  0x00907e    0x44  easyRTOSQueue.o [1]
-  .near_func.text  ro code  0x0090c2    0x3c  easyRTOSTimer.o [1]
-  .near_func.text  ro code  0x0090fe    0x32  easyRTOSkernel.o [1]
-  .near_func.text  ro code  0x009130    0x29  queueTestmain.o [1]
-  .near_func.text  ro code  0x009159    0x25  memcpy.o [4]
-  .near_func.text  ro code  0x00917e    0x22  easyRTOSport.o [1]
-  .near_func.text  ro code  0x0091a0    0x22  easyRTOSport.o [1]
-  .iar.init_table  const    0x0091c2     0x8  - Linker created -
-  .near_func.text  ro code  0x0091ca    0x20  easyRTOSkernel.o [1]
-  .near_func.text  ro code  0x0091ea    0x20  stm8s_tim3.o [1]
-  .near_func.text  ro code  0x00920a    0x1e  short.o [4]
-  .near_func.text  ro code  0x009228    0x1e  init_small.o [4]
-  .near_func.text  ro code  0x009246    0x1a  easyRTOSTimer.o [1]
-  .near_func.text  ro code  0x009260    0x19  easyRTOSport.o [1]
-  .near_func.text  ro code  0x009279    0x17  init.o [4]
-  .near_func.text  ro code  0x009290    0x14  __dbg_xxexit.o [3]
-  .near_func.text  ro code  0x0092a4    0x13  stm8s_clk.o [1]
-  .near_func.text  ro code  0x0092b7    0x13  cstartup.o [4]
-  .near_func.text  ro code  0x0092ca    0x12  stm8s_tim3.o [1]
-  .near_func.text  ro code  0x0092dc     0xd  move.o [4]
-  .near.rodata     const    0x0092e9     0x6  queueTestmain.o [1]
-  .near.rodata     const    0x0092ef     0x5  easyRTOSkernel.o [1]
-  .near.rodata     const    0x0092f4     0x5  queueTestmain.o [1]
-  .near_func.text  ro code  0x0092f9     0x5  cexit.o [4]
-  .near_func.text  ro code  0x0092fe     0x3  stm8s_gpio.o [1]
-  .near_func.text  ro code  0x009301     0x3  interrupt.o [4]
-  .near_func.text  ro code  0x009304     0x3  low_level_init.o [4]
-  .near_func.text  ro code  0x009307     0x3  exit.o [4]
-  .near_func.text  ro code  0x00930a     0x3  unhandled_exception.o [4]
-  .near_func.text  ro code  0x00930d     0x2  easyRTOSkernel.o [1]
-  .near_func.text  ro code  0x00930f     0x1  __dbg_break.o [3]
-                          - 0x009310  0x1290
+"P3":                                 0x104f
+  .near_func.text  ro code  0x008080   0x385  easyRTOSkernel.o [1]
+  .near_func.text  ro code  0x008405   0x123  vreg_util.o [4]
+  .near_func.text  ro code  0x008528    0xf6  long.o [4]
+  .near_func.text  ro code  0x00861e    0xec  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x00870a    0xe2  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x0087ec    0xb5  queueTestmain.o [1]
+  .near_func.text  ro code  0x0088a1    0xa6  easyRTOSTimer.o [1]
+  .near_func.text  ro code  0x008947    0x9f  long_util.o [4]
+  .near_func.text  ro code  0x0089e6    0x7a  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x008a60    0x79  easyRTOSTimer.o [1]
+  .near_func.text  ro code  0x008ad9    0x78  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x008b51    0x6b  stm8s_gpio.o [1]
+  .near_func.text  ro code  0x008bbc    0x58  easyRTOSportAsm.o [1]
+  .near_func.text  ro code  0x008c14    0x56  easyRTOSTimer.o [1]
+  .near_func.text  ro code  0x008c6a    0x4b  queueTestmain.o [1]
+  .near_func.text  ro code  0x008cb5    0x47  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x008cfc    0x45  stm8s_tim3.o [1]
+  .near_func.text  ro code  0x008d41    0x3c  easyRTOSTimer.o [1]
+  .near_func.text  ro code  0x008d7d    0x32  easyRTOSTimer.o [1]
+  .near_func.text  ro code  0x008daf    0x2f  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x008dde    0x25  memcpy.o [4]
+  .near_func.text  ro code  0x008e03    0x22  easyRTOSport.o [1]
+  .near_func.text  ro code  0x008e25    0x21  easyRTOSport.o [1]
+  .iar.init_table  const    0x008e46     0x8  - Linker created -
+  .near_func.text  ro code  0x008e4e    0x1e  short.o [4]
+  .near_func.text  ro code  0x008e6c    0x1e  init_small.o [4]
+  .near_func.text  ro code  0x008e8a    0x1a  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x008ea4    0x1a  easyRTOSport.o [1]
+  .near_func.text  ro code  0x008ebe    0x1a  queueTestmain.o [1]
+  .near_func.text  ro code  0x008ed8    0x19  easyRTOSport.o [1]
+  .near_func.text  ro code  0x008ef1    0x18  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x008f09    0x18  easyRTOSTimer.o [1]
+  .near_func.text  ro code  0x008f21    0x17  init.o [4]
+  .near_func.text  ro code  0x008f38    0x14  __dbg_xxexit.o [3]
+  .near_func.text  ro code  0x008f4c    0x13  cstartup.o [4]
+  .near_func.text  ro code  0x008f5f    0x11  stm8s_tim3.o [1]
+  .near_func.text  ro code  0x008f70     0xd  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x008f7d     0xd  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x008f8a     0xd  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x008f97     0xd  easyRTOSTimer.o [1]
+  .near_func.text  ro code  0x008fa4     0xd  stm8s_tim3.o [1]
+  .near_func.text  ro code  0x008fb1     0xd  move.o [4]
+  .near_func.text  ro code  0x008fbe     0xc  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x008fca     0xc  stm8s_clk.o [1]
+  .near_func.text  ro code  0x008fd6     0xc  stm8s_tim3.o [1]
+  .near_func.text  ro code  0x008fe2     0xb  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x008fed     0xb  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x008ff8     0xb  stm8s_clk.o [1]
+  .near_func.text  ro code  0x009003     0xa  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x00900d     0x9  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x009016     0x9  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x00901f     0x9  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x009028     0x9  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x009031     0x9  easyRTOSport.o [1]
+  .near_func.text  ro code  0x00903a     0x9  queueTestmain.o [1]
+  .near_func.text  ro code  0x009043     0x9  stm8s_tim3.o [1]
+  .near_func.text  ro code  0x00904c     0x8  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x009054     0x8  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x00905c     0x8  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x009064     0x8  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x00906c     0x8  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x009074     0x8  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x00907c     0x8  easyRTOSkernel.o [1]
+  .near_func.text  ro code  0x009084     0x7  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x00908b     0x7  easyRTOSQueue.o [1]
+  .near.rodata     const    0x009092     0x6  queueTestmain.o [1]
+  .near_func.text  ro code  0x009098     0x6  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x00909e     0x6  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x0090a4     0x6  easyRTOSQueue.o [1]
+  .near.rodata     const    0x0090aa     0x5  easyRTOSkernel.o [1]
+  .near.rodata     const    0x0090af     0x5  queueTestmain.o [1]
+  .near_func.text  ro code  0x0090b4     0x5  cexit.o [4]
+  .near_func.text  ro code  0x0090b9     0x4  easyRTOSQueue.o [1]
+  .near_func.text  ro code  0x0090bd     0x3  stm8s_gpio.o [1]
+  .near_func.text  ro code  0x0090c0     0x3  interrupt.o [4]
+  .near_func.text  ro code  0x0090c3     0x3  low_level_init.o [4]
+  .near_func.text  ro code  0x0090c6     0x3  exit.o [4]
+  .near_func.text  ro code  0x0090c9     0x3  unhandled_exception.o [4]
+  .near_func.text  ro code  0x0090cc     0x2  easyRTOSkernel.o [1]
+  .near_func.text  ro code  0x0090ce     0x1  __dbg_break.o [3]
+                          - 0x0090cf  0x104f
 
 
 *******************************************************************************
@@ -157,8 +186,8 @@ __rt_version               = 4
           Address   Size
           -------   ----
 Zero (__iar_zero_init2)
-    1 destination range, total size 0x591:
-          0x000010  0x591
+    1 destination range, total size 0x211:
+          0x000010  0x211
 
 
 
@@ -169,17 +198,17 @@ Zero (__iar_zero_init2)
     Module                 ro code  ro data  rw data
     ------                 -------  -------  -------
 D:\projects\easyRTOS\Debug\Obj: [1]
-    easyRTOSQueue.o          1 381
-    easyRTOSTimer.o            597                 6
-    easyRTOSkernel.o         1 072        5       41
-    easyRTOSport.o             177
+    easyRTOSQueue.o          1 075
+    easyRTOSTimer.o            520                 6
+    easyRTOSkernel.o           911        5       41
+    easyRTOSport.o             127
     easyRTOSportAsm.o           88
-    queueTestmain.o            312       11    1 378
-    stm8s_clk.o                 19
-    stm8s_gpio.o               177
-    stm8s_tim3.o               119
+    queueTestmain.o            291       11      482
+    stm8s_clk.o                 23
+    stm8s_gpio.o               110
+    stm8s_tim3.o               120
     ------------------------------------------------
-    Total:                   3 942       16    1 425
+    Total:                   3 265       16      529
 
 command line: [2]
     ------------------------------------------------
@@ -199,220 +228,235 @@ dlstm8smn.a: [4]
     init_small.o                30
     interrupt.o                  3      128
     long.o                     246
-    long_util.o                133
+    long_util.o                159
     low_level_init.o             3
     memcpy.o                    37
     move.o                      13
     short.o                     30
     unhandled_exception.o        3
-    vreg_util.o                217
+    vreg_util.o                291
     vregs.o                                       16
     ------------------------------------------------
-    Total:                     765      128       16
+    Total:                     865      128       16
 
     Linker created                        8      256
 ----------------------------------------------------
-    Grand Total:             4 728      152    1 697
+    Grand Total:             4 151      152      801
 
 
 *******************************************************************************
 *** ENTRY LIST
 ***
 
-Entry                    Address   Size  Type      Object
------                    -------   ----  ----      ------
-?add32_l0_l0_0x         0x008778         Code  Gb  long.o [4]
-?b0                     0x000000         Data  Gb  vregs.o [4]
-?b1                     0x000001         Data  Gb  vregs.o [4]
-?b10                    0x00000a         Data  Gb  vregs.o [4]
-?b11                    0x00000b         Data  Gb  vregs.o [4]
-?b12                    0x00000c         Data  Gb  vregs.o [4]
-?b13                    0x00000d         Data  Gb  vregs.o [4]
-?b14                    0x00000e         Data  Gb  vregs.o [4]
-?b15                    0x00000f         Data  Gb  vregs.o [4]
-?b2                     0x000002         Data  Gb  vregs.o [4]
-?b3                     0x000003         Data  Gb  vregs.o [4]
-?b4                     0x000004         Data  Gb  vregs.o [4]
-?b5                     0x000005         Data  Gb  vregs.o [4]
-?b6                     0x000006         Data  Gb  vregs.o [4]
-?b7                     0x000007         Data  Gb  vregs.o [4]
-?b8                     0x000008         Data  Gb  vregs.o [4]
-?b9                     0x000009         Data  Gb  vregs.o [4]
-?dec32_0x_0x            0x008764         Code  Gb  long.o [4]
-?dec32_l0_l0            0x00875a         Code  Gb  long.o [4]
-?dec32_l1_l1            0x00875f         Code  Gb  long.o [4]
-?e0                     0x000001         Data  Gb  vregs.o [4]
-?e1                     0x000005         Data  Gb  vregs.o [4]
-?e2                     0x000009         Data  Gb  vregs.o [4]
-?e3                     0x00000d         Data  Gb  vregs.o [4]
-?epilogue_l2            0x008aa9         Code  Gb  vreg_util.o [4]
-?epilogue_l2_l3         0x008aa6         Code  Gb  vreg_util.o [4]
-?epilogue_w4            0x008aad         Code  Gb  vreg_util.o [4]
-?inc32_0x_0x            0x00874c         Code  Gb  long.o [4]
-?inc32_l0_l0            0x008747         Code  Gb  long.o [4]
-?l0                     0x000000         Data  Gb  vregs.o [4]
-?l1                     0x000004         Data  Gb  vregs.o [4]
-?l2                     0x000008         Data  Gb  vregs.o [4]
-?l3                     0x00000c         Data  Gb  vregs.o [4]
-?load32_0x_l0           0x008de6         Code  Gb  long_util.o [4]
-?load32_0x_l1           0x008e05         Code  Gb  long_util.o [4]
-?load32_0x_l2           0x008e24         Code  Gb  long_util.o [4]
-?load32_asp_l0          0x008dda         Code  Gb  long_util.o [4]
-?load32_asp_l1          0x008df9         Code  Gb  long_util.o [4]
-?load32_asp_l2          0x008e18         Code  Gb  long_util.o [4]
-?load32_dbsp_l0         0x008dd5         Code  Gb  long_util.o [4]
-?load32_dbsp_l1         0x008df4         Code  Gb  long_util.o [4]
-?load32_dbsp_l2         0x008e13         Code  Gb  long_util.o [4]
-?load32_l0_0x           0x008dad         Code  Gb  long_util.o [4]
-?load32_l1_0x           0x008dc9         Code  Gb  long_util.o [4]
-?load32_l1_asp          0x008dbe         Code  Gb  long_util.o [4]
-?load32_l1_dbsp         0x008db9         Code  Gb  long_util.o [4]
-?load32_l1_xsp          0x008dc0         Code  Gb  long_util.o [4]
-?load32_xsp_l0          0x008ddc         Code  Gb  long_util.o [4]
-?load32_xsp_l1          0x008dfb         Code  Gb  long_util.o [4]
-?load32_xsp_l2          0x008e1a         Code  Gb  long_util.o [4]
-?mov_e1_e0              0x008ad7         Code  Gb  vreg_util.o [4]
-?mov_e2_e0              0x008ae4         Code  Gb  vreg_util.o [4]
-?mov_l1_l0              0x008ad4         Code  Gb  vreg_util.o [4]
-?mov_l2_l0              0x008ae1         Code  Gb  vreg_util.o [4]
-?mov_w0_w2              0x008ab1         Code  Gb  vreg_util.o [4]
-?mov_w0_w3              0x008ab8         Code  Gb  vreg_util.o [4]
-?mov_w1_w0              0x008abf         Code  Gb  vreg_util.o [4]
-?mov_w2_w0              0x008ac6         Code  Gb  vreg_util.o [4]
-?mov_w2_w1              0x008acd         Code  Gb  vreg_util.o [4]
-?mov_w3_w1              0x008ada         Code  Gb  vreg_util.o [4]
-?mov_w5_w1              0x008ae7         Code  Gb  vreg_util.o [4]
-?move1616_v_x_y_a       0x0092dc         Code  Gb  move.o [4]
-?mul16_x_x_w0           0x00920a         Code  Gb  short.o [4]
-?mul32_l0_l0_0x         0x008790         Code  Gb  long.o [4]
-?mul32_l0_l0_l1         0x008799         Code  Gb  long.o [4]
-?pop_l0                 0x008a72         Code  Gb  vreg_util.o [4]
-?pop_l1                 0x008a7d         Code  Gb  vreg_util.o [4]
-?pop_l2                 0x008a88         Code  Gb  vreg_util.o [4]
-?pop_l3                 0x008a93         Code  Gb  vreg_util.o [4]
-?pop_w4                 0x008a32         Code  Gb  vreg_util.o [4]
-?push_l0                0x008a41         Code  Gb  vreg_util.o [4]
-?push_l1                0x008a46         Code  Gb  vreg_util.o [4]
-?push_l2                0x008a4b         Code  Gb  vreg_util.o [4]
-?push_l3                0x008a50         Code  Gb  vreg_util.o [4]
-?push_w2                0x008a15         Code  Gb  vreg_util.o [4]
-?push_w4                0x008a1a         Code  Gb  vreg_util.o [4]
-?sext32_l0_x            0x008832         Code  Gb  long.o [4]
-?ucmp32_c_l0_0x         0x008817         Code  Gb  long.o [4]
-?ucmp32_c_l0_l1         0x008827         Code  Gb  long.o [4]
-?w0                     0x000000         Data  Gb  vregs.o [4]
-?w1                     0x000002         Data  Gb  vregs.o [4]
-?w2                     0x000004         Data  Gb  vregs.o [4]
-?w3                     0x000006         Data  Gb  vregs.o [4]
-?w4                     0x000008         Data  Gb  vregs.o [4]
-?w5                     0x00000a         Data  Gb  vregs.o [4]
-?w6                     0x00000c         Data  Gb  vregs.o [4]
-?w7                     0x00000e         Data  Gb  vregs.o [4]
-CLK_HSIPrescalerConfig  0x0092a4   0x13  Code  Gb  stm8s_clk.o [1]
-CSTACK$$Base            0x001700          --   Gb  - Linker created -
-CSTACK$$Limit           0x001800          --   Gb  - Linker created -
-GPIO_Init               0x008c6f   0xae  Code  Gb  stm8s_gpio.o [1]
-GPIO_WriteReverse       0x0092fe    0x3  Code  Gb  stm8s_gpio.o [1]
-INTVEC$$Base            0x008000          --   Gb  - Linker created -
-INTVEC$$Limit           0x008080          --   Gb  - Linker created -
-Region$$Table$$Base     0x0091c2          --   Gb  - Linker created -
-Region$$Table$$Limit    0x0091ca          --   Gb  - Linker created -
-TIM3_Cmd                0x0091fd    0xd  Code  Gb  stm8s_tim3.o [1]
-TIM3_DeInit             0x009039   0x45  Code  Gb  stm8s_tim3.o [1]
-TIM3_ITConfig           0x0091ea   0x13  Code  Gb  stm8s_tim3.o [1]
-TIM3_SystemTickISR      0x0091a0   0x22  Code  Gb  easyRTOSport.o [1]
-TIM3_TimeBaseInit       0x0092ca   0x12  Code  Gb  stm8s_tim3.o [1]
-__DebugBreak            0x00930f    0x1  Code  Gb  __dbg_break.o [3]
-__exit                  0x009290   0x14  Code  Gb  __dbg_xxexit.o [3]
-__iar_data_init2        0x009279   0x17  Code  Gb  init.o [4]
-__iar_program_start     0x0092b7         Code  Gb  cstartup.o [4]
+Entry                    Address  Size  Type      Object
+-----                    -------  ----  ----      ------
+?add32_l0_l0_0x         0x008559        Code  Gb  long.o [4]
+?b0                     0x000000        Data  Gb  vregs.o [4]
+?b1                     0x000001        Data  Gb  vregs.o [4]
+?b10                    0x00000a        Data  Gb  vregs.o [4]
+?b11                    0x00000b        Data  Gb  vregs.o [4]
+?b12                    0x00000c        Data  Gb  vregs.o [4]
+?b13                    0x00000d        Data  Gb  vregs.o [4]
+?b14                    0x00000e        Data  Gb  vregs.o [4]
+?b15                    0x00000f        Data  Gb  vregs.o [4]
+?b2                     0x000002        Data  Gb  vregs.o [4]
+?b3                     0x000003        Data  Gb  vregs.o [4]
+?b4                     0x000004        Data  Gb  vregs.o [4]
+?b5                     0x000005        Data  Gb  vregs.o [4]
+?b6                     0x000006        Data  Gb  vregs.o [4]
+?b7                     0x000007        Data  Gb  vregs.o [4]
+?b8                     0x000008        Data  Gb  vregs.o [4]
+?b9                     0x000009        Data  Gb  vregs.o [4]
+?dec32_0x_0x            0x008545        Code  Gb  long.o [4]
+?dec32_l0_l0            0x00853b        Code  Gb  long.o [4]
+?dec32_l1_l1            0x008540        Code  Gb  long.o [4]
+?e0                     0x000001        Data  Gb  vregs.o [4]
+?e1                     0x000005        Data  Gb  vregs.o [4]
+?e2                     0x000009        Data  Gb  vregs.o [4]
+?e3                     0x00000d        Data  Gb  vregs.o [4]
+?epilogue_l2            0x008499        Code  Gb  vreg_util.o [4]
+?epilogue_l2_l3         0x008496        Code  Gb  vreg_util.o [4]
+?epilogue_w4            0x00849d        Code  Gb  vreg_util.o [4]
+?inc32_0x_0x            0x00852d        Code  Gb  long.o [4]
+?inc32_l0_l0            0x008528        Code  Gb  long.o [4]
+?l0                     0x000000        Data  Gb  vregs.o [4]
+?l1                     0x000004        Data  Gb  vregs.o [4]
+?l2                     0x000008        Data  Gb  vregs.o [4]
+?l3                     0x00000c        Data  Gb  vregs.o [4]
+?load32_0x_l0           0x00898c        Code  Gb  long_util.o [4]
+?load32_0x_l1           0x0089ab        Code  Gb  long_util.o [4]
+?load32_0x_l2           0x0089ca        Code  Gb  long_util.o [4]
+?load32_0x_l3           0x0089d8        Code  Gb  long_util.o [4]
+?load32_asp_l0          0x008980        Code  Gb  long_util.o [4]
+?load32_asp_l1          0x00899f        Code  Gb  long_util.o [4]
+?load32_asp_l2          0x0089be        Code  Gb  long_util.o [4]
+?load32_dbsp_l0         0x00897b        Code  Gb  long_util.o [4]
+?load32_dbsp_l1         0x00899a        Code  Gb  long_util.o [4]
+?load32_dbsp_l2         0x0089b9        Code  Gb  long_util.o [4]
+?load32_l0_0x           0x008947        Code  Gb  long_util.o [4]
+?load32_l1_0x           0x008953        Code  Gb  long_util.o [4]
+?load32_l3_0x           0x00896f        Code  Gb  long_util.o [4]
+?load32_l3_asp          0x008964        Code  Gb  long_util.o [4]
+?load32_l3_dbsp         0x00895f        Code  Gb  long_util.o [4]
+?load32_l3_xsp          0x008966        Code  Gb  long_util.o [4]
+?load32_xsp_l0          0x008982        Code  Gb  long_util.o [4]
+?load32_xsp_l1          0x0089a1        Code  Gb  long_util.o [4]
+?load32_xsp_l2          0x0089c0        Code  Gb  long_util.o [4]
+?mov_e0_e1              0x0084ea        Code  Gb  vreg_util.o [4]
+?mov_e0_e3              0x0084f7        Code  Gb  vreg_util.o [4]
+?mov_e1_e0              0x008504        Code  Gb  vreg_util.o [4]
+?mov_e2_e0              0x008511        Code  Gb  vreg_util.o [4]
+?mov_e3_e0              0x00851e        Code  Gb  vreg_util.o [4]
+?mov_l0_l1              0x0084e7        Code  Gb  vreg_util.o [4]
+?mov_l0_l3              0x0084f4        Code  Gb  vreg_util.o [4]
+?mov_l1_l0              0x008501        Code  Gb  vreg_util.o [4]
+?mov_l2_l0              0x00850e        Code  Gb  vreg_util.o [4]
+?mov_l3_l0              0x00851b        Code  Gb  vreg_util.o [4]
+?mov_w0_w1              0x0084a1        Code  Gb  vreg_util.o [4]
+?mov_w0_w2              0x0084a8        Code  Gb  vreg_util.o [4]
+?mov_w0_w3              0x0084af        Code  Gb  vreg_util.o [4]
+?mov_w1_w2              0x0084b6        Code  Gb  vreg_util.o [4]
+?mov_w1_w3              0x0084ed        Code  Gb  vreg_util.o [4]
+?mov_w1_w7              0x0084fa        Code  Gb  vreg_util.o [4]
+?mov_w2_w0              0x0084bd        Code  Gb  vreg_util.o [4]
+?mov_w2_w1              0x0084c4        Code  Gb  vreg_util.o [4]
+?mov_w2_w5              0x0084cb        Code  Gb  vreg_util.o [4]
+?mov_w3_w1              0x008507        Code  Gb  vreg_util.o [4]
+?mov_w3_w2              0x0084d2        Code  Gb  vreg_util.o [4]
+?mov_w4_w0              0x0084d9        Code  Gb  vreg_util.o [4]
+?mov_w5_w1              0x008514        Code  Gb  vreg_util.o [4]
+?mov_w6_w1              0x0084e0        Code  Gb  vreg_util.o [4]
+?mov_w7_w1              0x008521        Code  Gb  vreg_util.o [4]
+?move1616_v_x_y_a       0x008fb1        Code  Gb  move.o [4]
+?mul16_x_x_w0           0x008e4e        Code  Gb  short.o [4]
+?mul32_l0_l0_0x         0x008571        Code  Gb  long.o [4]
+?mul32_l0_l0_l1         0x00857a        Code  Gb  long.o [4]
+?pop_l0                 0x008462        Code  Gb  vreg_util.o [4]
+?pop_l1                 0x00846d        Code  Gb  vreg_util.o [4]
+?pop_l2                 0x008478        Code  Gb  vreg_util.o [4]
+?pop_l3                 0x008483        Code  Gb  vreg_util.o [4]
+?pop_w4                 0x008422        Code  Gb  vreg_util.o [4]
+?push_l0                0x008431        Code  Gb  vreg_util.o [4]
+?push_l1                0x008436        Code  Gb  vreg_util.o [4]
+?push_l2                0x00843b        Code  Gb  vreg_util.o [4]
+?push_l3                0x008440        Code  Gb  vreg_util.o [4]
+?push_w2                0x008405        Code  Gb  vreg_util.o [4]
+?push_w4                0x00840a        Code  Gb  vreg_util.o [4]
+?sext32_l0_x            0x008613        Code  Gb  long.o [4]
+?ucmp32_c_l0_0x         0x0085f8        Code  Gb  long.o [4]
+?ucmp32_c_l0_l1         0x008608        Code  Gb  long.o [4]
+?w0                     0x000000        Data  Gb  vregs.o [4]
+?w1                     0x000002        Data  Gb  vregs.o [4]
+?w2                     0x000004        Data  Gb  vregs.o [4]
+?w3                     0x000006        Data  Gb  vregs.o [4]
+?w4                     0x000008        Data  Gb  vregs.o [4]
+?w5                     0x00000a        Data  Gb  vregs.o [4]
+?w6                     0x00000c        Data  Gb  vregs.o [4]
+?w7                     0x00000e        Data  Gb  vregs.o [4]
+CLK_HSIPrescalerConfig  0x008fca   0xc  Code  Gb  stm8s_clk.o [1]
+CSTACK$$Base            0x001700         --   Gb  - Linker created -
+CSTACK$$Limit           0x001800         --   Gb  - Linker created -
+GPIO_Init               0x008b51  0x6b  Code  Gb  stm8s_gpio.o [1]
+GPIO_WriteReverse       0x0090bd   0x3  Code  Gb  stm8s_gpio.o [1]
+INTVEC$$Base            0x008000         --   Gb  - Linker created -
+INTVEC$$Limit           0x008080         --   Gb  - Linker created -
+Region$$Table$$Base     0x008e46         --   Gb  - Linker created -
+Region$$Table$$Limit    0x008e4e         --   Gb  - Linker created -
+TIM3_Cmd                0x008fa4   0xd  Code  Gb  stm8s_tim3.o [1]
+TIM3_DeInit             0x008cfc  0x45  Code  Gb  stm8s_tim3.o [1]
+TIM3_ITConfig           0x008f5f  0x11  Code  Gb  stm8s_tim3.o [1]
+TIM3_SystemTickISR      0x008e03  0x22  Code  Gb  easyRTOSport.o [1]
+TIM3_TimeBaseInit       0x009043   0x9  Code  Gb  stm8s_tim3.o [1]
+__DebugBreak            0x0090ce   0x1  Code  Gb  __dbg_break.o [3]
+__exit                  0x008f38  0x14  Code  Gb  __dbg_xxexit.o [3]
+__iar_data_init2        0x008f21  0x17  Code  Gb  init.o [4]
+__iar_program_start     0x008f4c        Code  Gb  cstartup.o [4]
 __iar_unhandled_exception
-                        0x00930a         Code  Gb  unhandled_exception.o [4]
-__iar_zero_init2        0x009228         Code  Gb  init_small.o [4]
-__intvec                0x008000         Data  Gb  interrupt.o [4]
-__low_level_init        0x009304    0x3  Code  Gb  low_level_init.o [4]
-_exit                   0x0092f9         Code  Gb  cexit.o [4]
-_interrupt_1            0x009301         Code  Wk  interrupt.o [4]
-_interrupt_10           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_11           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_12           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_13           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_14           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_15           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_16           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_17           0x0091a0         Code  Gb  easyRTOSport.o [1]
-_interrupt_18           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_19           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_2            0x009301         Code  Wk  interrupt.o [4]
-_interrupt_20           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_21           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_22           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_23           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_24           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_25           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_26           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_27           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_28           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_29           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_3            0x009301         Code  Wk  interrupt.o [4]
-_interrupt_30           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_31           0x009301         Code  Wk  interrupt.o [4]
-_interrupt_4            0x009301         Code  Wk  interrupt.o [4]
-_interrupt_5            0x009301         Code  Wk  interrupt.o [4]
-_interrupt_6            0x009301         Code  Wk  interrupt.o [4]
-_interrupt_7            0x009301         Code  Wk  interrupt.o [4]
-_interrupt_8            0x009301         Code  Wk  interrupt.o [4]
-_interrupt_9            0x009301         Code  Wk  interrupt.o [4]
-a                       0x000594    0x4  Data  Gb  queueTestmain.o [1]
-archContextSwitch       0x008f05         Code  Gb  easyRTOSportAsm.o [1]
-archFirstTaskRestore    0x008eea         Code  Gb  easyRTOSportAsm.o [1]
+                        0x0090c9        Code  Gb  unhandled_exception.o [4]
+__iar_zero_init2        0x008e6c        Code  Gb  init_small.o [4]
+__intvec                0x008000        Data  Gb  interrupt.o [4]
+__low_level_init        0x0090c3   0x3  Code  Gb  low_level_init.o [4]
+_exit                   0x0090b4        Code  Gb  cexit.o [4]
+_interrupt_1            0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_10           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_11           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_12           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_13           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_14           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_15           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_16           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_17           0x008e03        Code  Gb  easyRTOSport.o [1]
+_interrupt_18           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_19           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_2            0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_20           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_21           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_22           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_23           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_24           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_25           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_26           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_27           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_28           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_29           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_3            0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_30           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_31           0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_4            0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_5            0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_6            0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_7            0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_8            0x0090c0        Code  Wk  interrupt.o [4]
+_interrupt_9            0x0090c0        Code  Wk  interrupt.o [4]
+a                       0x000214   0x4  Data  Gb  queueTestmain.o [1]
+archContextSwitch       0x008bd7        Code  Gb  easyRTOSportAsm.o [1]
+archFirstTaskRestore    0x008bbc        Code  Gb  easyRTOSportAsm.o [1]
 archInitSystemTickTimer
-                        0x009260   0x19  Code  Gb  easyRTOSport.o [1]
-archTaskContextInit     0x008f42   0x54  Code  Gb  easyRTOSport.o [1]
-curr_tcb                0x00059a    0x2  Data  Lc  easyRTOSkernel.o [1]
-eCurrentContext         0x0081f2    0xc  Code  Gb  easyRTOSkernel.o [1]
-eIntEnter               0x00808a    0x8  Code  Gb  easyRTOSkernel.o [1]
-eIntExit                0x008080    0xa  Code  Gb  easyRTOSkernel.o [1]
-eQueueCreate            0x00907e   0x44  Code  Gb  easyRTOSQueue.o [1]
-eQueueGive              0x0084ac  0x174  Code  Gb  easyRTOSQueue.o [1]
-eQueueTake              0x008335  0x177  Code  Gb  easyRTOSQueue.o [1]
-eQueueTimerCallback     0x008e32   0x5e  Code  Lc  easyRTOSQueue.o [1]
-eTaskCreat              0x008620  0x127  Code  Gb  easyRTOSkernel.o [1]
-eTaskSwitch             0x008092   0x21  Code  Lc  easyRTOSkernel.o [1]
-eTimerCallbacks         0x008aee   0xc4  Code  Lc  easyRTOSTimer.o [1]
-eTimerCancel            0x008fe8   0x51  Code  Gb  easyRTOSTimer.o [1]
-eTimerDelay             0x008d1d   0x90  Code  Gb  easyRTOSTimer.o [1]
-eTimerDelayCallback     0x0090c2   0x3c  Code  Lc  easyRTOSTimer.o [1]
-eTimerRegister          0x008e90   0x5a  Code  Gb  easyRTOSTimer.o [1]
-eTimerTick              0x009246   0x1a  Code  Gb  easyRTOSTimer.o [1]
-easyITCnt               0x00059e    0x2  Data  Lc  easyRTOSkernel.o [1]
-easyRTOSInit            0x0090fe   0x32  Code  Gb  easyRTOSkernel.o [1]
-easyRTOSSched           0x008290   0xa5  Code  Gb  easyRTOSkernel.o [1]
-easyRTOSStart           0x0091ca   0x20  Code  Gb  easyRTOSkernel.o [1]
-easyRTOSStarted         0x0005a0    0x1  Data  Gb  easyRTOSkernel.o [1]
-exit                    0x009307    0x3  Code  Gb  exit.o [4]
-idleTask                0x00930d    0x2  Code  Lc  easyRTOSkernel.o [1]
-idleTaskStack           0x000410  0x100  Data  Lc  queueTestmain.o [1]
-idleTcb                 0x000510   0x22  Data  Lc  easyRTOSkernel.o [1]
-main                    0x008bb2   0xbd  Code  Gb  queueTestmain.o [1]
-memcpy                  0x009159   0x25  Code  Gb  memcpy.o [4]
-qQueue                  0x000576   0x1a  Data  Gb  queueTestmain.o [1]
-queueTaskFunc           0x009130   0x29  Code  Gb  queueTestmain.o [1]
-queueTaskStack          0x000210  0x200  Data  Lc  queueTestmain.o [1]
-queueTcb                0x000554   0x22  Data  Gb  queueTestmain.o [1]
-queue_insert            0x00883d   0xef  Code  Lc  easyRTOSQueue.o [1]
-queue_remove            0x00892c   0xe9  Code  Lc  easyRTOSQueue.o [1]
-systemTicks             0x000590    0x4  Data  Lc  easyRTOSTimer.o [1]
-taskShell               0x00917e   0x22  Code  Lc  easyRTOSport.o [1]
-tcbEnqueuePriority      0x0081fe   0x92  Code  Gb  easyRTOSkernel.o [1]
-tcb_dequeue_entry       0x00810c   0x9c  Code  Gb  easyRTOSkernel.o [1]
-tcb_dequeue_head        0x0081a8   0x4a  Code  Gb  easyRTOSkernel.o [1]
-tcb_dequeue_priority    0x0080b3   0x59  Code  Gb  easyRTOSkernel.o [1]
-tcb_readyQ              0x00059c    0x2  Data  Gb  easyRTOSkernel.o [1]
-testTaskFunc            0x008f96   0x52  Code  Gb  queueTestmain.o [1]
-testTaskStack           0x000010  0x200  Data  Lc  queueTestmain.o [1]
-testTcb                 0x000532   0x22  Data  Gb  queueTestmain.o [1]
-timer_queue             0x000598    0x2  Data  Lc  easyRTOSTimer.o [1]
+                        0x008ed8  0x19  Code  Gb  easyRTOSport.o [1]
+archTaskContextInit     0x008e25  0x21  Code  Gb  easyRTOSport.o [1]
+curr_tcb                0x00021a   0x2  Data  Lc  easyRTOSkernel.o [1]
+eCurrentContext         0x00817c   0xb  Code  Gb  easyRTOSkernel.o [1]
+eIntEnter               0x00808a   0x8  Code  Gb  easyRTOSkernel.o [1]
+eIntExit                0x008080   0xa  Code  Gb  easyRTOSkernel.o [1]
+eQueueCreate            0x008daf  0x2f  Code  Gb  easyRTOSQueue.o [1]
+eQueueGive              0x00870a  0xe2  Code  Gb  easyRTOSQueue.o [1]
+eQueueTake              0x00861e  0xec  Code  Gb  easyRTOSQueue.o [1]
+eQueueTimerCallback     0x008cb5  0x47  Code  Lc  easyRTOSQueue.o [1]
+eTaskCreat              0x008311  0xd9  Code  Gb  easyRTOSkernel.o [1]
+eTimerCallbacks         0x0088a1  0xa6  Code  Lc  easyRTOSTimer.o [1]
+eTimerCancel            0x008c14  0x56  Code  Gb  easyRTOSTimer.o [1]
+eTimerDelay             0x008a60  0x79  Code  Gb  easyRTOSTimer.o [1]
+eTimerDelayCallback     0x008d7d  0x32  Code  Lc  easyRTOSTimer.o [1]
+eTimerRegister          0x008d41  0x3c  Code  Gb  easyRTOSTimer.o [1]
+eTimerTick              0x008f09  0x18  Code  Gb  easyRTOSTimer.o [1]
+easyITCnt               0x00021e   0x2  Data  Lc  easyRTOSkernel.o [1]
+easyRTOSInit            0x0082e0  0x31  Code  Gb  easyRTOSkernel.o [1]
+easyRTOSSched           0x0081ff  0x92  Code  Gb  easyRTOSkernel.o [1]
+easyRTOSStart           0x00829e  0x20  Code  Gb  easyRTOSkernel.o [1]
+easyRTOSStarted         0x000220   0x1  Data  Gb  easyRTOSkernel.o [1]
+exit                    0x0090c6   0x3  Code  Gb  exit.o [4]
+idleTask                0x0090cc   0x2  Code  Lc  easyRTOSkernel.o [1]
+idleTaskStack           0x000010  0x80  Data  Lc  queueTestmain.o [1]
+idleTcb                 0x000190  0x22  Data  Lc  easyRTOSkernel.o [1]
+main                    0x0087ec  0xb5  Code  Gb  queueTestmain.o [1]
+memcpy                  0x008dde  0x25  Code  Gb  memcpy.o [4]
+qQueue                  0x0001f6  0x1a  Data  Gb  queueTestmain.o [1]
+queueTaskFunc           0x008ebe  0x1a  Code  Gb  queueTestmain.o [1]
+queueTaskStack          0x000110  0x80  Data  Lc  queueTestmain.o [1]
+queueTcb                0x0001d4  0x22  Data  Gb  queueTestmain.o [1]
+queue_insert            0x0089e6  0x7a  Code  Lc  easyRTOSQueue.o [1]
+queue_remove            0x008ad9  0x78  Code  Lc  easyRTOSQueue.o [1]
+systemTicks             0x000210   0x4  Data  Lc  easyRTOSTimer.o [1]
+taskShell               0x008ea4  0x1a  Code  Lc  easyRTOSport.o [1]
+tcbEnqueuePriority      0x008187  0x6f  Code  Gb  easyRTOSkernel.o [1]
+tcb_dequeue_entry       0x0080c4  0x96  Code  Gb  easyRTOSkernel.o [1]
+tcb_dequeue_head        0x00815a  0x22  Code  Gb  easyRTOSkernel.o [1]
+tcb_dequeue_priority    0x008092  0x32  Code  Gb  easyRTOSkernel.o [1]
+tcb_readyQ              0x00021c   0x2  Data  Gb  easyRTOSkernel.o [1]
+testTaskFunc            0x008c6a  0x4b  Code  Gb  queueTestmain.o [1]
+testTaskStack           0x000090  0x80  Data  Lc  queueTestmain.o [1]
+testTcb                 0x0001b2  0x22  Data  Gb  queueTestmain.o [1]
+timer_queue             0x000218   0x2  Data  Lc  easyRTOSTimer.o [1]
 
 
 [1] = D:\projects\easyRTOS\Debug\Obj
@@ -420,9 +464,9 @@ timer_queue             0x000598    0x2  Data  Lc  easyRTOSTimer.o [1]
 [3] = dbgstm8smd.a
 [4] = dlstm8smn.a
 
-  4 728 bytes of readonly  code memory
+  4 151 bytes of readonly  code memory
     152 bytes of readonly  data memory
-  1 697 bytes of readwrite data memory
+    801 bytes of readwrite data memory
 
 Errors: none
 Warnings: none
