@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=1119134571
+Checksum=-1057345400
 [CallStack]
 ShowArgs=0
 [Disassembly]
@@ -52,6 +52,11 @@ ShowSource=1
 [struct_types]
 Fmt0=struct easyRTOS_tcb-priority	3	0
 Fmt1=struct easyRTOS_tcb-state	3	0
+[watch_formats]
+Fmt0={W}0:data	4	0
+Fmt1={W}0:mem_brk	3	0
+Fmt2={W}0:mem_heap	4	0
+Fmt3={W}0:p	3	0
 [DataSample]
 LogEnabled=0
 GraphEnabled=0
@@ -65,8 +70,10 @@ Category=_ 0
 LoggingEnabled=_ 0
 LogFile=_ ""
 [Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\queueTestmain.c}.106.5" 0 0 0 0 "" 0 ""
-Count=1
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\queueTestmain.c}.115.5" 0 0 0 0 "" 0 ""
+Bp1=_ "STD_CODE" "{$PROJ_DIR$\queueTestmain.c}.55.3" 1 0 0 0 "" 0 ""
+Bp2=_ "STD_CODE" "{$PROJ_DIR$\kernel\easyRTOSMm.c}.47.5" 1 0 0 0 "" 0 ""
+Count=3
 [Aliases]
 A0=_ "E:\projects\easyRTOS\stm8s-periphs\stm8s_clk.c" ""
 A1=_ "E:\projects\easyRTOS\stm8s-periphs\stm8s_gpio.c" ""

@@ -10,17 +10,17 @@
 #include "easyRTOSTimer.h"
 #include "easyRTOSSem.h"
 #include "easyRTOSQueue.h"
+#include "easyRTOSMm.h"
 
 /* 包含 malloc() */
 //#include "stdlib.h"
 
-#define IDLE_STACK_SIZE_BYTES 128
-#define TEST_STACK_SIZE_BYTES 128
-#define QUEUE_STACK_SIZE_BYTES  128
+#define IDLE_STACK_SIZE_BYTES  128
+#define TEST_STACK_SIZE_BYTES  128
+#define QUEUE_STACK_SIZE_BYTES 128
 
-NEAR static uint8_t idleTaskStack[IDLE_STACK_SIZE_BYTES];
-NEAR static uint8_t testTaskStack[TEST_STACK_SIZE_BYTES];
-NEAR static uint8_t queueTaskStack[QUEUE_STACK_SIZE_BYTES];
+#define HEAP_DEEP 5000
+NEAR static uint8_t heapRoom[HEAP_DEEP];
 
 EASYRTOS_TCB testTcb;
 EASYRTOS_TCB queueTcb;
@@ -39,23 +39,32 @@ int main( void )
 {
   ERESULT status;
   
+  uint8_t *idleTaskStack;
+  uint8_t *testTaskStack;
+  uint8_t *queueTaskStack;
+  
   /* 设置CPU为内部时钟 16M*/
   CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);
   
+  eMemInit(heapRoom,HEAP_DEEP);
+  
+  idleTaskStack = eMalloc(IDLE_STACK_SIZE_BYTES);
+  testTaskStack = eMalloc(TEST_STACK_SIZE_BYTES);
+  queueTaskStack= eMalloc(QUEUE_STACK_SIZE_BYTES);
   /* 系统初始化 */
-  status = easyRTOSInit(&idleTaskStack[0], IDLE_STACK_SIZE_BYTES);
+  status = easyRTOSInit(idleTaskStack, IDLE_STACK_SIZE_BYTES);
   
   if (status == EASYRTOS_OK)
   {
       /* 使能系统时钟 */
       archInitSystemTickTimer();
-
-      /* 创建任务 */
-      status += eTaskCreat(&testTcb,
+      
+      /* 创建任务 */            
+      status += eTaskCreat(&testTcb,         
                    9, 
                    testTaskFunc, 
                    0,
-                   &testTaskStack[0],
+                   testTaskStack,
                    TEST_STACK_SIZE_BYTES,
                    "TEST",
                    1);
@@ -63,7 +72,7 @@ int main( void )
                    10, 
                    queueTaskFunc, 
                    1,
-                   &queueTaskStack[0],
+                   queueTaskStack,
                    QUEUE_STACK_SIZE_BYTES,
                    "QUEUE",
                    2);

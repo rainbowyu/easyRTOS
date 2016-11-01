@@ -12,7 +12,7 @@
           
           
           
-        <Column0>251</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+        <Column0>268</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
       </Workspace>
       <Build>
         
@@ -24,7 +24,7 @@
     <Windows>
       
       
-    <Wnd0>
+    <Wnd2>
         <Tabs>
           <Tab>
             <Identity>TabID-4733-17740</Identity>
@@ -32,11 +32,11 @@
             <Factory>Workspace</Factory>
             <Session>
               
-            <NodeDict><ExpandedNode>easyRTOS</ExpandedNode><ExpandedNode>easyRTOS/Output</ExpandedNode><ExpandedNode>easyRTOS/Output/templproj.out</ExpandedNode><ExpandedNode>easyRTOS/application</ExpandedNode><ExpandedNode>easyRTOS/kernel</ExpandedNode><ExpandedNode>easyRTOS/stm8s</ExpandedNode><ExpandedNode>easyRTOS/test</ExpandedNode></NodeDict></Session>
+            <NodeDict><ExpandedNode>easyRTOS</ExpandedNode><ExpandedNode>easyRTOS/Output</ExpandedNode><ExpandedNode>easyRTOS/Output/templproj.out</ExpandedNode><ExpandedNode>easyRTOS/application</ExpandedNode><ExpandedNode>easyRTOS/kernel</ExpandedNode><ExpandedNode>easyRTOS/test</ExpandedNode></NodeDict></Session>
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
+      <SelectedTab>0</SelectedTab></Wnd2><Wnd3>
         <Tabs>
           <Tab>
             <Identity>TabID-990-20675</Identity>
@@ -46,20 +46,20 @@
           </Tab>
         <Tab><Identity>TabID-9822-6531</Identity><TabName>Ambiguous Definitions</TabName><Factory>Select-Ambiguous-Definitions</Factory><Session/></Tab><Tab><Identity>TabID-14632-10535</Identity><TabName>Find in Files</TabName><Factory>Find-in-Files</Factory><Session/></Tab><Tab><Identity>TabID-3340-14346</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab></Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd1></Windows>
+      <SelectedTab>0</SelectedTab></Wnd3></Windows>
     <Editor>
       
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\queueTestmain.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>40</YPos2><SelStart2>1164</SelStart2><SelEnd2>1164</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\kernel\easyRTOSport.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>0</SelStart2><SelEnd2>108</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\kernel\easyRTOSkernel.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>224</SelStart2><SelEnd2>224</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\stm8s-periphs\stm8s_itc.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>39</YPos2><SelStart2>2226</SelStart2><SelEnd2>2226</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\kernel\easyRTOSportAsm.s</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>318</SelStart2><SelEnd2>318</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Debug\List\templproj.map</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>257</YPos2><SelStart2>25638</SelStart2><SelEnd2>25646</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\kernel\easyRTOSMm.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>0</SelStart2><SelEnd2>103</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\kernel\easyRTOSMm.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>15</YPos2><SelStart2>1122</SelStart2><SelEnd2>1122</SelEnd2></Tab><ActiveTab>7</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\kernel\easyRTOSkernel.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>110</SelStart2><SelEnd2>168</SelEnd2></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\kernel\easyRTOSport.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>125</YPos2><SelStart2>3709</SelStart2><SelEnd2>3709</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\stm8s-periphs\stm8s_itc.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>39</YPos2><SelStart2>2226</SelStart2><SelEnd2>2226</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\kernel\easyRTOSportAsm.s</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>318</SelStart2><SelEnd2>318</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Debug\List\templproj.map</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>354</YPos2><SelStart2>0</SelStart2><SelEnd2>0</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\kernel\easyRTOSMm.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>61</YPos2><SelStart2>2219</SelStart2><SelEnd2>2219</SelEnd2></Tab><ActiveTab>4</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\kernel\easyRTOSMm.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>24</YPos2><SelStart2>1265</SelStart2><SelEnd2>1265</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\kernel\easyRTOSkernel.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>110</SelStart2><SelEnd2>168</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\kernel\easyRTOSQueue.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>24</YPos2><SelStart2>262</SelStart2><SelEnd2>262</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Program Files (x86)\IAR Systems\Embedded Workbench 6.5\stm8\inc\c\stddef.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>166</SelStart2><SelEnd2>166</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Program Files (x86)\IAR Systems\Embedded Workbench 6.5\stm8\inc\c\yvals.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>420</YPos2><SelStart2>11955</SelStart2><SelEnd2>11955</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\kernel\easyRTOS.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>307</SelStart2><SelEnd2>307</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\stm8s-periphs\stm8s.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>113</YPos2><SelStart2>6027</SelStart2><SelEnd2>6027</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\kernel\easyRTOSkernel.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>3</YPos2><SelStart2>541</SelStart2><SelEnd2>541</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\queueTestmain.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>35</YPos2><SelStart2>1040</SelStart2><SelEnd2>1040</SelEnd2></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-00286900><key>iaridepm.enu1</key></Toolbar-00286900></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>814</Bottom><Right>342</Right><x>-2</x><y>-2</y><xscreen>328</xscreen><yscreen>320</yscreen><sizeHorzCX>170833</sizeHorzCX><sizeHorzCY>308285</sizeHorzCY><sizeVertCX>179167</sizeVertCX><sizeVertCY>786127</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>179</Bottom><Right>1922</Right><x>-2</x><y>-2</y><xscreen>1924</xscreen><yscreen>181</yscreen><sizeHorzCX>1002083</sizeHorzCX><sizeHorzCY>174374</sizeHorzCY><sizeVertCX>170833</sizeVertCX><sizeVertCY>308285</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-02635c20><key>iaridepm.enu1</key></Toolbar-02635c20></Sizes></Row0><Row1><Sizes/></Row1><Row2><Sizes/></Row2></Top><Left><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>814</Bottom><Right>342</Right><x>-2</x><y>-2</y><xscreen>328</xscreen><yscreen>320</yscreen><sizeHorzCX>170833</sizeHorzCX><sizeHorzCY>308285</sizeHorzCY><sizeVertCX>179167</sizeVertCX><sizeVertCY>786127</sizeVertCY></Rect></Wnd2></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>179</Bottom><Right>1922</Right><x>-2</x><y>-2</y><xscreen>1924</xscreen><yscreen>181</yscreen><sizeHorzCX>1002083</sizeHorzCX><sizeHorzCY>174374</sizeHorzCY><sizeVertCX>170833</sizeVertCX><sizeVertCY>308285</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Workspace>
 

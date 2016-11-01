@@ -4,20 +4,12 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-curr_tcb	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^static EASYRTOS_TCB *curr_tcb = NULL;$/;"	variable	line:9	file:
-easyRTOSStarted	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^uint8_t easyRTOSStarted = FALSE;$/;"	variable	line:14
-tcb_readyQ	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^EASYRTOS_TCB *tcb_readyQ = NULL;$/;"	variable	line:20
-system_ticks	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^static uint32_t system_ticks = 0;$/;"	variable	line:26	file:
-easyITCnt	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^static int easyITCnt = 0;$/;"	variable	line:32	file:
-eTaskCreat	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^ERESULT eTaskCreat(EASYRTOS_TCB *tcb_ptr, uint8_t priority, void (*entry_point)(uint32_t), uint32_t entryParam, void* task_stack, uint32_t stackSize,const char* task_name,uint32_t taskID)$/;"	function	line:52	signature:(EASYRTOS_TCB *tcb_ptr, uint8_t priority, void (*entry_point)(uint32_t), uint32_t entryParam, void* task_stack, uint32_t stackSize,const char* task_name,uint32_t taskID)
-easyRTOSStart	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^void easyRTOSStart (void)$/;"	function	line:169	signature:(void)
-easyRTOSSched	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^void easyRTOSSched (uint8_t timer_tick)$/;"	function	line:209	signature:(uint8_t timer_tick)
-tcbEnqueuePriority	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^ERESULT tcbEnqueuePriority (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)$/;"	function	line:326	signature:(EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)
-eCurrentContext	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^EASYRTOS_TCB *eCurrentContext (void)$/;"	function	line:410	signature:(void)
-tcb_dequeue_head	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^EASYRTOS_TCB *tcb_dequeue_head (EASYRTOS_TCB **tcb_queue_ptr)$/;"	function	line:418	signature:(EASYRTOS_TCB **tcb_queue_ptr)
-tcb_dequeue_entry	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^EASYRTOS_TCB *tcb_dequeue_entry (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)$/;"	function	line:457	signature:(EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)
-tcb_dequeue_priority	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^EASYRTOS_TCB *tcb_dequeue_priority (EASYRTOS_TCB **tcb_queue_ptr, uint8_t priority)$/;"	function	line:537	signature:(EASYRTOS_TCB **tcb_queue_ptr, uint8_t priority)
-eTimerTick	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^void eTimerTick (void)$/;"	function	line:581	signature:(void)
-eTimerCallbacks	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^static void eTimerCallbacks (void)$/;"	function	line:596	file:	signature:(void)
-eTaskSwitch	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^static void eTaskSwitch(EASYRTOS_TCB *old_tcb, EASYRTOS_TCB *new_tcb)$/;"	function	line:697	file:	signature:(EASYRTOS_TCB *old_tcb, EASYRTOS_TCB *new_tcb)
-idleTask	E:\projects\easyRTOS\kernel\easyRTOSkernel.c	/^static void idleTask (uint32_t param)$/;"	function	line:724	file:	signature:(uint32_t param)
+mem_heap	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^static uint8_t *mem_heap;$/;"	variable	line:10	file:
+mem_brk	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^static uint8_t *mem_brk;$/;"	variable	line:11	file:
+eMemInit	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^void eMemInit(uint8_t* heapAddr,uint16_t maxHeap)$/;"	function	line:32	signature:(uint8_t* heapAddr,uint16_t maxHeap)
+eMalloc	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^uint8_t *eMalloc(uint16_t size)$/;"	function	line:40	signature:(uint16_t size)
+eFree	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^void eFree(uint8_t *bp)$/;"	function	line:56	signature:(uint8_t *bp)
+memBlockInit	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^static void memBlockInit(void)$/;"	function	line:65	file:	signature:(void)
+findFitBp	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^static uint8_t *findFitBp(uint16_t size)$/;"	function	line:76	file:	signature:(uint16_t size)
+placeBlock	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^static void placeBlock(uint8_t *bp,uint16_t size)$/;"	function	line:91	file:	signature:(uint8_t *bp,uint16_t size)
+memBlockMerge	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^static uint8_t *memBlockMerge(uint8_t *bp)$/;"	function	line:102	file:	signature:(uint8_t *bp)
