@@ -1,3 +1,9 @@
+ /**
+ * 作者: Roy.yu
+ * 时间: 2016.11.01
+ * 版本: V1.1
+ * Licence: GNU GENERAL PUBLIC LICENSE
+ */
  NAME EASYRTOSPORTASM
  SECTION .near_func.text:code
 

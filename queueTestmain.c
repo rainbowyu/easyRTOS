@@ -47,10 +47,18 @@ int main( void )
   CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);
   
   eMemInit(heapRoom,HEAP_DEEP);
-  
-  idleTaskStack = eMalloc(IDLE_STACK_SIZE_BYTES);
-  testTaskStack = eMalloc(TEST_STACK_SIZE_BYTES);
-  queueTaskStack= eMalloc(QUEUE_STACK_SIZE_BYTES);
+  if ((idleTaskStack = eMalloc(IDLE_STACK_SIZE_BYTES))!=NULL)
+  {
+    
+  }
+  if ((testTaskStack = eMalloc(TEST_STACK_SIZE_BYTES))!=NULL)
+  {
+    
+  }
+  if ((queueTaskStack= eMalloc(QUEUE_STACK_SIZE_BYTES))!=NULL)
+  {
+    
+  }
   /* 系统初始化 */
   status = easyRTOSInit(idleTaskStack, IDLE_STACK_SIZE_BYTES);
   

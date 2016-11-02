@@ -79,10 +79,11 @@ static void memBlockInit(void)
 //搜寻合适大小的块 直到结束块标记返回NULL，找到则返回空闲块的bp
 static uint8_t *findFitBp(uint16_t size)
 {
+  uint8_t *bp;
   //结束条件为遇到结束符号 找到后返回该bp
-  for (uint8_t *bp = mem_heap+HDSIZE;!((GET_SIZE(HDRP(bp)) == 0) && (GET_ALLOC(HDRP(bp)) == 1)); bp = NEXT_BLKP(bp))
+  for (bp = mem_heap+HDSIZE;!((GET_SIZE(HDRP(bp)) == 0) && (GET_ALLOC(HDRP(bp)) == 1)); bp = NEXT_BLKP(bp))
   {
-    if ( (GET_SIZE(HDRP(bp)) >= (size+HDSIZE+FTSIZE)) && (GET_ALLOC(HDRP(bp))) )
+    if ( (GET_SIZE(HDRP(bp)) >= (size+HDSIZE+FTSIZE)) && (!GET_ALLOC(HDRP(bp))) )
     {
       return bp;
     }

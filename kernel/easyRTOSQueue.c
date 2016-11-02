@@ -1,7 +1,7 @@
-/**  
+/**
  * 作者: Roy.yu
- * 时间: 2016.8.23
- * 版本: V0.1
+ * 时间: 2016.11.01
+ * 版本: V1.1
  * Licence: GNU GENERAL PUBLIC LICENSE
  */
 #include "easyRTOS.h"

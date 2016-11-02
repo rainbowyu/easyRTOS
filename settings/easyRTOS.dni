@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=-1057345400
+Checksum=-923073724
 [CallStack]
 ShowArgs=0
 [Disassembly]
@@ -62,6 +62,8 @@ LogEnabled=0
 GraphEnabled=0
 ShowTimeLog=1
 ShowTimeSum=1
+[Breakpoints]
+Count=0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -69,11 +71,6 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
-[Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\queueTestmain.c}.115.5" 0 0 0 0 "" 0 ""
-Bp1=_ "STD_CODE" "{$PROJ_DIR$\queueTestmain.c}.55.3" 1 0 0 0 "" 0 ""
-Bp2=_ "STD_CODE" "{$PROJ_DIR$\kernel\easyRTOSMm.c}.47.5" 1 0 0 0 "" 0 ""
-Count=3
 [Aliases]
 A0=_ "E:\projects\easyRTOS\stm8s-periphs\stm8s_clk.c" ""
 A1=_ "E:\projects\easyRTOS\stm8s-periphs\stm8s_gpio.c" ""

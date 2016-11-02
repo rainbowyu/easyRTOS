@@ -1,6 +1,6 @@
 ###############################################################################
 #                                                                             #
-# IAR Assembler V1.40.1.50106 for STM8                  28/Oct/2016  15:23:04 #
+# IAR Assembler V1.40.1.50106 for STM8                  02/Nov/2016  09:34:51 #
 # Copyright 2010-2013 IAR Systems AB.                                         #
 #                                                                             #
 #    Source file  =  D:\projects\easyRTOS\kernel\easyRTOSportAsm.s            #
@@ -17,7 +17,7 @@
 # Module EASYRTOSPORTASM                                                     #
 ##############################################################################
 
-     82                          
+     88                          
  
  88 bytes in section .near_func.text  , module EASYRTOSPORTASM
  
