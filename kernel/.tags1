@@ -4,12 +4,17 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-mem_heap	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^static uint8_t *mem_heap;$/;"	variable	line:10	file:
-mem_brk	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^static uint8_t *mem_brk;$/;"	variable	line:11	file:
-eMemInit	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^void eMemInit(uint8_t* heapAddr,uint16_t maxHeap)$/;"	function	line:32	signature:(uint8_t* heapAddr,uint16_t maxHeap)
-eMalloc	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^uint8_t *eMalloc(uint16_t size)$/;"	function	line:40	signature:(uint16_t size)
-eFree	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^void eFree(uint8_t *bp)$/;"	function	line:56	signature:(uint8_t *bp)
-memBlockInit	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^static void memBlockInit(void)$/;"	function	line:65	file:	signature:(void)
-findFitBp	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^static uint8_t *findFitBp(uint16_t size)$/;"	function	line:76	file:	signature:(uint16_t size)
-placeBlock	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^static void placeBlock(uint8_t *bp,uint16_t size)$/;"	function	line:91	file:	signature:(uint8_t *bp,uint16_t size)
-memBlockMerge	D:\projects\easyRTOS\kernel\easyRTOSMm.c	/^static uint8_t *memBlockMerge(uint8_t *bp)$/;"	function	line:102	file:	signature:(uint8_t *bp)
+__EASYRTOSSEM_H	D:\projects\easyRTOS\kernel\easyRTOSSem.h	/^#define __EASYRTOSSEM_H$/;"	macro	line:8
+SEM_BINARY	D:\projects\easyRTOS\kernel\easyRTOSSem.h	/^#define SEM_BINARY /;"	macro	line:11
+SEM_MUTEX	D:\projects\easyRTOS\kernel\easyRTOSSem.h	/^#define SEM_MUTEX /;"	macro	line:12
+SEM_COUNTY	D:\projects\easyRTOS\kernel\easyRTOSSem.h	/^#define SEM_COUNTY /;"	macro	line:13
+easyRTOSSem	D:\projects\easyRTOS\kernel\easyRTOSSem.h	/^typedef struct easyRTOSSem$/;"	struct	line:15
+suspQ	D:\projects\easyRTOS\kernel\easyRTOSSem.h	/^    EASYRTOS_TCB * suspQ;  \/* 被Sem阻塞的任务队列 *\/$/;"	member	line:17	struct:easyRTOSSem
+owner	D:\projects\easyRTOS\kernel\easyRTOSSem.h	/^    EASYRTOS_TCB * owner;  \/* 被MUTEX锁住的任务 *\/$/;"	member	line:18	struct:easyRTOSSem
+count	D:\projects\easyRTOS\kernel\easyRTOSSem.h	/^    int8_t         count;  \/* 信号量计数 -127 - 127*\/$/;"	member	line:19	struct:easyRTOSSem
+type	D:\projects\easyRTOS\kernel\easyRTOSSem.h	/^    uint8_t        type;   \/* 信号量类型 *\/$/;"	member	line:20	struct:easyRTOSSem
+EASYRTOS_SEM	D:\projects\easyRTOS\kernel\easyRTOSSem.h	/^} EASYRTOS_SEM;$/;"	typedef	line:21	typeref:struct:easyRTOSSem
+easyRTOSSemTimer	D:\projects\easyRTOS\kernel\easyRTOSSem.h	/^typedef struct easyRTOSSemTimer$/;"	struct	line:23
+tcb_ptr	D:\projects\easyRTOS\kernel\easyRTOSSem.h	/^    EASYRTOS_TCB *tcb_ptr;  \/* 具有timeout的悬挂任务 *\/$/;"	member	line:25	struct:easyRTOSSemTimer
+sem_ptr	D:\projects\easyRTOS\kernel\easyRTOSSem.h	/^    EASYRTOS_SEM *sem_ptr;  \/* 阻塞任务的信号量 *\/$/;"	member	line:26	struct:easyRTOSSemTimer
+SEM_TIMER	D:\projects\easyRTOS\kernel\easyRTOSSem.h	/^} SEM_TIMER;$/;"	typedef	line:27	typeref:struct:easyRTOSSemTimer

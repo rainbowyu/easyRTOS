@@ -1,7 +1,7 @@
 /**
- * ä½œè€…: Roy.yu
- * æ—¶é—´: 2016.11.01
- * ç‰ˆæœ¬: V1.1
+ * ×÷Õß: Roy.yu
+ * Ê±¼ä: 2017.04.26
+ * °æ±¾: V1.2
  * Licence: GNU GENERAL PUBLIC LICENSE
  */
 #ifndef __EASYRTOSKERNEL_H__
@@ -9,21 +9,21 @@
 
 #include "easyRTOS.h"
 #define ERESULT int8_t
-#define EASYRTOS_OK            ( 0) /* æˆåŠŸ */
-#define EASYRTOS_ERR_PARAM     (-1) /* é”™è¯¯çš„å‚æ•° */
-#define EASYRTOS_ERR_QUEUE     (-2) /* å°†ä»»åŠ¡åŠ å…¥Readyé˜Ÿåˆ—å¤±è´¥ */
-#define EASYRTOS_ERR_NOT_FOUND (-3) /* æ²¡æœ‰æ‰¾åˆ°æ³¨å†Œçš„timer */
-#define EASYRTOS_ERR_CONTEXT   (-4) /* é”™è¯¯çš„ä¸Šä¸‹æ–‡è°ƒç”¨ */
-#define EASYRTOS_ERR_TIMER     (-5) /* æ³¨å†Œå®šæ—¶å™¨å¤±è´¥/å–æ¶ˆå®šæ—¶å™¨å¤±è´¥*/
-#define EASYRTOS_ERR_DELETED   (-6) /* åœ¨æ‚¬æŒ‚ä»»åŠ¡æ—¶è¢«åˆ é™¤ */
-#define EASYRTOS_TIMEOUT       (-7) /* ä¿¡å·é‡timeoutåˆ°æœŸ */
-#define EASYRTOS_ERR_OVF       (-8) /* è®¡æ•°ä¿¡å·é‡count>127æˆ–è€…å°äº -127 */
-#define EASYRTOS_WOULDBLOCK    (-9) /* æœ¬æ¥ä¼šè¢«æ‚¬æŒ‚ä½†ç”±äºtimeoutä¸º-1æ‰€ä»¥è¿”å›äº† */
-#define EASYRTOS_ERR_BIN_OVF   (-10)/* äºŒå€¼ä¿¡å·é‡countå·²ç»ä¸º1 */
-#define EASYRTOS_SEM_UINIT     (-11)/* ä¿¡å·é‡æ²¡æœ‰è¢«åˆå§‹åŒ– */
-#define EASYRTOS_ERR_OWNERSHIP (-12)/* å°è¯•è§£é”äº’æ–¥é”çš„ä»»åŠ¡ä¸æ˜¯äº’æ–¥é”æ‹¥æœ‰è€… */
+#define EASYRTOS_OK            ( 0) /* ³É¹¦ */
+#define EASYRTOS_ERR_PARAM     (-1) /* ´íÎóµÄ²ÎÊı */
+#define EASYRTOS_ERR_QUEUE     (-2) /* ½«ÈÎÎñ¼ÓÈëReady¶ÓÁĞÊ§°Ü */
+#define EASYRTOS_ERR_NOT_FOUND (-3) /* Ã»ÓĞÕÒµ½×¢²áµÄtimer */
+#define EASYRTOS_ERR_CONTEXT   (-4) /* ´íÎóµÄÉÏÏÂÎÄµ÷ÓÃ */
+#define EASYRTOS_ERR_TIMER     (-5) /* ×¢²á¶¨Ê±Æ÷Ê§°Ü/È¡Ïû¶¨Ê±Æ÷Ê§°Ü*/
+#define EASYRTOS_ERR_DELETED   (-6) /* ÔÚĞü¹ÒÈÎÎñÊ±±»É¾³ı */
+#define EASYRTOS_TIMEOUT       (-7) /* ĞÅºÅÁ¿timeoutµ½ÆÚ */
+#define EASYRTOS_ERR_OVF       (-8) /* ¼ÆÊıĞÅºÅÁ¿count>127»òÕßĞ¡ÓÚ -127 */
+#define EASYRTOS_WOULDBLOCK    (-9) /* ±¾À´»á±»Ğü¹Òµ«ÓÉÓÚtimeoutÎª-1ËùÒÔ·µ»ØÁË */
+#define EASYRTOS_ERR_BIN_OVF   (-10)/* ¶şÖµĞÅºÅÁ¿countÒÑ¾­Îª1 */
+#define EASYRTOS_SEM_UINIT     (-11)/* ĞÅºÅÁ¿Ã»ÓĞ±»³õÊ¼»¯ */
+#define EASYRTOS_ERR_OWNERSHIP (-12)/* ³¢ÊÔ½âËø»¥³âËøµÄÈÎÎñ²»ÊÇ»¥³âËøÓµÓĞÕß */
 
-/* å…¨å±€å‡½æ•° */
+/* È«¾Öº¯Êı */
 extern ERESULT eTaskCreat(EASYRTOS_TCB *task_tcb, uint8_t priority, void (*entry_point)(uint32_t), uint32_t entryParam, void* taskStack, uint32_t stackSize,const char* taskName,uint32_t taskID);
 extern void easyRTOSStart (void);
 extern void easyRTOSSched (uint8_t timer_tick);
@@ -37,7 +37,7 @@ extern EASYRTOS_TCB *tcb_dequeue_head (EASYRTOS_TCB **tcb_queue_ptr);
 extern EASYRTOS_TCB *tcb_dequeue_priority (EASYRTOS_TCB **tcb_queue_ptr, uint8_t priority);
 /* end */
 
-/* å…¨å±€å˜é‡ */
+/* È«¾Ö±äÁ¿ */
 extern uint8_t easyRTOSStarted;
 extern EASYRTOS_TCB *tcb_readyQ;
 

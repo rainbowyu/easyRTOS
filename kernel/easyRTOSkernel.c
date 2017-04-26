@@ -1,27 +1,27 @@
 /**
- * ä½œè€…: Roy.yu
- * æ—¶é—´: 2016.11.01
- * ç‰ˆæœ¬: V1.1
+ * ×÷Õß: Roy.yu
+ * Ê±¼ä: 2017.04.26
+ * °æ±¾: V1.2
  * Licence: GNU GENERAL PUBLIC LICENSE
  */
 #include "easyRTOS.h"
 #include "easyRTOSkernel.h"
 #include "easyRTOSport.h"
 
-/* æ­£åœ¨è¿è¡Œçš„ä»»åŠ¡çš„TCB */
+/* ÕýÔÚÔËÐÐµÄÈÎÎñµÄTCB */
 static EASYRTOS_TCB *curr_tcb = NULL;
-/* easyRTOSå¯åŠ¨æ ‡å¿—ä½ */
+/* easyRTOSÆô¶¯±êÖ¾Î» */
 uint8_t easyRTOSStarted = FALSE;
 
-/* easyRTOSå°±ç»ªä»»åŠ¡é˜Ÿåˆ— */
+/* easyRTOS¾ÍÐ÷ÈÎÎñ¶ÓÁÐ */
 EASYRTOS_TCB *tcb_readyQ = NULL;
 
-/* easyRTOSä¸­æ–­åµŒå¥—è®¡æ•° */
+/* easyRTOSÖÐ¶ÏÇ¶Ì×¼ÆÊý */
 static int easyITCnt = 0;
 
 static EASYRTOS_TCB idleTcb;
 
-/* å…¨å±€å‡½æ•° */
+/* È«¾Öº¯Êý */
 ERESULT eTaskCreat(EASYRTOS_TCB *tcb_ptr, uint8_t priority, void (*entry_point)(uint32_t), uint32_t entryParam, void* task_stack, uint32_t stackSize,const char* task_name,uint32_t taskID);
 void easyRTOSStart (void);
 void easyRTOSSched (uint8_t timer_tick);
@@ -35,30 +35,30 @@ void eIntEnter (void);
 void eIntExit (uint8_t timerTick);
 /* end */
 
-/* ç§æœ‰å‡½æ•° */
+/* Ë½ÓÐº¯Êý */
 static void idleTask (uint32_t param);
 static void eTaskSwitch(EASYRTOS_TCB *old_tcb, EASYRTOS_TCB *new_tcb);
 /* end */
 
 /**
- * åŠŸèƒ½: åˆ›å»ºä¸€ä¸ªæ–°ä»»åŠ¡,è®¾ç½®å…¶ä¼˜å…ˆçº§,å‡½æ•°å‚æ•°,å †æ ˆä½ç½®åŠå¤§å°,ä»»åŠ¡åç§°åŠç¼–å·,ä¿å­˜åœ¨TCBä¸­.
+ * ¹¦ÄÜ: ´´½¨Ò»¸öÐÂÈÎÎñ,ÉèÖÃÆäÓÅÏÈ¼¶,º¯Êý²ÎÊý,¶ÑÕ»Î»ÖÃ¼°´óÐ¡,ÈÎÎñÃû³Æ¼°±àºÅ,±£´æÔÚTCBÖÐ.
  *
- * å‚æ•°:
- * è¾“å…¥:                                  è¾“å‡º:
- * EASYRTOS_TCB *tcb_ptr ä»»åŠ¡TCB          EASYRTOS_TCB *tcb_ptr ä»»åŠ¡TCB 
- * uint8_t priority ä»»åŠ¡ä¼˜å…ˆçº§
- * uint32_t entryParam ä»»åŠ¡å‚æ•°
- * void* task_stack ä»»åŠ¡å †æ ˆ
- * uint32_t stackSize ä»»åŠ¡å †æ ˆå¤§å°
- * const char* task_name ä»»åŠ¡åç§° 
- * uint32_t taskID ä»»åŠ¡IDç¼–å·
+ * ²ÎÊý:
+ * ÊäÈë:                                  Êä³ö:
+ * EASYRTOS_TCB *tcb_ptr ÈÎÎñTCB          EASYRTOS_TCB *tcb_ptr ÈÎÎñTCB 
+ * uint8_t priority ÈÎÎñÓÅÏÈ¼¶
+ * uint32_t entryParam ÈÎÎñ²ÎÊý
+ * void* task_stack ÈÎÎñ¶ÑÕ»
+ * uint32_t stackSize ÈÎÎñ¶ÑÕ»´óÐ¡
+ * const char* task_name ÈÎÎñÃû³Æ 
+ * uint32_t taskID ÈÎÎñID±àºÅ
  *
- * è¿”å›ž: ERESULT
- * EASYRTOS_OK æˆåŠŸ
- * EASYRTOS_ERR_PARAM é”™è¯¯çš„å‚æ•°
- * EASYRTOS_ERR_QUEUE å°†ä»»åŠ¡åŠ å…¥Readyé˜Ÿåˆ—å¤±è´¥
+ * ·µ»Ø: ERESULT
+ * EASYRTOS_OK ³É¹¦
+ * EASYRTOS_ERR_PARAM ´íÎóµÄ²ÎÊý
+ * EASYRTOS_ERR_QUEUE ½«ÈÎÎñ¼ÓÈëReady¶ÓÁÐÊ§°Ü
  *
- * è°ƒç”¨çš„å‡½æ•°:
+ * µ÷ÓÃµÄº¯Êý:
  * archTaskContextInit (tcb_ptr, stack_top, entry_point, entryParam);
  * tcbEnqueuePriority (&tcb_readyQ, tcb_ptr);
  */
@@ -72,12 +72,12 @@ ERESULT eTaskCreat(EASYRTOS_TCB *tcb_ptr, uint8_t priority, void (*entry_point)(
 
   if ((tcb_ptr == NULL) || (entry_point == NULL) || (task_stack == NULL) || (stackSize == 0) || task_name == NULL)
   {
-    /* å‚æ•°é”™è¯¯ */
+    /* ²ÎÊý´íÎó */
     status = EASYRTOS_ERR_PARAM;
   }
   else
   {
-    /* åˆå§‹åŒ–TCB */
+    /* ³õÊ¼»¯TCB */
     for (p_string=(char *)task_name;(*p_string)!='\0';p_string++)
     {
       tcb_ptr->taskName[i]=*p_string;
@@ -95,45 +95,45 @@ ERESULT eTaskCreat(EASYRTOS_TCB *tcb_ptr, uint8_t priority, void (*entry_point)(
     tcb_ptr->pended_timo_cb = NULL;
     tcb_ptr->delay_timo_cb = NULL;
 
-    /* åœ¨TCBä¸­ä¿å­˜ä»»åŠ¡å‡½æ•°å…¥å£ä»¥åŠå‚æ•° */
+    /* ÔÚTCBÖÐ±£´æÈÎÎñº¯ÊýÈë¿ÚÒÔ¼°²ÎÊý */
     tcb_ptr->entry_point = entry_point;
     tcb_ptr->entryParam  = entryParam;;
 
-    /* è®¡ç®—æ ˆé¡¶å…¥å£åœ°å€ */
+    /* ¼ÆËãÕ»¶¥Èë¿ÚµØÖ· */
     stack_top = (uint8_t *)task_stack + (stackSize & ~(STACK_ALIGN_SIZE - 1)) - STACK_ALIGN_SIZE;
 
     /**
-     * è°ƒç”¨arch-specificå‡½æ•°åŽ»åˆå§‹åŒ–å †æ ˆ,è¿™ä¸ªå‡½æ•°è´Ÿè´£å»ºç«‹ä¸€ä¸ªä»»åŠ¡ä¸Šä¸‹æ–‡å­˜å‚¨åŒºåŸŸ,
-     * ä»¥ä¾¿easyRTOSTaskSwitch()å¯¹è¯¥ä»»åŠ¡è¿›è¡Œè°ƒåº¦.archContextSwitch() (åœ¨ä»»åŠ¡è¢«
-     * è°ƒåº¦çš„ä¸€å¼€å§‹å°±ä¼šè¢«è°ƒç”¨)å‡½æ•°ä¼šä»Žä»»åŠ¡å…¥å£æ¢å¤ç¨‹åºè®¡æ•°ä»¥åŠå…¶ä»–çš„ä¸€äº›å¿…é¡»ç”¨åˆ°å¯„
-     * å­˜å™¨å€¼,ä»¥ä¾¿ä»¥ä»»åŠ¡ç»§ç»­æ‰§è¡Œ.
+     * µ÷ÓÃarch-specificº¯ÊýÈ¥³õÊ¼»¯¶ÑÕ»,Õâ¸öº¯Êý¸ºÔð½¨Á¢Ò»¸öÈÎÎñÉÏÏÂÎÄ´æ´¢ÇøÓò,
+     * ÒÔ±ãeasyRTOSTaskSwitch()¶Ô¸ÃÈÎÎñ½øÐÐµ÷¶È.archContextSwitch() (ÔÚÈÎÎñ±»
+     * µ÷¶ÈµÄÒ»¿ªÊ¼¾Í»á±»µ÷ÓÃ)º¯Êý»á´ÓÈÎÎñÈë¿Ú»Ö¸´³ÌÐò¼ÆÊýÒÔ¼°ÆäËûµÄÒ»Ð©±ØÐëÓÃµ½¼Ä
+     * ´æÆ÷Öµ,ÒÔ±ãÒÔÈÎÎñ¼ÌÐøÖ´ÐÐ.
      */
     archTaskContextInit (tcb_ptr, stack_top, entry_point, entryParam);
 
-    /* è¿›å…¥ä¸´ç•ŒåŒº,ä¿æŠ¤ç³»ç»Ÿä»»åŠ¡é˜Ÿåˆ— */
+    /* ½øÈëÁÙ½çÇø,±£»¤ÏµÍ³ÈÎÎñ¶ÓÁÐ */
     CRITICAL_ENTER ();
 
-    /* å°†æ–°å»ºçš„ä»»åŠ¡åŠ å…¥å°±ç»ªé˜Ÿåˆ— */
+    /* ½«ÐÂ½¨µÄÈÎÎñ¼ÓÈë¾ÍÐ÷¶ÓÁÐ */
     if (tcbEnqueuePriority (&tcb_readyQ, tcb_ptr) != EASYRTOS_OK)
     {
-      /* è‹¥åŠ å…¥å¤±è´¥åˆ™é€€å‡ºä¸´ç•ŒåŒº */
+      /* Èô¼ÓÈëÊ§°ÜÔòÍË³öÁÙ½çÇø */
       CRITICAL_EXIT ();
 
-      /* è¿”å›žä¸Žå°±ç»ªé˜Ÿåˆ—ç›¸å…³çš„é”™è¯¯ */
+      /* ·µ»ØÓë¾ÍÐ÷¶ÓÁÐÏà¹ØµÄ´íÎó */
       status = EASYRTOS_ERR_QUEUE;
     }
     else
     {
       tcb_ptr->state = TASK_READY;
       
-      /* æ­£å¸¸é€€å‡ºä¸´ç•ŒåŒº */
+      /* Õý³£ÍË³öÁÙ½çÇø */
       CRITICAL_EXIT ();
 
-      /* è‹¥ç³»ç»Ÿå·²ç»å¯åŠ¨,å·²ç»è¿›å…¥ä»»åŠ¡.åˆ™ç«‹åˆ»å¯åŠ¨è°ƒåº¦å™¨ */
+      /* ÈôÏµÍ³ÒÑ¾­Æô¶¯,ÒÑ¾­½øÈëÈÎÎñ.ÔòÁ¢¿ÌÆô¶¯µ÷¶ÈÆ÷ */
       if (easyRTOSStarted == TRUE)
           easyRTOSSched (FALSE);
 
-      /* è¿”å›žä»»åŠ¡åˆ›å»ºæˆåŠŸæ ‡å¿— */
+      /* ·µ»ØÈÎÎñ´´½¨³É¹¦±êÖ¾ */
       status = EASYRTOS_OK;
     }
   }
@@ -141,19 +141,19 @@ ERESULT eTaskCreat(EASYRTOS_TCB *tcb_ptr, uint8_t priority, void (*entry_point)(
 }
 
 /**
- * 2016.9.19 V0.2æ–°å¢žå‡½æ•°
- * åŠŸèƒ½: ä¿®æ”¹ä¸€ä¸ªä»»åŠ¡çš„ä¼˜å…ˆçº§
+ * 2016.9.19 V0.2ÐÂÔöº¯Êý
+ * ¹¦ÄÜ: ÐÞ¸ÄÒ»¸öÈÎÎñµÄÓÅÏÈ¼¶
  * 
- * å‚æ•°:
- * è¾“å…¥:                                            è¾“å‡º:
- * EASYRTOS_TCB *tcb_ptr  ä»»åŠ¡çš„TCB                 æ— .
- * uint8_t priority è¦è®¾ç½®çš„ä¼˜å…ˆçº§
+ * ²ÎÊý:
+ * ÊäÈë:                                            Êä³ö:
+ * EASYRTOS_TCB *tcb_ptr  ÈÎÎñµÄTCB                 ÎÞ.
+ * uint8_t priority ÒªÉèÖÃµÄÓÅÏÈ¼¶
  *
- * è¿”å›ž: ERESULT
- * EASYRTOS_OK æˆåŠŸ
- * EASYRTOS_ERR_PARAM é”™è¯¯çš„å‚æ•°
+ * ·µ»Ø: ERESULT
+ * EASYRTOS_OK ³É¹¦
+ * EASYRTOS_ERR_PARAM ´íÎóµÄ²ÎÊý
  *
- * è°ƒç”¨çš„å‡½æ•°:
+ * µ÷ÓÃµÄº¯Êý:
  * tcb_dequeue_entry (&tcb_readyQ, tcb_ptr);
  * tcbEnqueuePriority (&tcb_readyQ, tcb_ptr);
  */
@@ -162,7 +162,7 @@ ERESULT eSetTaskPriority(EASYRTOS_TCB *tcb_ptr,uint8_t priority)
   CRITICAL_STORE;
   ERESULT status = EASYRTOS_OK;
   EASYRTOS_TCB *new_tcb = NULL;
-  /* è¿›å…¥ä¸´ç•ŒåŒº,ä¿æŠ¤ç³»ç»Ÿä»»åŠ¡é˜Ÿåˆ— */
+  /* ½øÈëÁÙ½çÇø,±£»¤ÏµÍ³ÈÎÎñ¶ÓÁÐ */
   CRITICAL_ENTER ();
   new_tcb = tcb_dequeue_entry (&tcb_readyQ, tcb_ptr);
   tcb_ptr->priority = priority;
@@ -170,37 +170,37 @@ ERESULT eSetTaskPriority(EASYRTOS_TCB *tcb_ptr,uint8_t priority)
   {
     status = tcbEnqueuePriority (&tcb_readyQ, tcb_ptr);
   }
-  /*é€€å‡ºä¸´ç•ŒåŒº*/
+  /*ÍË³öÁÙ½çÇø*/
   CRITICAL_EXIT ();
   return (status);
 }
 
 /**
- * åŠŸèƒ½: ç³»ç»Ÿåˆå§‹åŒ–,åˆ›å»ºä¸€ä¸ªIdle Task.
+ * ¹¦ÄÜ: ÏµÍ³³õÊ¼»¯,´´½¨Ò»¸öIdle Task.
  * 
- * å‚æ•°:
- * è¾“å…¥:                                            è¾“å‡º:
- * void *idle_task_stack  ç©ºé—²ä»»åŠ¡å †æ ˆä½ç½®          æ— .
- * uint32_t idleTaskStackSize ç©ºé—²ä»»åŠ¡å †æ ˆå¤§å°
+ * ²ÎÊý:
+ * ÊäÈë:                                            Êä³ö:
+ * void *idle_task_stack  ¿ÕÏÐÈÎÎñ¶ÑÕ»Î»ÖÃ          ÎÞ.
+ * uint32_t idleTaskStackSize ¿ÕÏÐÈÎÎñ¶ÑÕ»´óÐ¡
  *
- * è¿”å›ž: ERESULT
- * EASYRTOS_OK æˆåŠŸ
- * EASYRTOS_ERR_PARAM é”™è¯¯çš„å‚æ•°
- * EASYRTOS_ERR_QUEUE å°†ä»»åŠ¡åŠ å…¥Readyé˜Ÿåˆ—å¤±è´¥
+ * ·µ»Ø: ERESULT
+ * EASYRTOS_OK ³É¹¦
+ * EASYRTOS_ERR_PARAM ´íÎóµÄ²ÎÊý
+ * EASYRTOS_ERR_QUEUE ½«ÈÎÎñ¼ÓÈëReady¶ÓÁÐÊ§°Ü
  *
- * è°ƒç”¨çš„å‡½æ•°:
+ * µ÷ÓÃµÄº¯Êý:
  * eTaskCreat(&idleTcb,255,idleTask,0,idle_task_stack,idleTaskStackSize,"IDLE",0);
  */
 ERESULT easyRTOSInit (void *idle_task_stack, uint32_t idleTaskStackSize)
 {
     ERESULT status;
 
-    /* åˆå§‹åŒ–æ•°æ® */
+    /* ³õÊ¼»¯Êý¾Ý */
     curr_tcb = NULL;
     tcb_readyQ = NULL;
     easyRTOSStarted = FALSE;
 
-    /* åˆ›å»ºç©ºä»»åŠ¡ */
+    /* ´´½¨¿ÕÈÎÎñ */
     status = eTaskCreat(&idleTcb,
                  255,
                  idleTask,
@@ -214,15 +214,15 @@ ERESULT easyRTOSInit (void *idle_task_stack, uint32_t idleTaskStackSize)
 }
 
 /**
- * åŠŸèƒ½: ç³»ç»Ÿå¯åŠ¨,å¯åŠ¨ä¼˜å…ˆçº§æœ€é«˜çš„ä»»åŠ¡
+ * ¹¦ÄÜ: ÏµÍ³Æô¶¯,Æô¶¯ÓÅÏÈ¼¶×î¸ßµÄÈÎÎñ
  * 
- * å‚æ•°:
- * è¾“å…¥:                    è¾“å‡º:
- * æ— .                      æ— .
+ * ²ÎÊý:
+ * ÊäÈë:                    Êä³ö:
+ * ÎÞ.                      ÎÞ.
  * 
- * è¿”å›ž: void
+ * ·µ»Ø: void
  *
- * è°ƒç”¨çš„å‡½æ•°:
+ * µ÷ÓÃµÄº¯Êý:
  * tcb_dequeue_priority (&tcb_readyQ, 255);
  * archFirstTaskRestore (new_tcb);
  */
@@ -230,37 +230,37 @@ void easyRTOSStart (void)
 {
     EASYRTOS_TCB *new_tcb;
 
-    /* ç½®ä½ç³»ç»Ÿå¯åŠ¨æ ‡å¿—ä½,è¿™ä¸ªæ ‡å¿—ä½ä¼šå½±å“eTaskCreate(),ä½¿å¾—è¯¥å‡½æ•°ä¸ä¼šå¯åŠ¨è°ƒåº¦å™¨ */
+    /* ÖÃÎ»ÏµÍ³Æô¶¯±êÖ¾Î»,Õâ¸ö±êÖ¾Î»»áÓ°ÏìeTaskCreate(),Ê¹µÃ¸Ãº¯Êý²»»áÆô¶¯µ÷¶ÈÆ÷ */
     easyRTOSStarted = TRUE;
 
-    /* å–å‡ºä¼˜å…ˆçº§æœ€é«˜çš„TCB,å¹¶å¯åŠ¨è°ƒåº¦å™¨.è‹¥æ²¡æœ‰åˆ›å»ºä»»ä½•ä»»åŠ¡åˆ™ä¼šå¯åŠ¨ä¼˜å…ˆçº§æœ€ä½Žçš„ç©ºä»»åŠ¡ */
+    /* È¡³öÓÅÏÈ¼¶×î¸ßµÄTCB,²¢Æô¶¯µ÷¶ÈÆ÷.ÈôÃ»ÓÐ´´½¨ÈÎºÎÈÎÎñÔò»áÆô¶¯ÓÅÏÈ¼¶×îµÍµÄ¿ÕÈÎÎñ */
     new_tcb = tcb_dequeue_priority (&tcb_readyQ, 255);
     if (new_tcb)
     {
       curr_tcb = new_tcb;
 			new_tcb->state = TASK_RUN;
-      /* æ¢å¤å¹¶è¿è¡Œç¬¬ä¸€ä¸ªä»»åŠ¡ */
+      /* »Ö¸´²¢ÔËÐÐµÚÒ»¸öÈÎÎñ */
       archFirstTaskRestore (new_tcb);
 
     }
     else
     {
-      /* æ²¡æ‰¾åˆ°å¯ä»¥è¿è¡Œçš„ä»»åŠ¡ */
+      /* Ã»ÕÒµ½¿ÉÒÔÔËÐÐµÄÈÎÎñ */
     }
 }
 
 /**
- * åŠŸèƒ½: å¯åŠ¨è°ƒåº¦å™¨.
- * 1.å‚æ•°false:åœ¨æ‰€æœ‰ReadyçŠ¶æ€å’ŒRunçš„ä»»åŠ¡ä¸­,åªæœ‰ä¼˜å…ˆçº§é«˜äºŽå½“å‰ä»»åŠ¡çš„æ‰èƒ½æŠ¢å 
- * 2.å‚æ•°true:åœ¨æ‰€æœ‰ReadyçŠ¶æ€å’ŒRunçš„ä»»åŠ¡ä¸­,ç›¸åŒæˆ–è€…é«˜ä¼˜å…ˆçº§çš„å¯ä»¥æŠ¢å å½“å‰ä»»åŠ¡
+ * ¹¦ÄÜ: Æô¶¯µ÷¶ÈÆ÷.
+ * 1.²ÎÊýfalse:ÔÚËùÓÐReady×´Ì¬ºÍRunµÄÈÎÎñÖÐ,Ö»ÓÐÓÅÏÈ¼¶¸ßÓÚµ±Ç°ÈÎÎñµÄ²ÅÄÜÇÀÕ¼
+ * 2.²ÎÊýtrue:ÔÚËùÓÐReady×´Ì¬ºÍRunµÄÈÎÎñÖÐ,ÏàÍ¬»òÕß¸ßÓÅÏÈ¼¶µÄ¿ÉÒÔÇÀÕ¼µ±Ç°ÈÎÎñ
  *
- * å‚æ•°:
- * è¾“å…¥:                                            è¾“å‡º:
- * uint8_t timer_tick  å®šæ—¶å™¨ä¸­æ–­è°ƒç”¨               æ— .
+ * ²ÎÊý:
+ * ÊäÈë:                                            Êä³ö:
+ * uint8_t timer_tick  ¶¨Ê±Æ÷ÖÐ¶Ïµ÷ÓÃ               ÎÞ.
  *
- * è¿”å›ž: void
+ * ·µ»Ø: void
  * 
- * è°ƒç”¨çš„å‡½æ•°:
+ * µ÷ÓÃµÄº¯Êý:
  * tcb_dequeue_head (&tcb_readyQ);
  * eTaskSwitch (curr_tcb, new_tcb);
  * tcb_dequeue_priority (&tcb_readyQ, (uint8_t)lowest_pri);
@@ -272,112 +272,112 @@ void easyRTOSSched (uint8_t timer_tick)
     EASYRTOS_TCB *new_tcb = NULL;
     int16_t lowest_pri;
 
-    /* æ£€æµ‹RTOSæ˜¯å¦å¼€å¯ */
+    /* ¼ì²âRTOSÊÇ·ñ¿ªÆô */
     if (easyRTOSStarted == FALSE)
     {
       return;
     }
 
-    /* è¿›å…¥ä¸´ç•ŒåŒº */
+    /* ½øÈëÁÙ½çÇø */
     CRITICAL_ENTER();
 
     if (curr_tcb->state != TASK_RUN)
     {
-      /* ä»Žå·²ç»å°±ç»ªçš„ä»»åŠ¡é˜Ÿåˆ—ä¸­å–å‡ºä¸€ä¸ª.é˜Ÿåˆ—ä¸­å¿…ç„¶æœ‰idleTask */
+      /* ´ÓÒÑ¾­¾ÍÐ÷µÄÈÎÎñ¶ÓÁÐÖÐÈ¡³öÒ»¸ö.¶ÓÁÐÖÐ±ØÈ»ÓÐidleTask */
       new_tcb = tcb_dequeue_head (&tcb_readyQ);
 
-      /* åˆ‡æ¢æˆæ–°ä»»åŠ¡ */
+      /* ÇÐ»»³ÉÐÂÈÎÎñ */
       eTaskSwitch (curr_tcb, new_tcb);
     }
 
-    /* è‹¥ä»»åŠ¡ä»ç„¶ä¸ºè¿è¡Œæ€,åˆ™æ£€æŸ¥æ˜¯å¦æœ‰å…¶ä»–ä»»åŠ¡å·²ç»å°±ç»ª,å¹¶éœ€è¦è¿è¡Œ */
+    /* ÈôÈÎÎñÈÔÈ»ÎªÔËÐÐÌ¬,Ôò¼ì²éÊÇ·ñÓÐÆäËûÈÎÎñÒÑ¾­¾ÍÐ÷,²¢ÐèÒªÔËÐÐ */
     else
     {
-      /* è®¡ç®—å…è®¸è°ƒåº¦çš„ä¼˜å…ˆçº§ */
+      /* ¼ÆËãÔÊÐíµ÷¶ÈµÄÓÅÏÈ¼¶ */
       if (timer_tick == TRUE)
       {
-        /* ç›¸åŒæˆ–è€…æ›´é«˜ä¼˜å…ˆçº§çš„ä»»åŠ¡å¯ä»¥æŠ¢å  */
+        /* ÏàÍ¬»òÕß¸ü¸ßÓÅÏÈ¼¶µÄÈÎÎñ¿ÉÒÔÇÀÕ¼ */
         lowest_pri = (int16_t)curr_tcb->priority;
       }
       else if (curr_tcb->priority > 0)
       {
-        /* åªæœ‰æ›´é«˜çš„ä¼˜å…ˆçº§æ‰èƒ½æŠ¢å CPU,æœ€é«˜ä¼˜å…ˆçº§ä¸º0 */
+        /* Ö»ÓÐ¸ü¸ßµÄÓÅÏÈ¼¶²ÅÄÜÇÀÕ¼CPU,×î¸ßÓÅÏÈ¼¶Îª0 */
         lowest_pri = (int16_t)(curr_tcb->priority - 1);
       }
       else
       {
-        /* ç›®å‰çš„ä¼˜å…ˆçº§å·²ç»æœ€é«˜äº†,ä¸å…è®¸ä»»ä½•çº¿ç¨‹æŠ¢å  */
+        /* Ä¿Ç°µÄÓÅÏÈ¼¶ÒÑ¾­×î¸ßÁË,²»ÔÊÐíÈÎºÎÏß³ÌÇÀÕ¼ */
         lowest_pri = -1;
       }
 
-      /* æ£€æŸ¥æ˜¯å¦è¿›è¡Œè°ƒåº¦ */
+      /* ¼ì²éÊÇ·ñ½øÐÐµ÷¶È */
       if (lowest_pri >= 0)
       {
-        /* æ£€æŸ¥æ˜¯å¦æœ‰ä¸ä½ŽäºŽç»™å‡ºä¼˜å…ˆçº§çš„ä»»åŠ¡ */
+        /* ¼ì²éÊÇ·ñÓÐ²»µÍÓÚ¸ø³öÓÅÏÈ¼¶µÄÈÎÎñ */
         new_tcb = tcb_dequeue_priority (&tcb_readyQ, (uint8_t)lowest_pri);
 
-        /* è‹¥æ‰¾åˆ°å¯¹åº”ä»»åŠ¡,è¿è¡Œä¹‹ */
+        /* ÈôÕÒµ½¶ÔÓ¦ÈÎÎñ,ÔËÐÐÖ® */
         if (new_tcb)
         {
-          /* å°†çŽ°åœ¨è¿è¡Œçš„ä»»åŠ¡åŠ å…¥å°±ç»ªé˜Ÿåˆ— */
+          /* ½«ÏÖÔÚÔËÐÐµÄÈÎÎñ¼ÓÈë¾ÍÐ÷¶ÓÁÐ */
           if (tcbEnqueuePriority (&tcb_readyQ, curr_tcb) == EASYRTOS_OK)
           {
             curr_tcb->state = TASK_READY;
           }
-          /* åˆ‡æ¢åˆ°æ–°ä»»åŠ¡ */
+          /* ÇÐ»»µ½ÐÂÈÎÎñ */
           eTaskSwitch (curr_tcb, new_tcb);
         }
       }
     }
 
-    /* é€€å‡ºä¸´ç•ŒåŒº */
+    /* ÍË³öÁÙ½çÇø */
     CRITICAL_EXIT ();
 }
 
 /**
- * åŠŸèƒ½: æŒ‰ä»»åŠ¡ä¼˜å…ˆçº§å°†ä»»åŠ¡TCBåŠ å…¥åˆ—è¡¨
+ * ¹¦ÄÜ: °´ÈÎÎñÓÅÏÈ¼¶½«ÈÎÎñTCB¼ÓÈëÁÐ±í
  * 
- * å‚æ•°:
- * è¾“å…¥:                                           è¾“å‡º:
- * EASYRTOS_TCB **tcb_queue_ptr è¢«åŠ å…¥çš„é˜Ÿåˆ—       EASYRTOS_TCB **tcb_queue_ptr è¢«åŠ å…¥çš„é˜Ÿåˆ—
- * EASYRTOS_TCB *tcb_ptr è¦åŠ å…¥çš„ä»»åŠ¡TCB
+ * ²ÎÊý:
+ * ÊäÈë:                                           Êä³ö:
+ * EASYRTOS_TCB **tcb_queue_ptr ±»¼ÓÈëµÄ¶ÓÁÐ       EASYRTOS_TCB **tcb_queue_ptr ±»¼ÓÈëµÄ¶ÓÁÐ
+ * EASYRTOS_TCB *tcb_ptr Òª¼ÓÈëµÄÈÎÎñTCB
  *
- * è¿”å›ž: ERESULT
- * EASYRTOS_OK æˆåŠŸ
- * EASYRTOS_ERR_PARAM é”™è¯¯çš„å‚æ•°
+ * ·µ»Ø: ERESULT
+ * EASYRTOS_OK ³É¹¦
+ * EASYRTOS_ERR_PARAM ´íÎóµÄ²ÎÊý
  *
- * è°ƒç”¨çš„å‡½æ•°:
- * æ— .
+ * µ÷ÓÃµÄº¯Êý:
+ * ÎÞ.
  */
 ERESULT tcbEnqueuePriority (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)
 {
     ERESULT status;
     EASYRTOS_TCB *prev_ptr, *next_ptr;
 
-    /* å‚æ•°æ£€æŸ¥ */
+    /* ²ÎÊý¼ì²é */
     if ((tcb_queue_ptr == NULL) || (tcb_ptr == NULL))
     {
       
-      /* è¿”å›žé”™è¯¯ */
+      /* ·µ»Ø´íÎó */
       status = EASYRTOS_ERR_PARAM;
     }
     else
     {
       
-      /* æœç´¢æ•´ä¸ªé˜Ÿåˆ— */
+      /* ËÑË÷Õû¸ö¶ÓÁÐ */
       prev_ptr = next_ptr = *tcb_queue_ptr;
       do
       {
         
         /** 
-         *  æ’å…¥æ¡ä»¶:
-         *   next_ptr = NULL (å·²ç»åˆ°é˜Ÿåˆ—çš„æœ«å°¾äº†.)
-         *   ä¸‹ä¸€ä¸ªTCBçš„ä¼˜å…ˆçº§æ¯”è¦æ’å…¥çš„TCBä¼˜å…ˆçº§ä½Ž.
+         *  ²åÈëÌõ¼þ:
+         *   next_ptr = NULL (ÒÑ¾­µ½¶ÓÁÐµÄÄ©Î²ÁË.)
+         *   ÏÂÒ»¸öTCBµÄÓÅÏÈ¼¶±ÈÒª²åÈëµÄTCBÓÅÏÈ¼¶µÍ.
          */
         if ((next_ptr == NULL) || (next_ptr->priority > tcb_ptr->priority))
         {
           
-          /* è‹¥ä¼˜å…ˆçº§ä¸ºé˜Ÿåˆ—æœ€é«˜,åˆ™å°†è¯¥TCBä½œä¸ºé˜Ÿåˆ—çš„å¤´ */
+          /* ÈôÓÅÏÈ¼¶Îª¶ÓÁÐ×î¸ß,Ôò½«¸ÃTCB×÷Îª¶ÓÁÐµÄÍ· */
           if (next_ptr == *tcb_queue_ptr)
           {
             *tcb_queue_ptr = tcb_ptr;
@@ -387,7 +387,7 @@ ERESULT tcbEnqueuePriority (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)
                 next_ptr->prev_tcb = tcb_ptr;
           }
           
-          /* åœ¨é˜Ÿåˆ—ä¸­æ’å…¥TCBæˆ–è€…åœ¨æœ«å°¾æ’å…¥ */
+          /* ÔÚ¶ÓÁÐÖÐ²åÈëTCB»òÕßÔÚÄ©Î²²åÈë */
           else
           {
             tcb_ptr->prev_tcb = prev_ptr;
@@ -397,12 +397,12 @@ ERESULT tcbEnqueuePriority (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)
                 next_ptr->prev_tcb = tcb_ptr;
           }
 
-          /* å®Œæˆæ’å…¥,é€€å‡ºå¾ªçŽ¯ */
+          /* Íê³É²åÈë,ÍË³öÑ­»· */
           break;
         }
         else
         {
-          /* æ’å…¥ä½ç½®ä¸å¯¹,å°è¯•ä¸‹ä¸€ä¸ªä½ç½® */
+          /* ²åÈëÎ»ÖÃ²»¶Ô,³¢ÊÔÏÂÒ»¸öÎ»ÖÃ */
           prev_ptr = next_ptr;
           next_ptr = next_ptr->next_tcb;
         }
@@ -410,24 +410,24 @@ ERESULT tcbEnqueuePriority (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)
       }
       while (prev_ptr != NULL);
 
-      /* æˆåŠŸ */
+      /* ³É¹¦ */
       status = EASYRTOS_OK;
     }
     return (status);
 }
 
 /**
- * åŠŸèƒ½: èŽ·å–å½“å‰è¿è¡Œçš„ä»»åŠ¡TCB
+ * ¹¦ÄÜ: »ñÈ¡µ±Ç°ÔËÐÐµÄÈÎÎñTCB
  * 
- * å‚æ•°:
- * è¾“å…¥:                     è¾“å‡º:
- * æ—                         æ— .
+ * ²ÎÊý:
+ * ÊäÈë:                     Êä³ö:
+ * ÎÞ                        ÎÞ.
  *
- * è¿”å›ž: EASYRTOS_TCB*
- * å½“å‰è¿è¡Œä»»åŠ¡TCBæŒ‡é’ˆ
+ * ·µ»Ø: EASYRTOS_TCB*
+ * µ±Ç°ÔËÐÐÈÎÎñTCBÖ¸Õë
  *  
- * è°ƒç”¨çš„å‡½æ•°:
- * æ— .
+ * µ÷ÓÃµÄº¯Êý:
+ * ÎÞ.
  */
 EASYRTOS_TCB *eCurrentContext (void)
 {
@@ -438,34 +438,34 @@ EASYRTOS_TCB *eCurrentContext (void)
 }
 
 /**
- * åŠŸèƒ½: å–å‡ºåˆ—è¡¨å¤´çš„ä»»åŠ¡TCB
+ * ¹¦ÄÜ: È¡³öÁÐ±íÍ·µÄÈÎÎñTCB
  * 
- * å‚æ•°:
- * è¾“å…¥:                                           è¾“å‡º:
- * EASYRTOS_TCB **tcb_queue_ptr è¢«å–çš„åˆ—è¡¨         EASYRTOS_TCB **tcb_queue_ptr è¢«å–çš„åˆ—è¡¨
+ * ²ÎÊý:
+ * ÊäÈë:                                           Êä³ö:
+ * EASYRTOS_TCB **tcb_queue_ptr ±»È¡µÄÁÐ±í         EASYRTOS_TCB **tcb_queue_ptr ±»È¡µÄÁÐ±í
  *
- * è¿”å›ž: EASYRTOS_TCB *
- * è¿”å›žåˆ—è¡¨å¤´çš„ä»»åŠ¡TCBæŒ‡é’ˆ
+ * ·µ»Ø: EASYRTOS_TCB *
+ * ·µ»ØÁÐ±íÍ·µÄÈÎÎñTCBÖ¸Õë
  *
- * è°ƒç”¨çš„å‡½æ•°:
- * æ— .
+ * µ÷ÓÃµÄº¯Êý:
+ * ÎÞ.
  */
 EASYRTOS_TCB *tcb_dequeue_head (EASYRTOS_TCB **tcb_queue_ptr)
 {
     EASYRTOS_TCB *ret_ptr;
 
-    /* å‚æ•°æ£€æŸ¥ */
+    /* ²ÎÊý¼ì²é */
     if (tcb_queue_ptr == NULL)
     {
-        /* è¿”å›žNULL */
+        /* ·µ»ØNULL */
         ret_ptr = NULL;
     }
     else if (*tcb_queue_ptr == NULL)
     {
-        /* è¿”å›žNULL */
+        /* ·µ»ØNULL */
         ret_ptr = NULL;
     }
-    /* è¿”å›žé˜Ÿåˆ—å¤´,å¹¶å°†å…¶ç§»é™¤é˜Ÿåˆ— */
+    /* ·µ»Ø¶ÓÁÐÍ·,²¢½«ÆäÒÆ³ý¶ÓÁÐ */
     else
     {
         ret_ptr = *tcb_queue_ptr;
@@ -478,35 +478,35 @@ EASYRTOS_TCB *tcb_dequeue_head (EASYRTOS_TCB **tcb_queue_ptr)
 }
 
 /**
- * åŠŸèƒ½: ä»Žåˆ—è¡¨ä¸­ç§»é™¤æŒ‡å®šçš„ä»»åŠ¡TCB
+ * ¹¦ÄÜ: ´ÓÁÐ±íÖÐÒÆ³ýÖ¸¶¨µÄÈÎÎñTCB
  * 
- * å‚æ•°:
- * è¾“å…¥:                                           è¾“å‡º:
- * EASYRTOS_TCB **tcb_queue_ptr è¢«å–çš„åˆ—è¡¨         EASYRTOS_TCB **tcb_queue_ptr è¢«å–çš„åˆ—è¡¨ 
- * EASYRTOS_TCB *tcb_ptr éœ€è¦ç§»é™¤çš„ä»»åŠ¡TCB
+ * ²ÎÊý:
+ * ÊäÈë:                                           Êä³ö:
+ * EASYRTOS_TCB **tcb_queue_ptr ±»È¡µÄÁÐ±í         EASYRTOS_TCB **tcb_queue_ptr ±»È¡µÄÁÐ±í 
+ * EASYRTOS_TCB *tcb_ptr ÐèÒªÒÆ³ýµÄÈÎÎñTCB
  * 
- * è¿”å›ž: EASYRTOS_TCB *
- * è¿”å›žç§»é™¤çš„TCBæŒ‡é’ˆ
+ * ·µ»Ø: EASYRTOS_TCB *
+ * ·µ»ØÒÆ³ýµÄTCBÖ¸Õë
  *
- * è°ƒç”¨çš„å‡½æ•°:
- * æ— .
+ * µ÷ÓÃµÄº¯Êý:
+ * ÎÞ.
  */
 EASYRTOS_TCB *tcb_dequeue_entry (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb_ptr)
 {
     EASYRTOS_TCB *ret_ptr, *prev_ptr, *next_ptr;
 
-    /* å‚æ•°æ£€æŸ¥ */
+    /* ²ÎÊý¼ì²é */
     if (tcb_queue_ptr == NULL)
     {
-        /* è¿”å›žNULL */
+        /* ·µ»ØNULL */
         ret_ptr = NULL;
     }
     else if (*tcb_queue_ptr == NULL)
     {
-        /* è¿”å›žNULL */
+        /* ·µ»ØNULL */
         ret_ptr = NULL;
     }
-    /* æ‰¾åˆ°,ç§»é™¤å¹¶è¿”å›žæŒ‡å®šçš„tcb */
+    /* ÕÒµ½,ÒÆ³ý²¢·µ»ØÖ¸¶¨µÄtcb */
     else
     {
         ret_ptr = NULL;
@@ -514,20 +514,20 @@ EASYRTOS_TCB *tcb_dequeue_entry (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb
         while (next_ptr)
         {
           
-            /* æ˜¯å¦æ˜¯æˆ‘ä»¬æœç´¢çš„TCB? */
+            /* ÊÇ·ñÊÇÎÒÃÇËÑË÷µÄTCB? */
             if (next_ptr == tcb_ptr)
             {
               
-                /* å¯»æ‰¾çš„TCBä¸ºé˜Ÿåˆ—å¤´ */
+                /* Ñ°ÕÒµÄTCBÎª¶ÓÁÐÍ· */
                 if (next_ptr == *tcb_queue_ptr)
                 {
-                    /* ç§»é™¤é˜Ÿåˆ—å¤´ */
+                    /* ÒÆ³ý¶ÓÁÐÍ· */
                     *tcb_queue_ptr = next_ptr->next_tcb;
                     if (*tcb_queue_ptr)
                         (*tcb_queue_ptr)->prev_tcb = NULL;
                 }
                 
-                /* å¯»æ‰¾çš„TCBåœ¨é˜Ÿåˆ—ä¸­é—´æˆ–æœ«å°¾.*/
+                /* Ñ°ÕÒµÄTCBÔÚ¶ÓÁÐÖÐ¼ä»òÄ©Î².*/
                 else
                 {
                     prev_ptr->next_tcb = next_ptr->next_tcb;
@@ -539,7 +539,7 @@ EASYRTOS_TCB *tcb_dequeue_entry (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb
                 break;
             }
 
-            /* ç§»åŠ¨åˆ°é˜Ÿåˆ—ä¸­çš„ä¸‹ä¸€ä¸ªTCB */
+            /* ÒÆ¶¯µ½¶ÓÁÐÖÐµÄÏÂÒ»¸öTCB */
             prev_ptr = next_ptr;
             next_ptr = next_ptr->next_tcb;
         }
@@ -548,24 +548,24 @@ EASYRTOS_TCB *tcb_dequeue_entry (EASYRTOS_TCB **tcb_queue_ptr, EASYRTOS_TCB *tcb
 }
 
 /**
- * åŠŸèƒ½: æŒ‰ä¼˜å…ˆçº§ä»Žåˆ—è¡¨ä¸­å–å‡ºä»»åŠ¡TCB
+ * ¹¦ÄÜ: ´ÓÁÐ±íÖÐÈ¡³öÓÅÏÈ¼¶¸ßÓÚpriorityµÄÈÎÎñTCB,Ö»¼ì²éµÚÒ»¸ö
  * 
- * å‚æ•°:
- * è¾“å…¥:                                           è¾“å‡º:
- * EASYRTOS_TCB **tcb_queue_ptr è¢«å–çš„åˆ—è¡¨         æ— .
+ * ²ÎÊý:
+ * ÊäÈë:                                           Êä³ö:
+ * EASYRTOS_TCB **tcb_queue_ptr ±»È¡µÄÁÐ±í         ÎÞ.
  * uint8_t priority
  * 
- * è¿”å›ž: EASYRTOS_TCB *
- * è¿”å›žç§»é™¤çš„TCBæŒ‡é’ˆ
+ * ·µ»Ø: EASYRTOS_TCB *
+ * ·µ»ØÒÆ³ýµÄTCBÖ¸Õë
  *
- * è°ƒç”¨çš„å‡½æ•°:
- * æ— .
+ * µ÷ÓÃµÄº¯Êý:
+ * ÎÞ.
  */
 EASYRTOS_TCB *tcb_dequeue_priority (EASYRTOS_TCB **tcb_queue_ptr, uint8_t priority)
 {
     EASYRTOS_TCB *ret_ptr;
 
-    /* å‚æ•°æ£€æŸ¥ */
+    /* ²ÎÊý¼ì²é */
     if (tcb_queue_ptr == NULL)
     {
       ret_ptr = NULL;
@@ -575,7 +575,7 @@ EASYRTOS_TCB *tcb_dequeue_priority (EASYRTOS_TCB **tcb_queue_ptr, uint8_t priori
       ret_ptr = NULL;
     }
     
-    /* æ£€æŸ¥æ˜¯å¦æœ‰åˆé€‚ä¼˜å…ˆçº§çš„ä»»åŠ¡ */
+    /* ¼ì²éÊÇ·ñÓÐºÏÊÊÓÅÏÈ¼¶µÄÈÎÎñ */
     else if ((*tcb_queue_ptr)->priority <= priority)
     {
       ret_ptr = *tcb_queue_ptr;
@@ -588,99 +588,99 @@ EASYRTOS_TCB *tcb_dequeue_priority (EASYRTOS_TCB **tcb_queue_ptr, uint8_t priori
     }
     else
     {
-      /* æ²¡æœ‰åˆé€‚ä»»åŠ¡  */      
+      /* Ã»ÓÐºÏÊÊÈÎÎñ  */      
       ret_ptr = NULL;
     }
     return (ret_ptr);
 }
 
 /**
- * åŠŸèƒ½: åˆ‡æ¢2ä¸ªä»»åŠ¡ä¸Šä¸‹æ–‡
+ * ¹¦ÄÜ: ÇÐ»»2¸öÈÎÎñÉÏÏÂÎÄ
  * 
- * å‚æ•°:
- * è¾“å…¥:                                           è¾“å‡º:
- * EASYRTOS_TCB *old_tcb è¢«åˆ‡æ¢çš„ä»»åŠ¡              æ— .
- * EASYRTOS_TCB *new_tcb åˆ‡æ¢åˆ°çš„ä»»åŠ¡
+ * ²ÎÊý:
+ * ÊäÈë:                                           Êä³ö:
+ * EASYRTOS_TCB *old_tcb ±»ÇÐ»»µÄÈÎÎñ              ÎÞ.
+ * EASYRTOS_TCB *new_tcb ÇÐ»»µ½µÄÈÎÎñ
  * 
- * è¿”å›ž: void
+ * ·µ»Ø: void
  *
- * è°ƒç”¨çš„å‡½æ•°:
+ * µ÷ÓÃµÄº¯Êý:
  * archContextSwitch (old_tcb, new_tcb);
  */
 static void eTaskSwitch(EASYRTOS_TCB *old_tcb, EASYRTOS_TCB *new_tcb)
 {
     
-    /* è¿è¡Œçš„ç¨‹åºå°†åˆ‡æ¢åˆ°æ–°çš„ä»»åŠ¡,æ‰€ä»¥å°†ä»»åŠ¡çŠ¶æ€åˆ‡æ¢åˆ°RUN */
+    /* ÔËÐÐµÄ³ÌÐò½«ÇÐ»»µ½ÐÂµÄÈÎÎñ,ËùÒÔ½«ÈÎÎñ×´Ì¬ÇÐ»»µ½RUN */
     new_tcb->state = TASK_RUN;
 
-    /* æ£€æŸ¥æ–°çš„ä»»åŠ¡æ˜¯å¦æ˜¯ç›®å‰è¿è¡Œçš„ä»»åŠ¡,å¦‚æžœæ˜¯,åˆ™ä¸éœ€è¦è¿›è¡Œåˆ‡æ¢ */
+    /* ¼ì²éÐÂµÄÈÎÎñÊÇ·ñÊÇÄ¿Ç°ÔËÐÐµÄÈÎÎñ,Èç¹ûÊÇ,Ôò²»ÐèÒª½øÐÐÇÐ»» */
     if (old_tcb != new_tcb)
     {
         curr_tcb = new_tcb;
 
-        /* è°ƒç”¨ä»»åŠ¡åˆ‡æ¢å‡½æ•° */
+        /* µ÷ÓÃÈÎÎñÇÐ»»º¯Êý */
         archContextSwitch (old_tcb, new_tcb);
     }
 }
 
 /**
- * åŠŸèƒ½: è¿›å…¥ä¸­æ–­è°ƒç”¨,è¯´æ˜Žä¸Šä¸‹æ–‡åœ¨ä¸­æ–­ä¸­
+ * ¹¦ÄÜ: ½øÈëÖÐ¶Ïµ÷ÓÃ,ËµÃ÷ÉÏÏÂÎÄÔÚÖÐ¶ÏÖÐ
  * 
- * å‚æ•°:
- * è¾“å…¥:                è¾“å‡º:             
- * æ— .                  æ— .
+ * ²ÎÊý:
+ * ÊäÈë:                Êä³ö:             
+ * ÎÞ.                  ÎÞ.
  * 
- * è¿”å›ž: void
+ * ·µ»Ø: void
  *
- * è°ƒç”¨çš„å‡½æ•°:
- * æ— .
+ * µ÷ÓÃµÄº¯Êý:
+ * ÎÞ.
  */
 void eIntEnter (void)
 {
-    /* å¢žåŠ ä¸­æ–­è®¡æ•° */
+    /* Ôö¼ÓÖÐ¶Ï¼ÆÊý */
     easyITCnt++;
 }
 
 /**
- * åŠŸèƒ½: é€€å‡ºä¸­æ–­è°ƒç”¨,ä¹‹åŽè°ƒç”¨è°ƒåº¦å™¨
+ * ¹¦ÄÜ: ÍË³öÖÐ¶Ïµ÷ÓÃ,Ö®ºóµ÷ÓÃµ÷¶ÈÆ÷
  * 
- * å‚æ•°:
- * è¾“å…¥:                è¾“å‡º:             
- * uint8_t timerTick    æ— .
+ * ²ÎÊý:
+ * ÊäÈë:                Êä³ö:             
+ * uint8_t timerTick    ÎÞ.
  * 
- * è¿”å›ž: void
+ * ·µ»Ø: void
  *
- * è°ƒç”¨çš„å‡½æ•°:
+ * µ÷ÓÃµÄº¯Êý:
  * easyRTOSSched (timerTick);
  */
 void eIntExit (uint8_t timerTick)
 {
-    /* é€€å‡ºä¸­æ–­æ—¶å‡å°‘ */
+    /* ÍË³öÖÐ¶ÏÊ±¼õÉÙ */
     easyITCnt--;
 
-    /* é€€å‡ºä¸­æ–­æ—¶è°ƒç”¨è°ƒåº¦å™¨ */
+    /* ÍË³öÖÐ¶ÏÊ±µ÷ÓÃµ÷¶ÈÆ÷ */
     easyRTOSSched (timerTick);
 }
 
 /**
- * åŠŸèƒ½: idleTaskä»»åŠ¡
+ * ¹¦ÄÜ: idleTaskÈÎÎñ
  * 
- * å‚æ•°:
- * è¾“å…¥:                è¾“å‡º:             
- * uint32_t param       æ— .
+ * ²ÎÊý:
+ * ÊäÈë:                Êä³ö:             
+ * uint32_t param       ÎÞ.
  * 
- * è¿”å›ž: void
+ * ·µ»Ø: void
  *
- * è°ƒç”¨çš„å‡½æ•°:
- * æ— 
+ * µ÷ÓÃµÄº¯Êý:
+ * ÎÞ
  */
 static void idleTask (uint32_t param)
 {
-  /* æ¶ˆé™¤ç¼–è¯‘å™¨è­¦å‘Š */
+  /* Ïû³ý±àÒëÆ÷¾¯¸æ */
   param = param;
 
   while (1)
   {
-     /* ç©ºå‡½æ•°æ‰§è¡Œ */
+     /* ¿Õº¯ÊýÖ´ÐÐ */
   }
 }

@@ -1,9 +1,10 @@
 /**
  * 作者: Roy.yu
- * 时间: 2016.11.01
- * 版本: V1.1
+ * 时间: 2017.04.26
+ * 版本: V1.2
  * Licence: GNU GENERAL PUBLIC LICENSE
  */
+
 #ifndef __EASYRTOSTIMER_H__
 #define __EASYRTOSTIMER_H__
 /* Delay 回调结构体 */

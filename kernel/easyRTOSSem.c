@@ -1,7 +1,7 @@
 /**
  * 作者: Roy.yu
- * 时间: 2016.11.01
- * 版本: V1.1
+ * 时间: 2017.04.26
+ * 版本: V1.2
  * Licence: GNU GENERAL PUBLIC LICENSE
  */
 #include "easyRTOS.h"
@@ -283,12 +283,12 @@ ERESULT eSemTake (EASYRTOS_SEM *sem, int32_t timeout)
   }
   else
   {
+    /* 进入临界区 防止在此时信号量发生变化 */
+    CRITICAL_ENTER ();
+    
     /* 获取正在运行任务的TCB */
     curr_tcb_ptr = eCurrentContext();
         
-    /* 进入临界区 */
-    CRITICAL_ENTER ();
-    
     /**
      * 检测是否在任务上下文(而不是中断),因为MUTEX需要一个拥有者,所以不能
      * 被ISR调用
@@ -307,7 +307,8 @@ ERESULT eSemTake (EASYRTOS_SEM *sem, int32_t timeout)
      * 若为互斥锁信号量,则判断是否上下文与拥有任务不相同.
      * 满足其一,则悬挂该任务. 
      */
-    else if (((sem->type != SEM_MUTEX) && (sem->count == 0)) || ((sem->type == SEM_MUTEX) && (sem->owner != curr_tcb_ptr) && (sem->owner != NULL)))
+    else if (((sem->type != SEM_MUTEX) && (sem->count == 0)) || \\
+             ((sem->type == SEM_MUTEX) && (sem->owner != curr_tcb_ptr) && (sem->owner != NULL)))
     {
       /* 若timeout >= 0 则悬挂任务 */
       if (timeout >= 0)
@@ -428,7 +429,7 @@ ERESULT eSemTake (EASYRTOS_SEM *sem, int32_t timeout)
           }
       
           /* Count不是0，减少Count的值，并返回 */
-          if (sem->count>-127)
+          if (sem->count>-32768)
           {
             sem->count--;
         
@@ -469,7 +470,7 @@ ERESULT eSemTake (EASYRTOS_SEM *sem, int32_t timeout)
  * 
  * 返回:
  * EASYRTOS_OK 成功
- * EASYRTOS_ERR_OVF 计数信号量count>127(>127)
+ * EASYRTOS_ERR_OVF 计数信号量count>32767(>32767)
  * EASYRTOS_ERR_PARAM 错误的参数
  * EASYRTOS_ERR_QUEUE 将任务加入运行队列失败
  * EASYRTOS_ERR_TIMER 注册定时器未成功
@@ -579,7 +580,7 @@ ERESULT eSemGive (EASYRTOS_SEM * sem)
           case SEM_COUNTY:
             
             /* 检查是否溢出 */
-            if (sem->count == 127)
+            if (sem->count == 32767)
             {
               
               /* 返回错误标识 */
@@ -622,6 +623,8 @@ ERESULT eSemGive (EASYRTOS_SEM * sem)
             else
             {
               sem->count++;
+              //测试 若sem->count==1 清除掉拥有者
+              if (sem->count>=1)sem->owner=NULL;
               status = EASYRTOS_OK;
             }
           break;
@@ -653,8 +656,12 @@ ERESULT eSemGive (EASYRTOS_SEM * sem)
  */
 ERESULT eSemResetCount (EASYRTOS_SEM *sem, uint8_t count)
 {
-  uint8_t status;
+  ERESULT status;
+  CRITICAL_STORE;
+  EASYRTOS_TCB *tcb_ptr;
+  
 
+  
   /* 参数检查 */
   if (sem == NULL || sem->type != SEM_COUNTY)
   {
@@ -662,6 +669,23 @@ ERESULT eSemResetCount (EASYRTOS_SEM *sem, uint8_t count)
   }
   else
   {
+    if (sem->suspQ && sem->count == 0)
+    {
+      /* 进入临界区 */
+      CRITICAL_ENTER ();
+      tcb_ptr = tcb_dequeue_head (&sem->suspQ);
+      if (tcbEnqueuePriority (&tcb_readyQ, tcb_ptr) != EASYRTOS_OK)
+      {
+        
+        /* 若加入Ready列表失败，退出临界区 */
+        CRITICAL_EXIT ();
+
+        status = EASYRTOS_ERR_QUEUE;
+      }
+      else
+        CRITICAL_EXIT ();
+    }
+    
     /* 设置count值 */
     sem->count = count;
 

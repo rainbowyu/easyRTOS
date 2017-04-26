@@ -1,7 +1,7 @@
  /**
- * 作者: Roy.yu
- * 时间: 2016.11.01
- * 版本: V1.1
+ * ����: Roy.yu
+ * ʱ��: 2016.11.01
+ * �汾: V1.1
  * Licence: GNU GENERAL PUBLIC LICENSE
  */
  NAME EASYRTOSPORTASM
@@ -18,10 +18,10 @@ archFirstTaskRestore:
   ; (X) = *sp_save_ptr
   ldw X,(X)
 
-  ; 切换栈指针到新任务的堆栈
+  ; �л�ջָ�뵽������Ķ�ջ
   ldw SP,X
 
-  ; ?b15 - ?b8 出栈
+  ; ?b15 - ?b8 ��ջ
   POP ?b15
   POP ?b14
   POP ?b13
@@ -42,13 +42,13 @@ archContextSwitch:
   ;   old_tcb_ptr = X register (word-width)
   ;   new_tcb_ptr = Y register (word-width)
 
-  ; 参数传递位置:
-  ;   old_tcb_ptr = X 寄存器 (16bit)
-  ;   new_tcb_ptr = Y 寄存器 (16bit)
+  ; ��������λ��:
+  ;   old_tcb_ptr = X �Ĵ��� (16bit)
+  ;   new_tcb_ptr = Y �Ĵ��� (16bit)
   ; STM8 CPU Registers:
-  ; STM8的CPU寄存器
+  ; STM8��CPU�Ĵ���
 
-  ; 一些寄存器已经被自动保存了,我只需要额外保存那些不希望被破坏的寄存器.
+  ; һЩ�Ĵ����Ѿ����Զ�������,��ֻ��Ҫ���Ᵽ����Щ��ϣ�����ƻ��ļĴ���.
 
   PUSH ?b8
   PUSH ?b9
@@ -59,12 +59,12 @@ archContextSwitch:
   PUSH ?b14
   PUSH ?b15
   
-  ; 从Y寄存器中复制出new_tcb_ptr,保存在?b0中
+  ; ��Y�Ĵ����и��Ƴ�new_tcb_ptr,������?b0��
   ldw ?b0, Y
 
-  ; 保存当前的栈指针到old_tcb_ptr中
-  ldw Y, SP    ; 将当前的栈指针(被切换的任务)保存到Y寄存器中
-  ldw (X), Y   ; 将栈指针保存在(X)的地址中,
+  ; ���浱ǰ��ջָ�뵽old_tcb_ptr��
+  ldw Y, SP    ; ����ǰ��ջָ��(���л�������)���浽Y�Ĵ�����
+  ldw (X), Y   ; ��ջָ�뱣����(X)�ĵ�ַ��,
 
   ldw X,?b0
   ldw X,(X)
@@ -72,7 +72,7 @@ archContextSwitch:
   
   ldw SP,X
 
-  ; IAR中需要保存和恢复 ?b8 to ?b15
+  ; IAR����Ҫ����ͻָ� ?b8 to ?b15
   POP ?b15
   POP ?b14
   POP ?b13

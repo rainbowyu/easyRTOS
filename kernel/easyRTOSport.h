@@ -1,7 +1,7 @@
 /**
  * 作者: Roy.yu
- * 时间: 2016.11.01
- * 版本: V1.1
+ * 时间: 2017.04.26
+ * 版本: V1.2
  * Licence: GNU GENERAL PUBLIC LICENSE
  */
 #ifndef __EASYRTOSPORT__H__
@@ -15,13 +15,13 @@
 #define CRITICAL_EXIT()     __set_interrupt_state(_istate)
 
 /* 系统心跳频率 */
-#define SYSTEM_TICKS_HZ                 100
+#define SYSTEM_TICKS_HZ                 2000
 
 /* 延时时间转化，单位ms min(N) = 1000/SYSTEM_TICKS_HZ INT */
-#define DELAY_MS(x) ((x)*(SYSTEM_TICKS_HZ)/(1000))
+#define DELAY_MS(x) ((uint32_t)(x)*(SYSTEM_TICKS_HZ)/(1000))
 
 /* 延时时间转化，单位s min(N) = 1/SYSTEM_TICKS_HZ INT */
-#define DELAY_S(x) ((x)*(SYSTEM_TICKS_HZ))
+#define DELAY_S(x) ((uint32_t)(x)*(SYSTEM_TICKS_HZ))
 
 /* 堆栈单位大小 stm8为8bit */
 #define STACK_ALIGN_SIZE                sizeof(u8)

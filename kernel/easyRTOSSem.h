@@ -1,7 +1,7 @@
 /**
  * 作者: Roy.yu
- * 时间: 2016.11.01
- * 版本: V1.1
+ * 时间: 2017.04.26
+ * 版本: V1.2
  * Licence: GNU GENERAL PUBLIC LICENSE
  */
 #ifndef __EASYRTOSSEM_H
@@ -16,7 +16,7 @@ typedef struct easyRTOSSem
 {
     EASYRTOS_TCB * suspQ;  /* 被Sem阻塞的任务队列 */
     EASYRTOS_TCB * owner;  /* 被MUTEX锁住的任务 */
-    int8_t         count;  /* 信号量计数 -127 - 127*/
+    int16_t        count;  /* 信号量计数 -32768到32767*/
     uint8_t        type;   /* 信号量类型 */
 } EASYRTOS_SEM;
 

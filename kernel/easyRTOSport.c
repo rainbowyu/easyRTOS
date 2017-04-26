@@ -1,7 +1,7 @@
 /**
- * ä½œè€…: Roy.yu
- * æ—¶é—´: 2016.11.01
- * ç‰ˆæœ¬: V1.1
+ * ×÷Õß: Roy.yu
+ * Ê±¼ä: 2017.04.26
+ * °æ±¾: V1.2
  * Licence: GNU GENERAL PUBLIC LICENSE
  */
 #include "easyRTOS.h"
@@ -10,26 +10,26 @@
 #include "easyRTOSTimer.h"
 #include "stm8s_tim3.h"
 
-/* å…¨å±€å‡½æ•° */
+/* È«¾Öº¯Êý */
 void archTaskContextInit (EASYRTOS_TCB *tcb_ptr, void *stack_top, void (*entry_point)(uint32_t), uint32_t entryParam);
 void archInitSystemTickTimer ( void );
 /* end */
 
-/* ç§æœ‰å‡½æ•° */
+/* Ë½ÓÐº¯Êý */
 static void taskShell (void);
 /* end */
 
 /**
- * åŠŸèƒ½: ä»»åŠ¡å…¥å£å‡½æ•°,å°†tcb.entry_pointå‚æ•°ä¼ é€’ç»™ä»»åŠ¡å‡½æ•°,
- * å¹¶è®¾ç½®å½“å‰è¿è¡Œä¸Šä¸‹æ–‡,ä½¿èƒ½ä¸­æ–­.
+ * ¹¦ÄÜ: ÈÎÎñÈë¿Úº¯Êý,½«tcb.entry_point²ÎÊý´«µÝ¸øÈÎÎñº¯Êý,
+ * ²¢ÉèÖÃµ±Ç°ÔËÐÐÉÏÏÂÎÄ,Ê¹ÄÜÖÐ¶Ï.
  *
- * å‚æ•°:
- * è¾“å…¥:                         è¾“å‡º:
- * æ—                             æ— .
+ * ²ÎÊý:
+ * ÊäÈë:                         Êä³ö:
+ * ÎÞ                            ÎÞ.
  *
- * è¿”å›ž: void
+ * ·µ»Ø: void
  * 
- * è°ƒç”¨çš„å‡½æ•°:
+ * µ÷ÓÃµÄº¯Êý:
  * eCurrentContext();
  * rim();
  * curr_tcb->entry_point(curr_tcb->entryParam);
@@ -40,10 +40,10 @@ static void taskShell (void)
 
     curr_tcb = eCurrentContext();
 
-    /* ä½¿èƒ½ä¸­æ–­ */
+    /* Ê¹ÄÜÖÐ¶Ï */
     rim();
 
-    /* ä»»åŠ¡å‡½æ•°å…¥å£ */
+    /* ÈÎÎñº¯ÊýÈë¿Ú */
     if (curr_tcb && curr_tcb->entry_point)
     {
         curr_tcb->entry_point(curr_tcb->entryParam);
@@ -51,16 +51,16 @@ static void taskShell (void)
 }
 
 /**
- * åŠŸèƒ½: åˆå§‹åŒ–å„ä¸ªä»»åŠ¡çš„å †æ ˆ,ç¡®å®šè™šæ‹Ÿå¯„å­˜å™¨?b8-?b15çš„ä½ç½®,
- * ä»¥åŠå‡½æ•°å…¥å£åœ°å€,ä¾›æ±‡ç¼–ä¸­RETä½¿ç”¨.
+ * ¹¦ÄÜ: ³õÊ¼»¯¸÷¸öÈÎÎñµÄ¶ÑÕ»,È·¶¨ÐéÄâ¼Ä´æÆ÷?b8-?b15µÄÎ»ÖÃ,
+ * ÒÔ¼°º¯ÊýÈë¿ÚµØÖ·,¹©»ã±àÖÐRETÊ¹ÓÃ.
  *
- * å‚æ•°:
- * è¾“å…¥:                         è¾“å‡º:
- * æ—                             æ— .
+ * ²ÎÊý:
+ * ÊäÈë:                         Êä³ö:
+ * ÎÞ                            ÎÞ.
  *
- * è¿”å›ž: void
+ * ·µ»Ø: void
  * 
- * è°ƒç”¨çš„å‡½æ•°:
+ * µ÷ÓÃµÄº¯Êý:
  * eCurrentContext();
  * rim();
  * curr_tcb->entry_point(curr_tcb->entryParam);
@@ -70,19 +70,19 @@ void archTaskContextInit (EASYRTOS_TCB *tcb_ptr, void *stack_top, void (*entry_p
     uint8_t *stack_ptr;
     stack_ptr = (uint8_t *)stack_top;
     /**
-     *  ä»»åŠ¡æ¢å¤ç¨‹åºä¼šæ‰§è¡Œ RET æŒ‡ä»¤.è¯¥æŒ‡ä»¤éœ€è¦åœ¨å †æ ˆä¸­æ‰¾åˆ°è¢«åˆ‡æ¢çš„ä»»åŠ¡çš„ç¨‹åºåœ°å€.
-     *  å½“ä¸€ä¸ªä»»åŠ¡ç¬¬ä¸€æ¬¡è¿è¡Œæ—¶,ä¼šè¿”å›žä»»åŠ¡å…¥å£.æˆ‘ä»¬å°†ä»»åŠ¡å…¥å£å­˜å‚¨åœ¨å †æ ˆä¸­,åŒæ—¶RET
-     *  ä¹Ÿå°†åœ¨å †æ ˆä¸­å¯»æ‰¾ä»»åŠ¡ç¨‹åºè¿”å›žåœ°å€.
+     *  ÈÎÎñ»Ö¸´³ÌÐò»áÖ´ÐÐ RET Ö¸Áî.¸ÃÖ¸ÁîÐèÒªÔÚ¶ÑÕ»ÖÐÕÒµ½±»ÇÐ»»µÄÈÎÎñµÄ³ÌÐòµØÖ·.
+     *  µ±Ò»¸öÈÎÎñµÚÒ»´ÎÔËÐÐÊ±,»á·µ»ØÈÎÎñÈë¿Ú.ÎÒÃÇ½«ÈÎÎñÈë¿Ú´æ´¢ÔÚ¶ÑÕ»ÖÐ,Í¬Ê±RET
+     *  Ò²½«ÔÚ¶ÑÕ»ÖÐÑ°ÕÒÈÎÎñ³ÌÐò·µ»ØµØÖ·.
 
-     *  æˆ‘ä»¬ç”¨ taskShell() å‡½æ•°å¯åŠ¨æ‰€æœ‰çš„ä»»åŠ¡,æ‰€ä»¥å®žé™…ä¸Šæˆ‘ä»¬å°†taskShell()çš„
-     *  åœ°å€å­˜å‚¨åœ¨è¿™é‡Œ.
+     *  ÎÒÃÇÓÃ taskShell() º¯ÊýÆô¶¯ËùÓÐµÄÈÎÎñ,ËùÒÔÊµ¼ÊÉÏÎÒÃÇ½«taskShell()µÄ
+     *  µØÖ·´æ´¢ÔÚÕâÀï.
 
-     *  ä»Žä¸Šåˆ°ä¸‹ä½¿ç”¨å †æ ˆ.
+     *  ´ÓÉÏµ½ÏÂÊ¹ÓÃ¶ÑÕ».
      */
     *stack_ptr-- = (uint8_t)((uint16_t)taskShell & 0xFF);
     *stack_ptr-- = (uint8_t)(((uint16_t)taskShell >> 8) & 0xFF);
 
-    /* ä½¿ç”¨IARçš„æ—¶å€™ä¼šæœ‰ä¸€äº›è™šæ‹Ÿå¯„å­˜å™¨,åˆå§‹åŒ–è¿™äº›è™šæ‹Ÿå¯„å­˜å™¨çš„ä½ç½® */
+    /* Ê¹ÓÃIARµÄÊ±ºò»áÓÐÒ»Ð©ÐéÄâ¼Ä´æÆ÷,³õÊ¼»¯ÕâÐ©ÐéÄâ¼Ä´æÆ÷µÄÎ»ÖÃ */
     *stack_ptr-- = 0;    // ?b8
     *stack_ptr-- = 0;    // ?b9
     *stack_ptr-- = 0;    // ?b10
@@ -93,66 +93,66 @@ void archTaskContextInit (EASYRTOS_TCB *tcb_ptr, void *stack_top, void (*entry_p
     *stack_ptr-- = 0;    // ?b15
 
     /**
-     *  ä¸Žä»»åŠ¡ä¸Šä¸‹æ–‡æœ‰å…³çš„æ•°æ®éƒ½å·²åˆå§‹åŒ–å®Œæ¯•.å‰©ä¸‹çš„å°±æ˜¯åœ¨TCBä¸­ä¿å­˜æ ˆæŒ‡é’ˆ,ä¾›è°ƒåº¦å™¨
-     *  ä½¿ç”¨.
+     *  ÓëÈÎÎñÉÏÏÂÎÄÓÐ¹ØµÄÊý¾Ý¶¼ÒÑ³õÊ¼»¯Íê±Ï.Ê£ÏÂµÄ¾ÍÊÇÔÚTCBÖÐ±£´æÕ»Ö¸Õë,¹©µ÷¶ÈÆ÷
+     *  Ê¹ÓÃ.
      */
     tcb_ptr->sp_save_ptr = stack_ptr;
 }
 
 /**
- * åŠŸèƒ½: åˆå§‹åŒ–ç³»ç»Ÿå¿ƒè·³ä½¿ç”¨çš„å®šæ—¶å™¨,è¿™é‡Œä½¿ç”¨çš„æ˜¯TIM3,ä¹Ÿå¯ä»¥ä½¿ç”¨å…¶ä»–å®šæ—¶å™¨
- * é¢‘çŽ‡ç”±SYSTEM_TICKS_HZè°ƒæ•´,è¯¥é¢‘çŽ‡å³ä¸ºç³»ç»Ÿè‡ªåŠ¨åˆ‡æ¢ä»»åŠ¡çš„æ—¶é—´.
+ * ¹¦ÄÜ: ³õÊ¼»¯ÏµÍ³ÐÄÌøÊ¹ÓÃµÄ¶¨Ê±Æ÷,ÕâÀïÊ¹ÓÃµÄÊÇTIM3,Ò²¿ÉÒÔÊ¹ÓÃÆäËû¶¨Ê±Æ÷
+ * ÆµÂÊÓÉSYSTEM_TICKS_HZµ÷Õû,¸ÃÆµÂÊ¼´ÎªÏµÍ³×Ô¶¯ÇÐ»»ÈÎÎñµÄÊ±¼ä.
  *
- * å‚æ•°:
- * è¾“å…¥:                         è¾“å‡º:
- * æ—                             æ— .
+ * ²ÎÊý:
+ * ÊäÈë:                         Êä³ö:
+ * ÎÞ                            ÎÞ.
  *
- * è¿”å›ž: void
+ * ·µ»Ø: void
  * 
- * è°ƒç”¨çš„å‡½æ•°:
- * TIM3_DeInit();
- * TIM3_TimeBaseInit(TIM3_PRESCALER_16, (uint16_t)((uint32_t)1000000/SYSTEM_TICKS_HZ));
- * TIM3_ITConfig(TIM3_IT_UPDATE, ENABLE);
- * TIM3_Cmd(ENABLE);
+ * µ÷ÓÃµÄº¯Êý:
+ * TIM4_DeInit();
+ * TIM4_TimeBaseInit(TIM3_PRESCALER_16, (uint16_t)((uint32_t)1000000/SYSTEM_TICKS_HZ));
+ * TIM4_ITConfig(TIM3_IT_UPDATE, ENABLE);
+ * TIM4_Cmd(ENABLE);
  */
 void archInitSystemTickTimer ( void )
 {
-    /* åˆå§‹åŒ–TIM3*/
-    TIM3_DeInit();
+    /* ³õÊ¼»¯TIM3*/
+    TIM4_DeInit();
 
-    /* é…ç½®ç³»ç»Ÿå¿ƒè·³ */
-    TIM3_TimeBaseInit(TIM3_PRESCALER_16, (uint16_t)((uint32_t)1000000/SYSTEM_TICKS_HZ));
+    /* ÅäÖÃÏµÍ³ÐÄÌø */
+    TIM4_TimeBaseInit(TIM4_PRESCALER_128, (uint16_t)((uint32_t)125000/SYSTEM_TICKS_HZ));
 
-    TIM3_ITConfig(TIM3_IT_UPDATE, ENABLE);
+    TIM4_ITConfig(TIM4_IT_UPDATE, ENABLE);
 
-    /* ä½¿èƒ½TIM3 */
-    TIM3_Cmd(ENABLE);
+    /* Ê¹ÄÜTIM3 */
+    TIM4_Cmd(ENABLE);
 }
 
 /**
- * åŠŸèƒ½: ç³»ç»Ÿå¿ƒè·³æ—¶é’Ÿä¸­æ–­ç¨‹åº,å°†æ›´æ–°æ‰€æœ‰å®šæ—¶å™¨çš„count,è°ƒç”¨æ‰€æœ‰è¦è°ƒç”¨
- * çš„å®šæ—¶å™¨å›žè°ƒ,å¹¶åœ¨é€€å‡ºçš„æ—¶å€™è°ƒç”¨è°ƒåº¦å™¨.
+ * ¹¦ÄÜ: ÏµÍ³ÐÄÌøÊ±ÖÓÖÐ¶Ï³ÌÐò,½«¸üÐÂËùÓÐ¶¨Ê±Æ÷µÄcount,µ÷ÓÃËùÓÐÒªµ÷ÓÃ
+ * µÄ¶¨Ê±Æ÷»Øµ÷,²¢ÔÚÍË³öµÄÊ±ºòµ÷ÓÃµ÷¶ÈÆ÷.
  *
- * å‚æ•°:
- * è¾“å…¥:                         è¾“å‡º:
- * æ—                             æ— .
+ * ²ÎÊý:
+ * ÊäÈë:                         Êä³ö:
+ * ÎÞ                            ÎÞ.
  *
- * è¿”å›ž: void
+ * ·µ»Ø: void
  * 
- * è°ƒç”¨çš„å‡½æ•°:
+ * µ÷ÓÃµÄº¯Êý:
  * eIntEnter ();
  * eTimerTick();
  * eIntExit (TRUE);
  */
-/* IARä¸­ä¸­æ–­å‘é‡ */
-#pragma vector = ITC_IRQ_TIM3_OVF + 2
+/* IARÖÐÖÐ¶ÏÏòÁ¿ */
+#pragma vector = ITC_IRQ_TIM4_OVF + 2
 __interrupt  void TIM3_SystemTickISR (void)
 {
     eIntEnter ();
     
     eTimerTick();
 
-    TIM3->SR1 = (uint8_t)(~(uint8_t)TIM3_IT_UPDATE);
+    TIM4->SR1 = (uint8_t)(~(uint8_t)TIM4_IT_UPDATE);
     
     eIntExit (TRUE);
 }

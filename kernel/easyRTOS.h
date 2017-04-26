@@ -1,7 +1,7 @@
 /**
- * ä½œè€…: Roy.yu
- * æ—¶é—´: 2016.11.01
- * ç‰ˆæœ¬: V1.1
+ * ×÷Õß: Roy.yu
+ * Ê±¼ä: 2017.04.26
+ * °æ±¾: V1.2
  * Licence: GNU GENERAL PUBLIC LICENSE
  */
 #ifndef __EASYRTOS__H__
@@ -20,62 +20,62 @@
 #define TASKNAMELEN   10
 #define TASKSTATE     uint8_t
 
-#define TASK_RUN      0x01    /*è¿è¡Œ*/
-#define TASK_READY    0x02    /*å°±ç»ª*/
-#define TASK_PENDED   0x04    /*æ‚¬æŒ‚*/
-#define TASK_DELAY    0x08    /*å»¶è¿Ÿ*/
-#define TASK_SUSPEND  0x10    /*æŒ‚èµ·*/
+#define TASK_RUN      0x01    /*ÔËĞĞ*/
+#define TASK_READY    0x02    /*¾ÍĞ÷*/
+#define TASK_PENDED   0x04    /*Ğü¹Ò*/
+#define TASK_DELAY    0x08    /*ÑÓ³Ù*/
+#define TASK_SUSPEND  0x10    /*¹ÒÆğ*/
 
 typedef void ( * TIMER_CB_FUNC ) ( POINTER cb_data ) ;
 
 typedef struct easyRTOS_timer
 {
-  TIMER_CB_FUNC   cb_func;    /* å›è°ƒå‡½æ•° */
-  POINTER	        cb_data;    /* å›è°ƒå‡½æ•°çš„å‚æ•°æŒ‡é’ˆ */
-  uint32_t	      cb_ticks;   /* å®šæ—¶å™¨countè®¡æ•° */
+  TIMER_CB_FUNC   cb_func;    /* »Øµ÷º¯Êı */
+  POINTER	        cb_data;    /* »Øµ÷º¯ÊıµÄ²ÎÊıÖ¸Õë */
+  uint32_t	      cb_ticks;   /* ¶¨Ê±Æ÷count¼ÆÊı */
 
-	/* å†…éƒ¨æ•°æ® */
-  struct easyRTOS_timer *next_timer;		/* åŒå‘é“¾è¡¨ */
+	/* ÄÚ²¿Êı¾İ */
+  struct easyRTOS_timer *next_timer;		/* Ë«ÏòÁ´±í */
 } EASYRTOS_TIMER;
 
 typedef struct easyRTOS_tcb
 {
-    /* ä»»åŠ¡æ ˆæŒ‡é’ˆ.å½“ä»»åŠ¡è¢«è°ƒåº¦å™¨åˆ‡æ¢çš„æ—¶å€™,æ ˆæŒ‡é’ˆä¿å­˜åœ¨è¿™ä¸ªå˜é‡ä¸­ */
+    /* ÈÎÎñÕ»Ö¸Õë.µ±ÈÎÎñ±»µ÷¶ÈÆ÷ÇĞ»»µÄÊ±ºò,Õ»Ö¸Õë±£´æÔÚÕâ¸ö±äÁ¿ÖĞ */
     POINTER sp_save_ptr;
 
-    /* çº¿ç¨‹çš„ä¼˜å…ˆçº§ (0-255) */
+    /* Ïß³ÌµÄÓÅÏÈ¼¶ (0-255) */
     uint8_t priority;
 
     /**
-     *  ä»»åŠ¡å‡½æ•°å…¥å£ä»¥åŠå‚æ•°.
+     *  ÈÎÎñº¯ÊıÈë¿ÚÒÔ¼°²ÎÊı.
      */
     void (*entry_point)(uint32_t);
     uint32_t entryParam;
 
-    /* ä»»åŠ¡é˜Ÿåˆ—æŒ‡é’ˆé“¾è¡¨ */
-    struct easyRTOS_tcb *prev_tcb;    /* æŒ‡å‘å‰ä¸€ä¸ªTCBçš„åŒå‘TCBé“¾è¡¨æŒ‡é’ˆ*/
-    struct easyRTOS_tcb *next_tcb;    /* æŒ‡å‘åä¸€ä¸ªTCBçš„åŒå‘TCBé“¾è¡¨æŒ‡é’ˆ*/
+    /* ÈÎÎñ¶ÓÁĞÖ¸ÕëÁ´±í */
+    struct easyRTOS_tcb *prev_tcb;    /* Ö¸ÏòÇ°Ò»¸öTCBµÄË«ÏòTCBÁ´±íÖ¸Õë*/
+    struct easyRTOS_tcb *next_tcb;    /* Ö¸ÏòºóÒ»¸öTCBµÄË«ÏòTCBÁ´±íÖ¸Õë*/
 
     /**
-     *  ä»»åŠ¡çŠ¶æ€:
-     *  æŒ‚èµ·
-     *  å»¶è¿Ÿ
-     *  å°±ç»ª
-     *  è¿è¡Œ
-     *  æ‚¬æŒ‚
+     *  ÈÎÎñ×´Ì¬:
+     *  ¹ÒÆğ
+     *  ÑÓ³Ù
+     *  ¾ÍĞ÷
+     *  ÔËĞĞ
+     *  Ğü¹Ò
      */
     TASKSTATE state;
     int8_t pendedWakeStatus;        
     EASYRTOS_TIMER *pended_timo_cb;  
     EASYRTOS_TIMER *delay_timo_cb;   
 
-    /* ä»»åŠ¡ID */
+    /* ÈÎÎñID */
     uint8_t taskID;
 
-    /* ä»»åŠ¡åç§° */
+    /* ÈÎÎñÃû³Æ */
     uint8_t taskName[TASKNAMELEN];
 
-    /* ä»»åŠ¡åœ¨åˆ›å»ºä¹‹åçš„å®é™…è¿è¡Œæ€çš„æ—¶é—´,è®¡ç®—CPUä½¿ç”¨ç‡æ—¶ä½¿ç”¨ */
+    /* ÈÎÎñÔÚ´´½¨Ö®ºóµÄÊµ¼ÊÔËĞĞÌ¬µÄÊ±¼ä,¼ÆËãCPUÊ¹ÓÃÂÊÊ±Ê¹ÓÃ */
     uint32_t taskRunTime;
 } EASYRTOS_TCB;
 

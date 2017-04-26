@@ -39,7 +39,7 @@
           
           
           
-        <item>curr_tcb</item><item>idleTaskStack</item><item>testTaskStack</item><item>mem_heap</item><item>mem_brk</item><item>heapRoom</item><item>p</item><item></item></expressions>
+        <item>curr_tcb</item><item>idleTaskStack</item><item>testTaskStack</item><item>mem_heap</item><item>mem_brk</item><item>heapRoom</item><item>p</item><item/></expressions>
         <col-names>
           
           

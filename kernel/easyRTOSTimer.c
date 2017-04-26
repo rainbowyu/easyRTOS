@@ -1,13 +1,16 @@
 /**
  * 作者: Roy.yu
- * 时间: 2016.11.01
- * 版本: V1.1
+ * 时间: 2017.04.26
+ * 版本: V1.2
  * Licence: GNU GENERAL PUBLIC LICENSE
  */
+
 #include "easyRTOS.h"
 #include "easyRTOSkernel.h"
 #include "easyRTOSport.h"
 #include "easyRTOSTimer.h"
+//增加RTC功能
+#include "bsp_rtc.h"
 /* 本地数据 */
 
 /* timer队列的指针 */
@@ -259,6 +262,15 @@ ERESULT eTimerDelay (uint32_t ticks)
  */
 void eTimerTick (void)
 {
+  static uint16_t temp=0;
+  //单片机上电就运行
+  temp++;
+  if (temp>=2000)
+  {
+    //单位S
+    RTCCount++;
+    temp=0;
+  }
   /* 当系统启动的时候才运行 */
   if (easyRTOSStarted)
   {
